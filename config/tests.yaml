@@ -1,0 +1,133 @@
+#Test configuration file
+#
+#
+#
+1:
+ ruledir : "rules/"
+ rulefile : "1.rules"
+ description : "Test for content + nocase modifier"
+ pcapdir : "pcaps/"
+ pcap: "allworkandnoplayplain.pcap"
+ alerts : "1<=2,"
+ notes : "This should work on all version with non-normalized buffers We see two alerts one in the response body and one in the request uri"
+ behavior : "Y"
+
+2:
+ ruledir : "rules/"
+ rulefile : "2.rules"
+ description : "Test for uricontent + nocase modifier"
+ pcapdir : "pcaps/"
+ pcap: "allworkandnoplayplain.pcap"
+ alerts : "2=1"
+ notes : "This should work on all versions"
+ behavior : "Y"
+
+3:
+ ruledir : "rules/"
+ rulefile : "3.rules"
+ description : "Test for uricontent + nocase modifier"
+ pcapdir : "pcaps/"
+ pcap: "allworkandnoplayencoded.pcap"
+ alerts : "3=1"
+ notes : "This should work on all versions same as test2 with encoded uri"
+ behavior : "Y"
+
+4:
+ ruledir : "rules/"
+ rulefile : "4.rules"
+ description : "Test for uricontent + nocase modifier"
+ pcapdir : "pcaps/"
+ pcap: "allworkandnoplayplain.pcap"
+ alerts : "4=1,400004=0"
+ notes : "modifies the previous content match even though pcre is in-between. It should error out but only does so when no previous content match it considers vaild can be found. Suricata and snort both act this way, I believe this behavior to be incorrect as it can lead to typo's incorrect rule behavior etc. In suricata we should have stricter modifer/match checking and maybe have a snort-compatible mode that exhibits this behavior. "
+ behavior : "AP"
+
+5:
+ ruledir : "rules/"
+ rulefile : "5.rules"
+ description : "Test for byte_test + nocase modifier"
+ pcapdir : "pcaps/"
+ pcap: "allworkandnoplayplain.pcap"
+ alerts : "5=1"
+ notes : "same behavior as test 4. Note that in older versions of snort byte_test only parses the first char of the operator i.e. '< > = ! & ^' the parser doesn't complain about extra chars they are ignored. So if we changed this to be <=,0 it would fail to match. I mention this because we found a bunch of broken silently failing rules doing this. I think the rule parser should reject this"
+ behavior : "AP"
+6:
+ ruledir : "rules/"
+ rulefile : "6.rules"
+ description : "Test for byte_jump with nocase modifier"
+ pcapdir : "pcaps/"
+ pcap: "allworkandnoplayplain.pcap"
+ alerts : "6=1"
+ notes : "same behavior as test 4. I think the rule parser should reject this."
+ behavior : "AP"
+
+7:
+ ruledir : "rules/"
+ rulefile : "7.rules"
+ description : "Test ftpbounce with nocase modifier"
+ pcapdir : "pcaps/"
+ pcap: "ftpbounceattack.pcap"
+ alerts : "7=1"
+ notes : "same behavior as test 4. I think the rule parser should reject this."
+ behavior : "AP"
+
+8:
+ ruledir : "rules/"
+ rulefile : "8.rules"
+ description : "Test dce_iface with nocase modifier"
+ pcapdir : "pcaps/"
+ pcap: "rpcoversmbtraffic.pcap"
+ alerts : "8=2"
+ notes : "same behavior as test 4. I think the rule parser should reject this."
+ behavior : "AP"
+
+9:
+ ruledir : "rules/"
+ rulefile : "9.rules"
+ description : "Test dce_opnum with nocase modifier"
+ pcapdir : "pcaps/"
+ pcap: "rpcoversmbtraffic.pcap"
+ alerts : "9=1"
+ notes : "same behavior as test 4. I think the rule parser should reject this. Based on the description in the snort manual you would think that this would have to be tied to an dce_iface match but it doesn't it will match fine on it's own. Without dce_iface using this option doesn't make any sense."
+ behavior : "AP"
+
+10:
+ ruledir : "rules/"
+ rulefile : "10.rules"
+ description : "Test dce_stub_data with nocase modifier"
+ pcapdir : "pcaps/"
+ pcap: "rpcoversmbtraffic.pcap"
+ alerts : "10=1"
+ notes : "same behavior as test 4. I think the rule parser should reject this."
+ behavior : "AP"
+
+11:
+ ruledir : "rules/"
+ rulefile : "11.rules"
+ description : "Test http_client_body with nocase modifier"
+ pcapdir : "pcaps/"
+ pcap: "oisfsearchnums.pcap"
+ alerts : "11=1"
+ notes : "Supported Works"
+ behavior : "Y"
+
+12:
+ ruledir : "rules/"
+ rulefile : "12.rules"
+ description : "Test http_cookie with nocase modifier"
+ pcapdir : "pcaps/"
+ pcap: "oisfsearchnums.pcap"
+ alerts : "12=2"
+ notes : "Supported Works"
+ behavior : "Y"
+
+13:
+ ruledir : "rules/"
+ rulefile : "13.rules"
+ description : "Test http_header with nocase modifier"
+ pcapdir : "pcaps/"
+ pcap: "oisfsearchnums.pcap"
+ alerts : "13=2"
+ notes : "Supported Works"
+ behavior : "Y"
+

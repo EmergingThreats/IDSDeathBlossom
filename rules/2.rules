@@ -1,0 +1,6 @@
+#test 2 uricontent with nocase modifier
+#Supported Works
+#
+#file allworkandnoplayplain.pcap and allworkandnoplayencoded.pcap
+alert tcp any any -> any any (msg:"uricontent with nocase modifier"; uricontent:"ALLWorkAndnoplay"; nocase; classtype:bad-unknown; sid:2; rev:1;)
+

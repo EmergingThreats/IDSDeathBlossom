@@ -1,0 +1,6 @@
+#test 13
+#test http_header with nocase modifier
+#supported works
+#
+#file oisfsearchnums.pcap
+alert tcp any any -> any 80 (msg:"http_header + nocase"; content:"FiReFoX/3.5.8"; http_header; nocase; classtype:bad-unknown; sid:13; rev:1;)

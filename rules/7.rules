@@ -1,0 +1,6 @@
+#test 7 ftpbounce with nocase modifier
+#same behavior as test 4. 
+#
+#file ftpbounceattack.pcap
+alert tcp any any -> any any (msg:"ftpbounce nocase content PORT"; content:"PORt"; ftpbounce; nocase; classtype:bad-unknown; sid:7; rev:1;)
+

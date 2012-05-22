@@ -1,0 +1,9 @@
+#test 4 pcre with nocase modifer not /i
+#modifies the previous content match even though pcre is in-between.
+#it should error out but only does so when no previous content match it considers vaild can be found.
+#Suricata and snort both act this way, I believe this behavior to be incorrect as it can lead to typo's incorrect rule behavior etc.
+#In suricata we should have stricter modifer/match checking and maybe have a snort-compatible mode that exhibits this behavior. 
+#
+#file allworkandnoplayplain.pcap
+alert tcp any any -> any any (msg:"content match allwork with nocase against with pcre AndNoPlay between"; content:"GET "; depth:4; content:"allwork"; pcre:"/AndNoPlay/R"; nocase; classtype:bad-unknown; sid:4; rev:1;)
+alert tcp any any -> any any (msg:"content match allwork with nocase against with pcre AndNoPlay between"; content:"GET "; depth:4; content:"allwork"; pcre:"/andnoplay/R"; nocase; classtype:bad-unknown; sid:400004; rev:1;)

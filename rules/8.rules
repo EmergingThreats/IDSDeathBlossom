@@ -1,0 +1,5 @@
+#test 8 dce_iface with nocase modifier
+#same behavior as test 4. 
+#
+#file rpcoversmbtraffic.pcap
+alert tcp any any -> any 445 (msg:"dce_iface over smb"; content:"SmB"; dce_iface:12345678-1234-abcd-ef00-0123456789ab; nocase; dce_opnum:0; classtype:bad-unknown; sid:8; rev:1;)

@@ -1,0 +1,9 @@
+List of remaining things:
+- Check cli for valid combination of options. Maybe we should make a dict with runmodes as index/keys and values of lists with valid options (also probably the python parser allow to restrict this option compatibility)
+  * Each runmode should define their own report fields/lists of data
+  * Each runmode should create the reports and call report.notification when it's done (at the end). Then each report should look internally if it has to be mailed, inserted to db or just printed, and on which format
+- Create a directory www (which will hold widgets and report navigation for embedding them on proback). Install apache and mod_python. Add support for navigating through the logs dirs. More to come on this feature.
+- Add the ability to allow the user to specify per engine and global bpf filters
+- Add the ability to allow the user to specify ignore regex for enableallrules option
+- Add support for a ignore sids file for fpblacklist
+- Add a runmode for flow extraction given a pcap glob and a fast alert file.

@@ -1,0 +1,5 @@
+#test 4 byte_test with nocase modifier
+#same behavior as test 3. Note that in snort byte_test only parses the first char of the operator i.e. '< > = ! & ^' the parser doesn't complain about extra chars they are ignored. So if we changed this to be <=,0 it would fail to match. I mention this because we found a bunch of broken silently failing rules doing this.
+#
+#file allworkandnoplayplain.pcap
+alert tcp any any -> any any (msg:"byte_test match = 0 with nocase content HTTP/1. relative against HTTP/1.0"; content:"GET "; depth:4; content:"HTTp/1."; byte_test:1,=,0,0,relative,string,dec; nocase; classtype:bad-unknown; sid:5; rev:1;)

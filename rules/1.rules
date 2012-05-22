@@ -1,0 +1,5 @@
+#nocase
+#test 1 content with nocase modifier
+#Supported Works
+#file allworkandnoplayplain.pcap
+alert tcp any any -> any any (msg:"Content match for ALLWorkAndnoplay with nocase modifier against AllWorkAndNoPlay"; content:"ALLWorkAndnoplay"; nocase; classtype:bad-unknown; sid:1; rev:1;)

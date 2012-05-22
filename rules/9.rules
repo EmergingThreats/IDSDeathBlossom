@@ -1,0 +1,5 @@
+#test 9 dce_opnum with nocase modifier
+#same behavior as test 4. Based on the description in the snort manual you would think that this would have to be tied to an dce_iface match but it doesn't it will match fine on it's own. Without dce_iface #this option doesn't make any sense on it's own.
+#
+#file rpcoversmbtraffic.pcap
+alert tcp any any -> any 445 (msg:"dce_opnum without dce_iface over smb"; content:"SmB"; dce_opnum:34; nocase; classtype:bad-unknown; sid:9; rev:1;)

@@ -1,0 +1,6 @@
+#test http_cookie with nocase modifier
+#supported works
+#
+#file oisfsearchnums.pcap
+alert tcp any any -> any 80 (msg:"http_cookie + nocase"; content:"E6504ae48C99f09Df7f58996Aacbb6b0"; http_cookie; nocase; classtype:bad-unknown; sid:12; rev:1;)
+

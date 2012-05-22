@@ -1,0 +1,5 @@
+#test 6 byte_jump with nocase modifier
+#same behavior as test 4.
+#file allworkandnoplayplain.pcap
+alert tcp any any -> any any (msg:"byte_jump match = 0 with nocase content HTTP/1. relative against HTTP/1.0"; content:"GET "; depth:4; content:"HTTp/"; byte_jump:1,0,relative,string,dec; nocase; byte_test:1,=,0,0,relative,string,dec; classtype:bad-unknown; sid:6; rev:1;)
+

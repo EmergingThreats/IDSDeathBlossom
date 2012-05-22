@@ -1,0 +1,70 @@
+#
+# IDS Tool Config File
+#
+
+config_version: "0.2"
+host: "ETPRO2"
+log_level: "info"
+log_filename: "./logs/IDSTool.py.log"
+
+# Editcap options
+editcap_options:
+  # Error ratio for editcap
+  # values from 0.00 to 1.00
+  eratio: ""
+
+# Supported types are MYSQL and dbsqlite3
+db_options:
+  type: "MYSQL"
+  user: ""
+  pass: ""
+  server: "localhost"
+  scheme: ""
+  #file: "mydb.sqlite"
+
+# Mail options
+mail_options:
+  emailsrc: "qa@deathblossom.lan"
+  emaildst: "someuser@deatblossom.lan"
+  emailsubject: "[IDSTool] "
+  emailsrv: "localhost"
+
+
+# Pcap options
+pcap_options:
+  # Location of pcaps to parse
+  pcappath: "/pcaps/etqa/*.pcap"
+  pcapignore: ""
+  sortpcaps: "size"
+
+
+# Signature options
+signature_options:
+  # File list of sigs not to extract flows from
+  xtractignore: ""
+
+
+# Runmode options
+# Run mode
+# 	Set to run against pcap
+# 	Modes are:
+# 		fuzzsuri, fuzzsnort, fuzzboth, comparefast, comparefastxtract,
+# 		rcomparefast, rcomparefastxtract, runsnort, runsuri, runboth,
+# 		xtractsuri, xtractsnort
+runmode_options:
+  runmode: xtractsuri
+  globallogdir: "./logs/"
+
+
+# Server options
+server_options:
+  host: 0.0.0.0
+  port: 23232
+  idstool: "IDSTool.py"
+  globallogdir: "./logs/"
+
+
+# Glob expr
+engine_definitions: "config/engines/*.yaml"
+
+

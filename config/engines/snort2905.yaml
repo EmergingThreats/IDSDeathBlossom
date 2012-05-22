@@ -1,0 +1,62 @@
+# Configurations avilable for snort 2.9.0
+
+engines:
+# With open rules
+  - engine: snort2905open
+    type: snort
+    version: 2.9.0.5
+    syntax_version: 2.9.0
+    summary: "snort 2.9.0.5 with config of ET open rules"
+    path: "/opt/snort2905/bin/snort"
+    logdir: "./logs/"
+    config: "/opt/snort2905/etc/snort-et-open.conf"
+    configtpl: "/opt/snort2905/etc/snort.conf.tpl"
+    customrules: "/opt/customrules/snort-2.9.0/open/all.rules"
+    fastlog: "alert"
+    perflog: "perf.txt"
+    enable: yes
+
+# With Pro rules
+  - engine: snort2905pro
+    type: snort
+    version: 2.9.0.5
+    syntax_version: 2.9.0
+    summary: "snort 2.9.0.5 with config of ET pro rules"
+    path: "/opt/snort2905/bin/snort"
+    logdir: "./logs/"
+    config: "/opt/snort2905/etc/snort-et-pro.conf"
+    configtpl: "/opt/snort2905/etc/snort.conf.tpl"
+    customrules: "/opt/customrules/snort-2.9.0/etpro/all.rules"
+    fastlog: "alert"
+    perflog: "perf.txt"
+    enable: yes
+
+# Open rules with fast_pattern_debug
+  - engine: snort2905openfpdebug
+    type: snort
+    version: 2.9.0.5
+    syntax_version: 2.9.0
+    summary: "snort 2.9.0.5 with config of ET open rules with fast_pattern_debug"
+    path: "/opt/snort2905/bin/snort"
+    logdir: "./logs/"
+    config: "/opt/snort2905/etc/snort-et-open-fp-debug.conf"
+    configtpl: "/opt/snort2905/etc/snort.conf.tpl"
+    customrules: "/opt/customrules/snort-2.9.0/open/all.rules"
+    fastlog: "alert"
+    perflog: "perf.txt"
+    enable: yes
+
+# Pro rules with fast_pattern_debug
+  - engine: snort2905profpdebug
+    type: snort
+    version: 2.9.0.5
+    syntax_version: 2.9.0
+    summary: "snort 2.9.0.5 with config of ET pro rules with fast_pattern_debug"
+    path: "/opt/snort2905/bin/snort"
+    logdir: "./logs/"
+    config: "/opt/snort2905/etc/snort-et-pro-fp-debug.conf"
+    configtpl: "/opt/snort2905/etc/snort.conf.tpl"
+    customrules: "/opt/customrules/snort-2.9.0/etpro/all.rules"
+    fastlog: "alert"
+    perflog: "perf.txt"
+    enable: yes

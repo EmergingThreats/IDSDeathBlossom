@@ -1,0 +1,7 @@
+#test 11
+#test http_client_body with nocase modifier
+#supported works
+#
+#file oisfsearchnums.pcap
+alert tcp any any -> any 80 (msg:"http_client_body + nocase"; content:"SeArchWorD"; http_client_body; nocase; classtype:bad-unknown; sid:11; rev:1;)
+

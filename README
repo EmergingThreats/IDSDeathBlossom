@@ -1,0 +1,43 @@
+# This started off as a really small python script to automate some simple tests. Now it is a bigger script that automates some simple tests :).  We thought it might be useful to others so we open sourced it. It is licensed as BSD except for code found under the contrib directory. Items in that directory have their own licenses.
+
+# Tests/examples...
+# Please, feel free to add yours
+# We should say which opts are mandatory and which ones can be loaded from config
+
+
+# Some reports
+python -i IDSDeathBlossom.py -c config/config.yaml -R run -t "snort2861open" --emailsubject="generate sidperf" --pcappath=/pcaps/etqa/2003579.pcap --perfdb="perfdata.sqlite" --loopnum 5 --reporton="TopNWorstAll,TopNWorstCurrent,LoadReportCurrent"
+
+
+# Sid perf
+python -i IDSDeathBlossom.py -c config/config.yaml -R sidperfq -t "snort2861open" --emailsubject="query perf stats" --perfdb="perfdata.sqlite" --sperfsid 2010238
+
+
+# compare
+python -i IDSDeathBlossom.py -c config/config.yaml -R comparefast -t "snort2861open" --emailsubject="compare" --cmpropts="logs/snort-alert-2010-10-19-T-09-42-36-2010238.pcap.txt:tag1,logs/snort-alert-2010-10-19-T-09-42-40-2010238.pcap.txt:tag2"
+
+# rcompare
+python -i IDSDeathBlossom.py -c config/config.yaml -R rcomparefast -t "snort2861open,snort2841open" --emailsubject="rcompare" --cmpropts="logs/snort-alert-2010-10-19-T-09-42-36-2010238.pcap.txt:tag1,logs/snort-alert-2010-10-19-T-13-17-05-2010239.pcap.txt:tag2" --pcappath="/pcaps/etqa/2008438.pcap" --loopnum 2
+
+
+#sanitize
+python -i IDSDeathBlossom.py -c config/config.yaml -R sanitize -t "snort2861open,snort2841open" --emailsubject="sanitize" 
+
+
+# Template usage example:
+# the templates are specified at the engine configurations/profiles available
+# customrules can be also specified at config. You just need to set it (at config or cli) and use the flag  --use-custom-rules, that will generate a config for that rules
+python IDSDeathBlossom.py -c config/config.yaml -t snort2861pro -R run --pcappath=/pcaps/etqa/2002192.pcap --use-custom-rules --target-opts="all:customrules=./lala"
+
+
+# some stats
+python -i IDSDeathBlossom.py -c config/config.yaml -R run --pcappath=/pcaps/etqa/201114*  -t snort2861open,snort2861pro,snort2841open,snort2841pro,suricata102open,suricata102pro --perfdb=perfdata.sqlite --reporton=idsperf,ruleperf --loopnum=1
+
+# custom queries
+python IDSDeathBlossom.py -c config/config.yaml --perfdb perfdata.sqlite --sqlquery="SELECT * from rulestats"|more
+
+#verify
+python -i IDSDeathBlossom.py -c config/config.yaml -R verify -t "snort2861open" --target-opts="snort2861open:configtpl=config/engines/snort2861.tpl.conf" --verifyconf="config/tests.yaml"
+
+#dumbfuzz
+python -i IDSDeathBlossom.py -c config/config.yaml -R dumbfuzz -t "snort2861open" --pcappath="/pcaps/ictf*/*.pcap,/pcaps/dc*/*" --loopnum forever

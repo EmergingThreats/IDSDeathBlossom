@@ -1,0 +1,5 @@
+#test 10 dce_stub_data with nocase modifier
+#same behavior as test 4. 
+#
+#file rpcoversmbtraffic.pcap
+alert tcp any any -> any 445 (msg:"dce_stub_data over smb"; content:"SmB"; dce_stub_data; nocase; content:"|08 00 00 00 00 00 00 00 01 00 00 00 b0 f3 3e 2e 00 00 00 00 00 00 00 00|"; distance: 0; within:24; classtype:bad-unknown; sid:10; rev:1;)
