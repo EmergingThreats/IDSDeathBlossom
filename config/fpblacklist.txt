@@ -24,3 +24,6 @@ CONTENT-LENGTH|3A 20|
 .HTML
 .ASP
 CONTENT-DISPOSITION|3A|
+|01 00 00 01 00 00 00 00 00 00|
+/wp-content/plugins/
+/wp-content/themes/
