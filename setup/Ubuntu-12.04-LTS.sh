@@ -88,6 +88,33 @@ PATH="/opt/snort2923/bin:$PATH" ./configure --enable-ipv6 --enable-gre --enable-
 sudo cp etc/* /opt/snort2923/etc/
 cd ..
 
+tar -xzvf pulledpork-0.6.1.tar.gz
+cd pulledpork-0.6.1
+patch -p1 < ../pulledpork-etpro-fix.diff
+sudo cp -f pulledpork.pl /usr/local/bin/
+sudo cp -f etc/* /opt/snort2841/etc/etopen/
+sudo cp -f etc/* /opt/snort2861/etc/etopen/
+sudo cp -f etc/* /opt/snort2904/etc/etopen/
+sudo cp -f etc/* /opt/snort2905/etc/etopen/
+sudo cp -f etc/* /opt/snort2922/etc/etopen/
+sudo cp -f etc/* /opt/snort2923/etc/etopen/
+sudo cp -f etc/* /opt/suricata121/etc/etopen/
+sudo cp -f etc/* /opt/suricata13b2/etc/etopen/
+sudo cp -f etc/* /opt/suricata13b2JIT/etc/etopen/
+sudo cp ../pp-snort-2.8.4.1-ETOPEN.config /opt/snort2841/etc/etopen/
+sudo cp ../pp-snort-2.8.6.1-ETOPEN.config /opt/snort2861/etc/etopen/
+sudo cp ../pp-snort-2.9.0.4-ETOPEN.config /opt/snort2904/etc/etopen/
+sudo cp ../pp-snort-2.9.0.5-ETOPEN.config /opt/snort2905/etc/etopen/
+sudo cp ../pp-snort-2.9.2.2-ETOPEN.config /opt/snort2922/etc/etopen/
+sudo cp ../pp-snort-2.9.2.3-ETOPEN.config /opt/snort2923/etc/etopen/
+sudo cp ../pp-suricata-1.2.1-ETOPEN.config /opt/suricata121/etc/etopen/
+sudo cp ../pp-suricata-1.3b2-ETOPEN.config /opt/suricata13b2/etc/etopen/
+sudo cp ../pp-suricata-1.3b2JIT-ETOPEN.config /opt/suricata13b2JIT/etc/etopen/
+cd ..  
+CURRENT_USER=`whoami`
+sudo chown $CURRENT_USER /opt/snort* -Rf
+sudo chown $CURRENT_USER /opt/suricata* -Rf
+
 rm daq-0.6.2 -Rf
 rm daq-0.5 -Rf
 rm snort-2.8.4.1 -Rf
@@ -99,3 +126,4 @@ rm snort-2.9.2.3 -Rf
 rm pcre-8.30 -Rf
 rm suricata-1.2.1 -Rf 
 rm suricata-1.3beta2 -Rf
+rm pulled-pork-0.6.1 -Rf

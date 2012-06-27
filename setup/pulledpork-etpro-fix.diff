@@ -1,0 +1,45 @@
+--- pulledpork-0.6.1/pulledpork.pl	2011-04-01 10:57:50.000000000 -0500
++++ /usr/local/bin/pulledpork.pl	2012-06-26 16:18:38.803455388 -0500
+@@ -441,6 +441,12 @@
+             $temp_path . $rule_file . ".md5"
+         );
+     }
++    elsif ( $base_url =~ /emergingthreatspro\.com/i ) {
++        $getrules_md5 = getstore(
++            "$base_url/$rule_file" . ".md5",
++            $temp_path . $rule_file . ".md5"
++        );
++    }
+     if ( $getrules_md5 == 403 ) {
+         print
+ "\tA 403 error occurred, please wait for the 15 minute timeout\n\tto expire before trying again or specify the -n runtime switch\n",
+@@ -1742,12 +1748,15 @@
+                     $rule_file = "snortrules-snapshot-$Snortv.tar.gz";
+                 }
+             }
+-            elsif ( $base_url =~ /emergingthreats.net/ ) {
+-                $prefix = "ET-";
++            elsif ( $base_url =~ /emergingthreats/ ) {
++                #$prefix = "ET-";
+                 my $Snortv = $Snort;
+-                $Snortv =~ s/(?<=\d\.\d\.\d)\.\d//;
+-                $base_url .= "$oinkcode/snort-$Snortv/";
+-
++                if ( $Snortv =~  /suricata/ ) {
++                    $base_url .= "$oinkcode/suricata/";
++                } else {
++                    $Snortv =~ s/(?<=\d\.\d\.\d)\.\d//;
++                    $base_url .= "$oinkcode/snort-$Snortv/";
++                }
+                 #$Textonly = 1;
+             }
+ 	    
+@@ -1794,7 +1803,7 @@
+                     $rule_file = "snortrules-snapshot-$Snortv.tar.gz";
+                 }
+             }
+-            $prefix = "ET-" if $base_url =~ /emergingthreats.net/;
++            #$prefix = "ET-" if $base_url =~ /emergingthreats/;
+             croak "file $temp_path/$rule_file does not exist!\n"
+               unless -f "$temp_path/$rule_file";
+             rule_extract(
