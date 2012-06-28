@@ -3,7 +3,7 @@
 #
 
 config_version: "0.2"
-host: "ETPRO2"
+host: "somehost"
 log_level: "info"
 log_filename: "./logs/IDSTool.py.log"
 
@@ -13,14 +13,14 @@ editcap_options:
   # values from 0.00 to 1.00
   eratio: ""
 
-# Supported types are MYSQL and dbsqlite3
+# Supported types are MYSQL and sqlite3
 db_options:
-  type: "MYSQL"
+  type: "sqlite3"
   user: ""
   pass: ""
   server: "localhost"
   scheme: ""
-  #file: "mydb.sqlite"
+  file: "logs/perfdata.sqlite"
 
 # Mail options
 mail_options:
@@ -33,7 +33,7 @@ mail_options:
 # Pcap options
 pcap_options:
   # Location of pcaps to parse
-  pcappath: "/pcaps/etqa/*.pcap"
+  pcappath: "/pcaps/*.pcap"
   pcapignore: ""
   sortpcaps: "size"
 

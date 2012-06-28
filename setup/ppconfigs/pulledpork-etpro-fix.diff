@@ -1,5 +1,5 @@
 --- pulledpork-0.6.1/pulledpork.pl	2011-04-01 10:57:50.000000000 -0500
-+++ /usr/local/bin/pulledpork.pl	2012-06-26 16:18:38.803455388 -0500
++++ /usr/local/bin/pulledpork.pl	2012-06-27 10:39:23.657146466 -0500
 @@ -441,6 +441,12 @@
              $temp_path . $rule_file . ".md5"
          );
@@ -13,14 +13,14 @@
      if ( $getrules_md5 == 403 ) {
          print
  "\tA 403 error occurred, please wait for the 15 minute timeout\n\tto expire before trying again or specify the -n runtime switch\n",
-@@ -1742,12 +1748,15 @@
+@@ -1742,16 +1748,19 @@
                      $rule_file = "snortrules-snapshot-$Snortv.tar.gz";
                  }
              }
 -            elsif ( $base_url =~ /emergingthreats.net/ ) {
 -                $prefix = "ET-";
 +            elsif ( $base_url =~ /emergingthreats/ ) {
-+                #$prefix = "ET-";
++                $prefix = "";
                  my $Snortv = $Snort;
 -                $Snortv =~ s/(?<=\d\.\d\.\d)\.\d//;
 -                $base_url .= "$oinkcode/snort-$Snortv/";
@@ -34,12 +34,17 @@
                  #$Textonly = 1;
              }
  	    
+-	    $prefix = "Custom-" unless $prefix;
++	    #$prefix = "Custom-" unless $prefix;
+ 
+             $Hash = 1 unless $base_url =~ /(emergingthreats|snort.org)/;
+ 
 @@ -1794,7 +1803,7 @@
                      $rule_file = "snortrules-snapshot-$Snortv.tar.gz";
                  }
              }
 -            $prefix = "ET-" if $base_url =~ /emergingthreats.net/;
-+            #$prefix = "ET-" if $base_url =~ /emergingthreats/;
++            $prefix = "" if $base_url =~ /emergingthreats/;
              croak "file $temp_path/$rule_file does not exist!\n"
                unless -f "$temp_path/$rule_file";
              rule_extract(

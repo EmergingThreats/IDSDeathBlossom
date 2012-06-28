@@ -60,7 +60,7 @@ class IDSEngine(RunmodeSanitize, RunmodeExtract, RunmodeVerify, RunmodeSidperfq,
         #self.regex["perf"] = re.compile(r"^\s+(?P<rank>\d+)\s+(?P<sid>\d+)\s+(?P<gid>1)\s+(?P<rev>\d+)?\s+(?P<checks>\d+)\s+(?P<matches>\d+)\s+(?P<alerts>\d+)\s+(?P<microsecs>\d+)\s+(?P<avgpercheck>\d+\.\d+)\s+(?P<avgpermatch>\d+\.\d+)\s+(?P<avgpernomatch>\d+\.\d+)\s+$")
 
         #perf log regex support for 2.9.0.1 Disabled column?!?!
-        self.regex["perf"] = re.compile(r"^\s+(?P<rank>\d+)\s+(?P<sid>\d+)\s+(?P<gid>1)\s+(?P<rev>\d+)?\s+(?P<checks>\d+)\s+(?P<matches>\d+)\s+(?P<alerts>\d+)\s+(?P<microsecs>\d+)\s+(?P<avgpercheck>\d+\.\d+)\s+(?P<avgpermatch>\d+\.\d+)\s+(?P<avgpernomatch>\d+\.\d+)\s+((0|1)\s+)?$")
+        self.regex["perf"] = re.compile(r"^\s+?(?P<rank>\d+)\s+?(?P<sid>\d+)\s+?(?P<gid>1)\s+?(?P<rev>\d+)?\s+?(?P<checks>\d+)\s+?(?P<matches>\d+)\s+?(?P<alerts>\d+)\s+?(?P<microsecs>\d+)\s+?(?P<avgpercheck>\d+\.\d+)\s+?(?P<avgpermatch>\d+\.\d+)\s+?(?P<avgpernomatch>\d+\.\d+)\s+?((0|1)\s+?)?$")
 
         #Regex for matching error lines from suri and snort
         self.regex["error"] = re.compile(r"(^Error|^ERROR|.+\<Error\>|FATAL ERROR)", re.IGNORECASE)
@@ -274,9 +274,12 @@ class IDSEngine(RunmodeSanitize, RunmodeExtract, RunmodeVerify, RunmodeSidperfq,
                 except:
                     p_error("failed to insert %s into perfdb\n" % (sqlcmd))
                     sys.exit(1)
-                    
             #if we have the perflog lets add this data to the db as well
             if "ruleperf" in self.Runmode.conf["reportonarr"]:
+                perf_has_rev = False
+                perf_has_disabled = False
+                perf_is_suri = False
+                bulk_insert = []
                 print "Extracting Rule perf stats"
                 if not os.path.exists(self.Runmode.conf["perfdb"]):
                     p_error("%s: Could not find the perfdb %s\n" % (str(whoami()), self.Runmode.conf["perfdb"]))
@@ -288,44 +291,86 @@ class IDSEngine(RunmodeSanitize, RunmodeExtract, RunmodeVerify, RunmodeSidperfq,
                     p_error("%s: Could not open the perf log of the engine %s\n" % (str(whoami()), self.engine))
                     print "%s: Could not open the perf log of the engine %s\n" % (str(whoami()), self.engine)
                     return 0
-                        
+
+                #was using RE here but want this to be really fast if storing info on all rules    
                 for line in perf:
+                    line = line[:-1]
+                    perf_vals = line.split( );
                     #we are only looking for gid's of 1 as we don't care about preproc generated events
-                    m = self.regex["perf"].match(line) 
-                    if m != None:
-                        #assign vars for perf info based on our captured regex.
-                        #print m.group('rank') + ":" + m.group('sid')
-                        rank = int(m.group('rank'))
-                        sid = int(m.group('sid'))
-                        gid = int(m.group('gid'))
+                    if len(perf_vals) != 0 and perf_vals[0].isdigit():
+                        if perf_is_suri == False:
+                            #assign vars for perf info based on our captured regex.
+                            #print m.group('rank') + ":" + m.group('sid')
+                            rank = int(perf_vals[0])
+                            sid = int(perf_vals[1])
+                            gid = int(perf_vals[2])
 
-                        #snort 2.8.4 doesn't have rev as an output column
-                        if(m.group('rev')):
-                            rev = int(m.group('rev'))
-                        else:
-                            rev = 0
+                            #snort 2.8.4 doesn't have rev as an output column
+                            #Num      SID GID     Checks   Matches    Alerts           Microsecs  Avg/Check  Avg/Match Avg/Nonmatch
+                            #Num      Rule         Gid      Rev      Ticks        %      Checks   Matches  Max Ticks   Avg Ticks   Avg Match   Avg No Match
+                            if perf_has_rev:
+                                if len(perf_vals) != 12 and perf_has_disabled == True:
+                                    continue
+                                if len(perf_vals) != 11 and perf_has_disabled == False:
+                                    continue
+                                rev = int(perf_vals[3])
+                                checks = int(perf_vals[4])
+                                matches = int(perf_vals[5])
+                                alerts = int(perf_vals[6])
+                                microsecs = int(perf_vals[7])
+                                avgpercheck = float(perf_vals[8])
+                                avgpermatch = float(perf_vals[9])
+                                avgpernomatch = float(perf_vals[10])
+                            else:
+                                if len(perf_vals) != 10:
+                                    p_error("skipping line:%s" % (line))
+                                    continue
+                                rev = 0
+                                #if there were 0 checks skip it
+                                checks = int(perf_vals[3])
+                                matches = int(perf_vals[4])
+                                alerts = int(perf_vals[5])
+                                microsecs = int(perf_vals[6])
+                                avgpercheck = float(perf_vals[7])
+                                avgpermatch = float(perf_vals[8])
+                                avgpernomatch = float(perf_vals[9])
 
-                        checks = int(m.group('checks'))
-                        matches = int(m.group('matches'))
-                        alerts = int(m.group('alerts'))
-                        microsecs = int(m.group('microsecs'))
-                        avgpercheck = float(m.group('avgpercheck'))
-                        avgpermatch = float(m.group('avgpermatch'))
-                        avgpernomatch = float(m.group('avgpernomatch'))
+                        elif perf_is_suri == True:
+                            if len(perf_vals) != 12:
+                                continue
+
+                            rank = int(perf_vals[0])
+                            sid = int(perf_vals[1])
+                            gid = int(perf_vals[2])
+                            rev = int(perf_vals[3])
+                            microsecs = int(perf_val[4])
+                            checks = int(perf_val[6])
+                            matches = int(perf_val[7])
+                            avgpercheck = float(perf_vals[9])
+                            avgpermatch = float(perf_vals[10])
+                            avgpernomatch = float(perf_vals[11])
 
                         #dump these stats into a db most men would put a \ here but I'm not most men.
-                        sqlcmd = """INSERT INTO rulestats (id, host,
+                        bulk_insert.append("""INSERT INTO rulestats (id, host,
                                  timestamp, runid, file, alertfile, engine, rank, sid, gid, rev, checks, matches, alerts,
-                                 microsecs, avgtcheck, avgtmatch, avgtnomatch) VALUES(NULL,"%s","%s","%s","%s","%s","%s",%i,%i,%i,%i,%i,%i,%i,%i,%f,%f,%f)""" % (self.host, self.currentts, self.runid, pcap, self.newfastlog, self.engine, rank, sid, gid, rev, checks, matches, alerts, microsecs, avgpercheck, avgpermatch, avgpernomatch)
-                        p_debug("Executing: %s" % sqlcmd)
-                        try:
-                            self.db.execute(sqlcmd)
-                        except:
-                            p_error("failed to insert %s into perfdb\n" % (sqlcmd))
-                            sys.exit(1)
+                                 microsecs, avgtcheck, avgtmatch, avgtnomatch) VALUES(NULL,"%s","%s","%s","%s","%s","%s",%i,%i,%i,%i,%i,%i,%i,%i,%.2f,%.2f,%.2f)""" % (self.host, self.currentts, self.runid, pcap, self.newfastlog, self.engine, rank, sid, gid, rev, checks, matches, alerts, microsecs, avgpercheck, avgpermatch, avgpernomatch))
+                    else:
+                        if re.search(r"Avg\sNo\sMatch",line) != None:
+                            perf_is_suri = True
+
+                        if re.search(r"\srev\s",line,re.I) != None:
+                            perf_has_rev = True
+                        
+                        if re.search(r"\sdisabled\s",line,re.I) != None:
+                            perf_has_disabled = True
+
+                        if re.search(r"\salerts\s",line,re.I) != None:
+                            perf_has_alerts = True
                     #else:
                         #print "invalid perfstat line %s" % line
                 perf.close()
+                self.db.mass_execute(bulk_insert)
+
 		#Ok, what to do here? return code is 0, but we got errors, and/or warnings
             if errors != "" or warnings != "":
                 if errors == "":

@@ -25,7 +25,7 @@
 #*************************************************************
 
 from IDSLogging import *
-
+import os
 class IDSdb:
 
     def __init__(self, options={}):
@@ -47,14 +47,16 @@ class IDSdb:
 
         elif self.dbtype == "sqlite3":
             import sqlite3
-            db_file = self.options["file"]
+            if self.options.has_key("file"):
+                db_file = self.options["file"]
 
-            if not os.path.exists(db_file):
-                self.db = sqlite3.Connection(db_file)
-                self.initSqliteTables()
-            else:
-                self.db = sqlite3.Connection(db_file)
-
+                if not os.path.exists(db_file):
+                    p_info("creating sqlite db %s" % (db_file))
+                    self.db = sqlite3.Connection(db_file)
+                    self.initSqliteTables()
+                else:
+                    self.db = sqlite3.Connection(db_file)
+         
     def query(self, cmd):
             self.last_result = None
             p_debug("Trying to query " + cmd)
@@ -92,6 +94,15 @@ class IDSdb:
             #return None
         #return None
 
+    def mass_execute(self,cmds):
+        if self.dbtype == "sqlite3":
+            for transact in cmds:
+                self.db.execute(transact)
+            self.db.commit()
+        elif self.dbtype == "MYSQL":
+            for transact in cmds:
+                self.query(transact)
+
     # An alias for query
     def execute(self, cmd):
         return self.query(cmd)
@@ -116,7 +127,7 @@ class IDSdb:
             sys.exit(1);
         # create the rulestats table
         try:
-            self.query('''create table rulestats (id integer primary key, runid, timestamp, file, alertfile, engine, rank integer , sid integer, gid integer, rev integer , checks integer, matches integer, alerts integer, microsecs integer, avgtcheck float, avgtmatch float, avgtnomatch float)''')
+            self.query('''create table rulestats (id integer primary key, host, timestamp, runid, file, alertfile, engine, rank integer , sid integer, gid integer, rev integer , checks integer, matches integer, alerts integer, microsecs integer, avgtcheck float, avgtmatch float, avgtnomatch float)''')
         except:
             p_error("failed to create the rulestats table")
             sys.exit(1);
