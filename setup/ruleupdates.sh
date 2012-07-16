@@ -7,5 +7,5 @@ pulledpork.pl -c /opt/snort2922/etc/etopen/pp-snort-2.9.2.2-ETOPEN.config -o /op
 pulledpork.pl -c /opt/snort2923/etc/etopen/pp-snort-2.9.2.3-ETOPEN.config -o /opt/snort2923/etc/etopen/ -k -K /opt/snort2923/etc/etopen/
 
 pulledpork.pl -c /opt/suricata121/etc/etopen/pp-suricata-1.2.1-ETOPEN.config -o /opt/suricata121/etc/etopen/ -k -K /opt/suricata121/etc/etopen/
-pulledpork.pl -c /opt/suricata13b2/etc/etopen/pp-suricata-1.3b2-ETOPEN.config -o /opt/suricata13b2/etc/etopen/ -k -K /opt/suricata13b2/etc/etopen/
-pulledpork.pl -c /opt/suricata13b2JIT/etc/etopen/pp-suricata-1.3b2JIT-ETOPEN.config -o /opt/suricata13b2JIT/etc/etopen/ -k -K /opt/suricata13b2JIT/etc/etopen/
+pulledpork.pl -c /opt/suricata13/etc/etopen/pp-suricata-1.3-ETOPEN.config -o /opt/suricata13/etc/etopen/ -k -K /opt/suricata13/etc/etopen/
+pulledpork.pl -c /opt/suricata13JIT/etc/etopen/pp-suricata-1.3JIT-ETOPEN.config -o /opt/suricata13JIT/etc/etopen/ -k -K /opt/suricata13JIT/etc/etopen/

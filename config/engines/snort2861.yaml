@@ -1,17 +1,34 @@
 # Configurations avilable for snort 2.8.6.1
 
 engines:
-# With open rules
-  - engine: snort2861open
+# With Base Open rules
+  - engine: snort-2.8.6.1-open-base
     type: snort
     version: 2.8.6.1
     syntax_version: 2.8.6
-    summary: "snort 2.8.6.1 with config of ET open rules"
+    summary: "snort 2.8.6.1 base config with ET open rules"
     path: "/opt/snort2861/bin/snort"
-    logdir: "./logs/"
-    config: "/opt/snort2861/etc/snort-et-open.conf"
+    logdir: "/opt/snort2861/var/log/"
+    config: "/opt/snort2861/etc/etopen/snort-2861-et-open.conf"
+    # For specifying custom rules, we use the following template
     configtpl: "/opt/snort2861/etc/snort.conf.tpl"
-    customrules: "/opt/customrules/snort-2.8.6/open/all.rules"
+    customrules: "/opt/ruledump/snort-2.8.6/etopen/all.rules"
+    fastlog: "alert"
+    perflog: "perf.txt"
+    enable: yes
+
+# With All Open rules
+  - engine: snort-2.8.6.1-open-all
+    type: snort
+    version: 2.8.6.1
+    syntax_version: 2.8.6
+    summary: "snort 2.8.6.1 base config with All ET open rules"
+    path: "/opt/snort2861/bin/snort"
+    logdir: "/opt/snort2861/var/log/"
+    config: "/opt/snort2861/etc/etopen/snort-2861-et-open-all.conf"
+    # For specifying custom rules, we use the following template
+    configtpl: "/opt/snort2861/etc/snort.conf.tpl"
+    customrules: "/opt/ruledump/snort-2.8.6/etopen/all.rules"
     fastlog: "alert"
     perflog: "perf.txt"
     enable: yes
@@ -25,36 +42,6 @@ engines:
     path: "/opt/snort2861/bin/snort"
     logdir: "./logs/"
     config: "/opt/snort2861/etc/snort-et-pro.conf"
-    configtpl: "/opt/snort2861/etc/snort.conf.tpl"
-    customrules: "/opt/customrules/snort-2.8.6/etpro/all.rules"
-    fastlog: "alert"
-    perflog: "perf.txt"
-    enable: yes
-
-# Open rules with fast_pattern_debug
-  - engine: snort2861openfpdebug
-    type: snort
-    version: 2.8.6.1
-    syntax_version: 2.8.6
-    summary: "snort 2.8.6.1 with config of ET open rules and fast_pattern debug"
-    path: "/opt/snort2861/bin/snort"
-    logdir: "./logs/"
-    config: "/opt/snort2861/etc/snort-et-open-fp-debug.conf"
-    configtpl: "/opt/snort2861/etc/snort.conf.tpl"
-    customrules: "/opt/customrules/snort-2.8.6/open/all.rules"
-    fastlog: "alert"
-    perflog: "perf.txt"
-    enable: yes
-
-# Pro rules with fast_pattern_debug
-  - engine: snort2861profpdebug
-    type: snort
-    version: 2.8.6.1
-    syntax_version: 2.8.6
-    summary: "snort 2.8.6.1 with config of ET pro rules and fast_pattern debug"
-    path: "/opt/snort2861/bin/snort"
-    logdir: "./logs/"
-    config: "/opt/snort2861/etc/snort-et-pro-fp-debug.conf"
     configtpl: "/opt/snort2861/etc/snort.conf.tpl"
     customrules: "/opt/customrules/snort-2.8.6/etpro/all.rules"
     fastlog: "alert"

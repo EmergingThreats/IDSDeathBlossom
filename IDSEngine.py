@@ -310,8 +310,10 @@ class IDSEngine(RunmodeSanitize, RunmodeExtract, RunmodeVerify, RunmodeSidperfq,
                             #Num      Rule         Gid      Rev      Ticks        %      Checks   Matches  Max Ticks   Avg Ticks   Avg Match   Avg No Match
                             if perf_has_rev:
                                 if len(perf_vals) != 12 and perf_has_disabled == True:
+                                    p_error("skipping line with perf vals (%i):%s" % (len(perf_vals),line))
                                     continue
-                                if len(perf_vals) != 11 and perf_has_disabled == False:
+                                elif len(perf_vals) != 11 and perf_has_disabled == False:
+                                    p_error("skipping line with perf vals (%i):%s" % (len(perf_vals),line))
                                     continue
                                 rev = int(perf_vals[3])
                                 checks = int(perf_vals[4])
@@ -343,9 +345,11 @@ class IDSEngine(RunmodeSanitize, RunmodeExtract, RunmodeVerify, RunmodeSidperfq,
                             sid = int(perf_vals[1])
                             gid = int(perf_vals[2])
                             rev = int(perf_vals[3])
-                            microsecs = int(perf_val[4])
-                            checks = int(perf_val[6])
-                            matches = int(perf_val[7])
+                            microsecs = int(perf_vals[4])
+                            checks = int(perf_vals[6])
+                            matches = int(perf_vals[7])
+                            #In suri alerts = matches
+                            alerts = matches
                             avgpercheck = float(perf_vals[9])
                             avgpermatch = float(perf_vals[10])
                             avgpernomatch = float(perf_vals[11])
@@ -361,8 +365,8 @@ class IDSEngine(RunmodeSanitize, RunmodeExtract, RunmodeVerify, RunmodeSidperfq,
                         if re.search(r"\srev\s",line,re.I) != None:
                             perf_has_rev = True
                         
-                        if re.search(r"\sdisabled\s",line,re.I) != None:
-                            perf_has_disabled = True
+                        if re.search(r"\sdisabled",line,re.I) != None:
+                            perf_has_disabled = True 
 
                         if re.search(r"\salerts\s",line,re.I) != None:
                             perf_has_alerts = True
@@ -478,8 +482,7 @@ class IDSEngine(RunmodeSanitize, RunmodeExtract, RunmodeVerify, RunmodeSidperfq,
             if m != None and self.regex["ignore"].match(line) == None:
                 p_info("%s: rule error found in stdout\nfile: %s (line %s)" % (str(whoami()),m.group("file"),m.group("line")))
                 self.rule_errors.append((m.group("file"),m.group("line"), line))
-
-        if re.match(r"2\.4",self.conf["version"]) and self.mode == "snort":
+        if re.match(r'2\.4',self.conf["version"]) and self.mode == "snort":
             for m in self.regex["rule_warn_snort_multi_line"].finditer((stderr+stdout)):
                 p_info("%s: rule warning found in combined output \nfile: %s (line %s)" % (str(whoami()),m.group("file"),m.group("line")))
                 self.rule_warnings.append((m.group("file"),m.group("line"), m.group(0).replace('\n', '')))

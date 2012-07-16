@@ -1,4 +1,4 @@
-# This started off as a really small python script to automate some simple tests. Now it is a bigger script that automates some simple tests :).  We thought it might be useful to others so we open sourced it. It is licensed as BSD except for code found under the contrib directory. Items in that directory have their own licenses.
+# This started off as a really small python script to automate some simple tests. Now it is a bigger script that automates some simple tests :).  We thought it might be useful to others so we open sourced it. It is licensed as BSD except for code found under the setup directory. Items in that directory have their own licenses.
 
 # Tests/examples...
 # Please, feel free to add yours

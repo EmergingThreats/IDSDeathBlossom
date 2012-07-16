@@ -225,7 +225,6 @@ def parse_blacklist(black_list_file):
             if blacklist == []:
                 p_error("blacklist file was parsed but is empty bailing")
                 sys.exit(1)
-            print blacklist
             return blacklist
         except:
             p_error("failed to open and read blacklist pattern file %s" % (black_list_file))
