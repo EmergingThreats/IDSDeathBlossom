@@ -101,8 +101,6 @@ class IDSToolEnv(RunmodeCompare, RunmodeSidperfq):
 
         db_opts = self.getConfVal('db_options')
         if db_opts:
-            print "we have db options"
-            print db_opts
             self.db = IDSdb(db_opts)
         else:
             p_info("No db provided")

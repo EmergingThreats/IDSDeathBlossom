@@ -125,6 +125,13 @@ class IDSdb:
         except:
             p_error("failed to create the rulestats table")
             sys.exit(1);
+
+        try:
+            self.query('''create table filestats (id integer primary key, host text, timestamp, runid, cmd text, file text, engine text, runtime , ualerts, alertfile, alertcnt integer, exitcode integer)''')
+        except:
+            p_error("failed to create the filestats table")
+            sys.exit(1);
+
         # create the rulestats table
         try:
             self.query('''create table rulestats (id integer primary key, host, timestamp, runid, file, alertfile, engine, rank integer , sid integer, gid integer, rev integer , checks integer, matches integer, alerts integer, microsecs integer, avgtcheck float, avgtmatch float, avgtnomatch float)''')

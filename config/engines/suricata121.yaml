@@ -1,49 +1,59 @@
-# Configurations avilable for suricata 1.2.1
+#Configurations for suricata 1.2.1
 
 engines:
-# With Base Open rules
-  - engine: suricata-1.2.1-open-base
-    type: suricata 
-    version: 1.2.1
-    syntax_version: 2.9.0
-    summary: "suricata 1.2.1 base config with ET open rules"
-    path: "/opt/suricata121/bin/suricata"
-    logdir: "/opt/suricata121/var/log/"
-    config: "/opt/suricata121/etc/etopen/suricata-121-et-open.yaml"
-    # For specifying custom rules, we use the following template
-    configtpl: "/opt/suricata121/etc/suricata.conf.tpl"
-    customrules: "/opt/ruledump/suricata-1.2.1/etopen/all.rules"
-    fastlog: "fast.log"
-    perflog: "perf.txt"
-    enable: yes
+ - engine: suricata-1.2.1-etpro-base
+   type: suricata
+   version: 1.2.1
+   syntax_version: 1.2
+   summary: "suricata 1.2.1 base config with etpro rules"
+   path: "/opt/suricata121/bin/suricata"
+   logdir: "/opt/suricata121/var/log/"
+   # For specifying custom rules, we use the following template
+   configtpl: "/opt/suricata121/etc/suricata121.template"
+   fastlog: "alert"
+   perflog: "perf.txt"
+   enable: yes
+   config: "/opt/suricata121/etc/etpro/suricata121-etpro-base.yaml"
 
-# With All Open rules
-  - engine: suricata-1.2.1-open-all
-    type: suricata
-    version: 1.2.1
-    syntax_version: 2.9.0
-    summary: "suricata 1.2.1 base config with All ET open rules"
-    path: "/opt/suricata121/bin/suricata"
-    logdir: "/opt/suricata121/var/log/"
-    config: "/opt/suricata121/etc/etopen/suricata-121-et-open-all.yaml"
-    # For specifying custom rules, we use the following template
-    configtpl: "/opt/suricata121/etc/suricata.conf.tpl"
-    customrules: "/opt/ruledump/suricata-1.2.1/etopen/all.rules"
-    fastlog: "fast.log"
-    perflog: "perf.txt"
-    enable: yes
+ - engine: suricata-1.2.1-etpro-all
+   type: suricata
+   version: 1.2.1
+   syntax_version: 1.2
+   summary: "suricata 1.2.1 all config with etpro rules"
+   path: "/opt/suricata121/bin/suricata"
+   logdir: "/opt/suricata121/var/log/"
+   # For specifying custom rules, we use the following template
+   configtpl: "/opt/suricata121/etc/suricata121.template"
+   fastlog: "alert"
+   perflog: "perf.txt"
+   enable: yes
+   config: "/opt/suricata121/etc/etpro/suricata121-etpro-all.yaml"
 
-# With Pro rules
-  - engine: suricata121pro
-    type: suricata
-    version: 1.2.1
-    syntax_version: 2.9.0
-    summary: "suricata 1.2.1 with config of ET pro rules"
-    path: "/opt/suricata121/bin/suricata"
-    logdir: "./logs/"
-    config: "/opt/suricata121/etc/suricata-et-pro.yaml"
-    configtpl: "/opt/suricata121/etc/suricata.conf.tpl"
-    customrules: "/opt/customrules/suricata-1.2.1/etpro/all.rules"
-    fastlog: "fast.log"
-    perflog: "perf.txt"
-    enable: yes
+ - engine: suricata-1.2.1-etopen-base
+   type: suricata
+   version: 1.2.1
+   syntax_version: 1.2
+   summary: "suricata 1.2.1 base config with etopen rules"
+   path: "/opt/suricata121/bin/suricata"
+   logdir: "/opt/suricata121/var/log/"
+   # For specifying custom rules, we use the following template
+   configtpl: "/opt/suricata121/etc/suricata121.template"
+   fastlog: "alert"
+   perflog: "perf.txt"
+   enable: yes
+   config: "/opt/suricata121/etc/etopen/suricata121-etopen-base.yaml"
+
+ - engine: suricata-1.2.1-etopen-all
+   type: suricata
+   version: 1.2.1
+   syntax_version: 1.2
+   summary: "suricata 1.2.1 all config with etopen rules"
+   path: "/opt/suricata121/bin/suricata"
+   logdir: "/opt/suricata121/var/log/"
+   # For specifying custom rules, we use the following template
+   configtpl: "/opt/suricata121/etc/suricata121.template"
+   fastlog: "alert"
+   perflog: "perf.txt"
+   enable: yes
+   config: "/opt/suricata121/etc/etopen/suricata121-etopen-all.yaml"
+

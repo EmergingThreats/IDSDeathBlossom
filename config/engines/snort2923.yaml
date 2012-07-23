@@ -1,49 +1,59 @@
-# Configurations avilable for snort 2.9.2.3
+#Configurations for snort 2.9.2.3
 
 engines:
-# With Base Open rules
-  - engine: snort-2.9.2.3-open-base
-    type: snort
-    version: 2.9.2.3
-    syntax_version: 2.9.0
-    summary: "snort 2.9.2.3 base config with ET open rules"
-    path: "/opt/snort2923/bin/snort"
-    logdir: "/opt/snort2923/var/log/"
-    config: "/opt/snort2923/etc/etopen/snort-2923-et-open.conf"
-    # For specifying custom rules, we use the following template
-    configtpl: "/opt/snort2923/etc/snort.conf.tpl"
-    customrules: "/opt/ruledump/snort-2.9.0/etopen/all.rules"
-    fastlog: "alert"
-    perflog: "perf.txt"
-    enable: yes
+ - engine: snort-2.9.2.3-etpro-base
+   type: snort
+   version: 2.9.2.3
+   syntax_version: 2.9.0
+   summary: "snort 2.9.2.3 base config with etpro rules"
+   path: "/opt/snort2923/bin/snort"
+   logdir: "/opt/snort2923/var/log/"
+   # For specifying custom rules, we use the following template
+   configtpl: "/opt/snort2923/etc/snort2923.template"
+   fastlog: "alert"
+   perflog: "perf.txt"
+   enable: yes
+   config: "/opt/snort2923/etc/etpro/snort2923-etpro-base.conf"
 
-# With All Open rules
-  - engine: snort-2.9.2.3-open-all
-    type: snort
-    version: 2.9.2.3
-    syntax_version: 2.9.0
-    summary: "snort 2.9.2.3 base config with All ET open rules"
-    path: "/opt/snort2923/bin/snort"
-    logdir: "/opt/snort2923/var/log/"
-    config: "/opt/snort2923/etc/etopen/snort-2923-et-open-all.conf"
-    # For specifying custom rules, we use the following template
-    configtpl: "/opt/snort2923/etc/snort.conf.tpl"
-    customrules: "/opt/ruledump/snort-2.9.0/etopen/all.rules"
-    fastlog: "alert"
-    perflog: "perf.txt"
-    enable: yes
+ - engine: snort-2.9.2.3-etpro-all
+   type: snort
+   version: 2.9.2.3
+   syntax_version: 2.9.0
+   summary: "snort 2.9.2.3 all config with etpro rules"
+   path: "/opt/snort2923/bin/snort"
+   logdir: "/opt/snort2923/var/log/"
+   # For specifying custom rules, we use the following template
+   configtpl: "/opt/snort2923/etc/snort2923.template"
+   fastlog: "alert"
+   perflog: "perf.txt"
+   enable: yes
+   config: "/opt/snort2923/etc/etpro/snort2923-etpro-all.conf"
 
-# With Pro rules
-  - engine: snort2923pro
-    type: snort
-    version: 2.9.2.3
-    syntax_version: 2.9.0
-    summary: "snort 2.9.2.3 with config of ET pro rules"
-    path: "/opt/snort2923/bin/snort"
-    logdir: "./logs/"
-    config: "/opt/snort2923/etc/snort-et-pro.conf"
-    configtpl: "/opt/snort2923/etc/snort.conf.tpl"
-    customrules: "/opt/customrules/snort-2.9.0/etpro/all.rules"
-    fastlog: "alert"
-    perflog: "perf.txt"
-    enable: yes
+ - engine: snort-2.9.2.3-etopen-base
+   type: snort
+   version: 2.9.2.3
+   syntax_version: 2.9.0
+   summary: "snort 2.9.2.3 base config with etopen rules"
+   path: "/opt/snort2923/bin/snort"
+   logdir: "/opt/snort2923/var/log/"
+   # For specifying custom rules, we use the following template
+   configtpl: "/opt/snort2923/etc/snort2923.template"
+   fastlog: "alert"
+   perflog: "perf.txt"
+   enable: yes
+   config: "/opt/snort2923/etc/etopen/snort2923-etopen-base.conf"
+
+ - engine: snort-2.9.2.3-etopen-all
+   type: snort
+   version: 2.9.2.3
+   syntax_version: 2.9.0
+   summary: "snort 2.9.2.3 all config with etopen rules"
+   path: "/opt/snort2923/bin/snort"
+   logdir: "/opt/snort2923/var/log/"
+   # For specifying custom rules, we use the following template
+   configtpl: "/opt/snort2923/etc/snort2923.template"
+   fastlog: "alert"
+   perflog: "perf.txt"
+   enable: yes
+   config: "/opt/snort2923/etc/etopen/snort2923-etopen-all.conf"
+

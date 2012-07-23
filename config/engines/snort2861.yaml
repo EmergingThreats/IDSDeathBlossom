@@ -1,49 +1,59 @@
-# Configurations avilable for snort 2.8.6.1
+#Configurations for snort 2.8.6.1
 
 engines:
-# With Base Open rules
-  - engine: snort-2.8.6.1-open-base
-    type: snort
-    version: 2.8.6.1
-    syntax_version: 2.8.6
-    summary: "snort 2.8.6.1 base config with ET open rules"
-    path: "/opt/snort2861/bin/snort"
-    logdir: "/opt/snort2861/var/log/"
-    config: "/opt/snort2861/etc/etopen/snort-2861-et-open.conf"
-    # For specifying custom rules, we use the following template
-    configtpl: "/opt/snort2861/etc/snort.conf.tpl"
-    customrules: "/opt/ruledump/snort-2.8.6/etopen/all.rules"
-    fastlog: "alert"
-    perflog: "perf.txt"
-    enable: yes
+ - engine: snort-2.8.6.1-etpro-base
+   type: snort
+   version: 2.8.6.1
+   syntax_version: 2.8.6
+   summary: "snort 2.8.6.1 base config with etpro rules"
+   path: "/opt/snort2861/bin/snort"
+   logdir: "/opt/snort2861/var/log/"
+   # For specifying custom rules, we use the following template
+   configtpl: "/opt/snort2861/etc/snort2861.template"
+   fastlog: "alert"
+   perflog: "perf.txt"
+   enable: yes
+   config: "/opt/snort2861/etc/etpro/snort2861-etpro-base.conf"
 
-# With All Open rules
-  - engine: snort-2.8.6.1-open-all
-    type: snort
-    version: 2.8.6.1
-    syntax_version: 2.8.6
-    summary: "snort 2.8.6.1 base config with All ET open rules"
-    path: "/opt/snort2861/bin/snort"
-    logdir: "/opt/snort2861/var/log/"
-    config: "/opt/snort2861/etc/etopen/snort-2861-et-open-all.conf"
-    # For specifying custom rules, we use the following template
-    configtpl: "/opt/snort2861/etc/snort.conf.tpl"
-    customrules: "/opt/ruledump/snort-2.8.6/etopen/all.rules"
-    fastlog: "alert"
-    perflog: "perf.txt"
-    enable: yes
+ - engine: snort-2.8.6.1-etpro-all
+   type: snort
+   version: 2.8.6.1
+   syntax_version: 2.8.6
+   summary: "snort 2.8.6.1 all config with etpro rules"
+   path: "/opt/snort2861/bin/snort"
+   logdir: "/opt/snort2861/var/log/"
+   # For specifying custom rules, we use the following template
+   configtpl: "/opt/snort2861/etc/snort2861.template"
+   fastlog: "alert"
+   perflog: "perf.txt"
+   enable: yes
+   config: "/opt/snort2861/etc/etpro/snort2861-etpro-all.conf"
 
-# With Pro rules
-  - engine: snort2861pro
-    type: snort
-    version: 2.8.6.1
-    syntax_version: 2.8.6
-    summary: "snort 2.8.6.1 with config of ET pro rules"
-    path: "/opt/snort2861/bin/snort"
-    logdir: "./logs/"
-    config: "/opt/snort2861/etc/snort-et-pro.conf"
-    configtpl: "/opt/snort2861/etc/snort.conf.tpl"
-    customrules: "/opt/customrules/snort-2.8.6/etpro/all.rules"
-    fastlog: "alert"
-    perflog: "perf.txt"
-    enable: yes
+ - engine: snort-2.8.6.1-etopen-base
+   type: snort
+   version: 2.8.6.1
+   syntax_version: 2.8.6
+   summary: "snort 2.8.6.1 base config with etopen rules"
+   path: "/opt/snort2861/bin/snort"
+   logdir: "/opt/snort2861/var/log/"
+   # For specifying custom rules, we use the following template
+   configtpl: "/opt/snort2861/etc/snort2861.template"
+   fastlog: "alert"
+   perflog: "perf.txt"
+   enable: yes
+   config: "/opt/snort2861/etc/etopen/snort2861-etopen-base.conf"
+
+ - engine: snort-2.8.6.1-etopen-all
+   type: snort
+   version: 2.8.6.1
+   syntax_version: 2.8.6
+   summary: "snort 2.8.6.1 all config with etopen rules"
+   path: "/opt/snort2861/bin/snort"
+   logdir: "/opt/snort2861/var/log/"
+   # For specifying custom rules, we use the following template
+   configtpl: "/opt/snort2861/etc/snort2861.template"
+   fastlog: "alert"
+   perflog: "perf.txt"
+   enable: yes
+   config: "/opt/snort2861/etc/etopen/snort2861-etopen-all.conf"
+

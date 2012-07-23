@@ -5,11 +5,12 @@ sudo mkdir -p /opt/snort2904/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,va
 sudo mkdir -p /opt/snort2905/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,var/log}
 sudo mkdir -p /opt/snort2922/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,var/log}
 sudo mkdir -p /opt/snort2923/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,var/log}
+sudo mkdir -p /opt/snort293/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,var/log}
 sudo mkdir -p /opt/suricata121/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,var/log}
 sudo mkdir -p /opt/suricata13/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,var/log}
 sudo mkdir -p /opt/suricata13JIT/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,var/log}
 
-NUM_CORES=`grep \"processor\" /proc/cpuinfo | sort -u | wc -l`
+NUM_CORES=`grep processor /proc/cpuinfo | sort -u | wc -l`
 
 sudo apt-get install build-essential libnspr4-dev libnss3-dev libwww-Perl libcrypt-ssleay-perl python-dev python-scapy python-yaml bison libpcre3-dev bison flex libpcap-ruby libdumbnet-dev autotools-dev libnet1-dev libpcap-dev libyaml-dev libnetfilter-queue-dev libprelude-dev zlib1g-dev  libz-dev libcap-ng-dev libmagic-dev
 
@@ -97,40 +98,23 @@ PATH="/opt/snort2923/bin:$PATH" ./configure --enable-ipv6 --enable-gre --enable-
 sudo cp etc/* /opt/snort2923/etc/
 cd ..
 
+tar -xzvf daq-1.1.1.tar.gz
+cd daq-1.1.1
+./configure --prefix=/opt/snort293/ && make  && sudo make install
+cd ..
+
+tar -xzvf snort-2.9.3.tar.gz
+cd snort-2.9.3
+PATH="/opt/snort293/bin:$PATH" ./configure --enable-ipv6 --enable-gre --enable-mpls --with-dnet-includes=/opt/libdnet111/include/ --with-dnet-libraries=/opt/libdnet111/lib/ --enable-targetbased --enable-decoder-preprocessor-rules --enable-ppm --enable-perfprofiling --enable-zlib --enable-active-response --enable-normalizer --enable-reload --enable-react --enable-flexresp3 LD_RUN_PATH="/opt/snort293/lib:/opt/libdnet111/lib:/usr/lib:/usr/local/lib" --prefix=/opt/snort293/ --with-daq-includes=/opt/snort293/include/ --with-daq-libraries=/opt/snort293/lib/ && make  && sudo make install
+sudo cp etc/* /opt/snort293/etc/
+cd ..
+
+sudo python ./gunstar-maker.py
 tar -xzvf pulledpork-0.6.1.tar.gz
 cd pulledpork-0.6.1
 patch -p1 < ../ppconfigs/pulledpork-etpro-fix.diff
 sudo cp -f pulledpork.pl /usr/local/bin/
-sudo cp -f etc/* /opt/snort2841/etc/etopen/
-sudo cp -f etc/* /opt/snort2861/etc/etopen/
-sudo cp -f etc/* /opt/snort2904/etc/etopen/
-sudo cp -f etc/* /opt/snort2905/etc/etopen/
-sudo cp -f etc/* /opt/snort2922/etc/etopen/
-sudo cp -f etc/* /opt/snort2923/etc/etopen/
-sudo cp -f etc/* /opt/suricata121/etc/etopen/
-sudo cp -f etc/* /opt/suricata13/etc/etopen/
-sudo cp -f etc/* /opt/suricata13JIT/etc/etopen/
-sudo cp ../ppconfigs/pp-snort-2.8.4.1-ETOPEN.config /opt/snort2841/etc/etopen/
-sudo cp ../ppconfigs/pp-snort-2.8.6.1-ETOPEN.config /opt/snort2861/etc/etopen/
-sudo cp ../ppconfigs/pp-snort-2.9.0.4-ETOPEN.config /opt/snort2904/etc/etopen/
-sudo cp ../ppconfigs/pp-snort-2.9.0.5-ETOPEN.config /opt/snort2905/etc/etopen/
-sudo cp ../ppconfigs/pp-snort-2.9.2.2-ETOPEN.config /opt/snort2922/etc/etopen/
-sudo cp ../ppconfigs/pp-snort-2.9.2.3-ETOPEN.config /opt/snort2923/etc/etopen/
-sudo cp ../ppconfigs/pp-suricata-1.2.1-ETOPEN.config /opt/suricata121/etc/etopen/
-sudo cp ../ppconfigs/pp-suricata-1.3-ETOPEN.config /opt/suricata13/etc/etopen/
-sudo cp ../ppconfigs/pp-suricata-1.3JIT-ETOPEN.config /opt/suricata13JIT/etc/etopen/
 cd ..
-
-sudo cp engine-configs/snort-2841*open*.conf /opt/snort2841/etc/etopen/
-sudo cp engine-configs/snort-2861*open*.conf /opt/snort2861/etc/etopen/
-sudo cp engine-configs/snort-2904*open*.conf /opt/snort2904/etc/etopen/
-sudo cp engine-configs/snort-2905*open*.conf /opt/snort2905/etc/etopen/
-sudo cp engine-configs/snort-2922*open*.conf /opt/snort2922/etc/etopen/
-sudo cp engine-configs/snort-2923*open*.conf /opt/snort2923/etc/etopen/
-sudo cp engine-configs/suricata-121-*open*.yaml /opt/suricata121/etc/etopen/
-sudo cp engine-configs/suricata-13-*open*.yaml /opt/suricata13/etc/etopen/
-sudo cp engine-configs/suricata-13JIT-*open*.yaml /opt/suricata13JIT/etc/etopen/
-
 sudo cp ruleupdates.sh /usr/local/bin/
 
 CURRENT_USER=`whoami`
@@ -139,12 +123,14 @@ sudo chown $CURRENT_USER /opt/suricata* -Rf
 
 rm daq-0.6.2 -Rf
 rm daq-0.5 -Rf
+rm daq-1.1.1 -Rf
 rm snort-2.8.4.1 -Rf
 rm snort-2.8.6.1 -Rf
 rm snort-2.9.0.4 -Rf
 rm snort-2.9.0.5 -Rf 
 rm snort-2.9.2.2 -Rf
 rm snort-2.9.2.3 -Rf
+rm snort-2.9.3 -Rf
 rm pcre-8.30 -Rf
 rm suricata-1.2.1 -Rf 
 rm suricata-1.3 -Rf
