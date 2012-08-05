@@ -15,12 +15,12 @@ editcap_options:
 
 # Supported types are MYSQL and sqlite3
 db_options:
-  type: "sqlite3"
-  user: ""
-  pass: ""
+  type: "MYSQL"
+  user: "someuser"
+  pass: "somepass"
   server: "localhost"
-  scheme: ""
-  file: "logs/perfdata.sqlite"
+  scheme: "IDSDeathBlossom"
+  #file: "logs/perfdata.sqlite"
 
 # Mail options
 mail_options:

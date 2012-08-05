@@ -123,7 +123,7 @@ class IDSdb:
         try:
             self.query('''create table report (id integer primary key, reportgroup text, timestamp text, status text, engine text, path text, relpath text, errors integer, warnings integer, time integer, commented integer)''')
         except:
-            p_error("failed to create the rulestats table")
+            p_error("failed to create the report table")
             sys.exit(1);
 
         try:

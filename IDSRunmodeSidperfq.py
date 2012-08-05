@@ -87,7 +87,6 @@ class RunmodeSidperfq:
         report = open(perfsum, 'w')
 
         cur = self.db.execute("select sid,engine,microsecs,file from rulestats order by microsecs desc limit %s" % self.Runmode.conf["topN"])
-        print "topnworst "+str(cur)
 
         report.write("top %s worst performing rules by total microseconds\n" % self.Runmode.conf["topN"])
         report.write("sid,microsecs,file\n")

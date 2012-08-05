@@ -238,9 +238,9 @@ class IDSEngine(RunmodeSanitize, RunmodeExtract, RunmodeVerify, RunmodeSidperfq,
             #open up the log file and get a count of unique sids we see and a total non-preproc alerts
             if "idsperf" in self.Runmode.conf["reportonarr"]:
                 print "Extracting IDS Perf stats"
-                if not os.path.exists(self.Runmode.conf["perfdb"]):
-                   p_error("%s: Could not find the perfdb %s\n" % (str(whoami()), self.Runmode.conf["perfdb"]))
-                   sys.exit(1)
+                #if not os.path.exists(self.Runmode.conf["perfdb"]):
+                #   p_error("%s: Could not find the perfdb %s\n" % (str(whoami()), self.Runmode.conf["perfdb"]))
+                #   sys.exit(1)
 
                 try:
                     fast = open (self.newfastlog)
@@ -281,9 +281,9 @@ class IDSEngine(RunmodeSanitize, RunmodeExtract, RunmodeVerify, RunmodeSidperfq,
                 perf_is_suri = False
                 bulk_insert = []
                 print "Extracting Rule perf stats"
-                if not os.path.exists(self.Runmode.conf["perfdb"]):
-                    p_error("%s: Could not find the perfdb %s\n" % (str(whoami()), self.Runmode.conf["perfdb"]))
-                    sys.exit(1)
+                #if not os.path.exists(self.Runmode.conf["perfdb"]):
+                #    p_error("%s: Could not find the perfdb %s\n" % (str(whoami()), self.Runmode.conf["perfdb"]))
+                #    sys.exit(1)
                  
                 try:
                     perf = open (self.newperflog)
