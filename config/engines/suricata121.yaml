@@ -57,3 +57,17 @@ engines:
    enable: yes
    config: "/opt/suricata121/etc/etopen/suricata121-etopen-all.yaml"
 
+ - engine: suricata-1.2.1-test-test
+   type: suricata
+   version: 1.2.1
+   syntax_version: 1.2
+   summary: "suricata 1.2.1 test config with test rules"
+   path: "/opt/suricata121/bin/suricata"
+   logdir: "/opt/suricata121/var/log/"
+   # For specifying custom rules, we use the following template
+   configtpl: "/opt/suricata121/etc/suricata121.template"
+   fastlog: "alert"
+   perflog: "perf.txt"
+   enable: yes
+   config: "/opt/suricata121/etc/test/suricata121-test-test.yaml"
+

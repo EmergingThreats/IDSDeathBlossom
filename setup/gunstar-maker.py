@@ -47,6 +47,7 @@ rule_sets["all"] = ["ftp.rules","policy.rules","trojan.rules","games.rules","pop
 
 rule_sets["base"] = ["ftp.rules","policy.rules","trojan.rules","games.rules","pop3.rules","user_agents.rules","rpc.rules","virus.rules","attack_response.rules","icmp.rules","scan.rules","scada.rules","voip.rules","chat.rules","web_client.rules","imap.rules","web_server.rules","current_events.rules","smtp.rules","malware.rules","snmp.rules","worm.rules","dns.rules","misc.rules","sql.rules","dos.rules","netbios.rules","telnet.rules","exploit.rules","p2p.rules","tftp.rules","mobile_malware.rules"]
 
+rule_sets["test"] = []
 update_script_buf = ""
 
 def make_pp_config(engine,feed_type):
@@ -107,7 +108,7 @@ def make_engine_config(engine,feed_type,rset):
                 buff += "%sET-emerging-%s\n" % (rprefix,rule_file)
         elif feed_type == "etpro":
             buff += "%sET-%s\n" % (rprefix,rule_file)
-        else:
+        elif feed_type != "test":
             print "unknown feed type"
             sys.exit(-1)
 
@@ -163,10 +164,11 @@ for engine in engines:
     #always cook open
     dblossom_config_buff += make_engine_config(engine,"etopen","base")
     dblossom_config_buff += make_engine_config(engine,"etopen","all")
+    dblossom_config_buff += make_engine_config(engine,"test","test")
     make_pp_config(engine,"etopen")
     f.write(dblossom_config_buff)
     f.close()
-
+    
 f = open("ruleupdates.sh",'w')
 f.write(update_script_buf)
 f.close()

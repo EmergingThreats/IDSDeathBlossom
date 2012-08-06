@@ -57,3 +57,17 @@ engines:
    enable: yes
    config: "/opt/snort2861/etc/etopen/snort2861-etopen-all.conf"
 
+ - engine: snort-2.8.6.1-test-test
+   type: snort
+   version: 2.8.6.1
+   syntax_version: 2.8.6
+   summary: "snort 2.8.6.1 test config with test rules"
+   path: "/opt/snort2861/bin/snort"
+   logdir: "/opt/snort2861/var/log/"
+   # For specifying custom rules, we use the following template
+   configtpl: "/opt/snort2861/etc/snort2861.template"
+   fastlog: "alert"
+   perflog: "perf.txt"
+   enable: yes
+   config: "/opt/snort2861/etc/test/snort2861-test-test.conf"
+

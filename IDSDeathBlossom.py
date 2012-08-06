@@ -186,6 +186,7 @@ if __name__ == "__main__":
         print "Error. Config file not found. Exiting now."
         sys.exit(-15)
 
+    overrideOption(confmap["runmode_options"], options.__dict__,"globallogdir")
     logLevel=''
     logFilename=''
     try:
@@ -193,7 +194,7 @@ if __name__ == "__main__":
         logFilename = confmap['log_filename']
     except:
         logLevel = 'info'
-        logFilename = "IDSTool.py.log"
+        logFilename = "%s/IDSDeathBlossom.py.log" % (confmap["runmode_options"]["globallogdir"])
 
     if not logLevel:
         logLevel= "info"
@@ -201,7 +202,7 @@ if __name__ == "__main__":
     SetLogLevel(logLevel)
 
     if not logFilename:
-        logFilename= "IDSTool.py.log"
+        logFilename= "%s/IDSDeathBlossom.py.log" % (confmap["runmode_options"]["globallogdir"]) 
     SetLogFilename(logFilename)
 
     # Override log_level from config if we have a log level from cli
@@ -211,7 +212,6 @@ if __name__ == "__main__":
     LogInit()
 
     IDSTool = IDSToolEnv(confmap)
-
     engines_available = ""
     for engine in IDSTool.EngineMgr.engines.keys():
         if engines_available != "":

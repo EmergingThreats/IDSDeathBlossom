@@ -5,7 +5,6 @@
 config_version: "0.2"
 host: "somehost"
 log_level: "info"
-log_filename: "./logs/IDSTool.py.log"
 
 # Editcap options
 editcap_options:

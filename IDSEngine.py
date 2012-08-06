@@ -201,7 +201,7 @@ class IDSEngine(RunmodeSanitize, RunmodeExtract, RunmodeVerify, RunmodeSidperfq,
         (errors, warnings) = self.parse_ids_out(self.stderr,self.stdout)
 
         #check stderr for fast_pattern_debug and look for bad patterns
-        if re.match(r"2(\.8\.6|\.9)",self.conf["version"]) and "fpblacklist" in self.Runmode.conf["reportonarr"] and self.mode != "sanitize":
+        if re.match(r"2(\.8\.6|\.9)","%s" % (self.conf["version"])) and "fpblacklist" in self.Runmode.conf["reportonarr"] and self.mode != "sanitize":
             fast_pattern_blacklist((self.stderr+self.stdout),self.Runmode.conf["fpblacklist"],self.Runmode.conf["fpcase"],self.Runmode.conf["fprulesglob"],self.Runmode.conf["globallogdir"])
 
         self.currentts = time.strftime("%Y-%m-%d-T-%H-%M-%S", time.localtime())
@@ -482,7 +482,7 @@ class IDSEngine(RunmodeSanitize, RunmodeExtract, RunmodeVerify, RunmodeSidperfq,
             if m != None and self.regex["ignore"].match(line) == None:
                 p_info("%s: rule error found in stdout\nfile: %s (line %s)" % (str(whoami()),m.group("file"),m.group("line")))
                 self.rule_errors.append((m.group("file"),m.group("line"), line))
-        if re.match(r'2\.4',self.conf["version"]) and self.mode == "snort":
+        if re.match(r'2\.4',"%s" %(self.conf["version"])) and self.mode == "snort":
             for m in self.regex["rule_warn_snort_multi_line"].finditer((stderr+stdout)):
                 p_info("%s: rule warning found in combined output \nfile: %s (line %s)" % (str(whoami()),m.group("file"),m.group("line")))
                 self.rule_warnings.append((m.group("file"),m.group("line"), m.group(0).replace('\n', '')))

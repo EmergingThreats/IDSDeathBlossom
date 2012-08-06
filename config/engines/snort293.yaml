@@ -57,3 +57,17 @@ engines:
    enable: yes
    config: "/opt/snort293/etc/etopen/snort293-etopen-all.conf"
 
+ - engine: snort-2.9.3-test-test
+   type: snort
+   version: 2.9.3
+   syntax_version: 2.9.0
+   summary: "snort 2.9.3 test config with test rules"
+   path: "/opt/snort293/bin/snort"
+   logdir: "/opt/snort293/var/log/"
+   # For specifying custom rules, we use the following template
+   configtpl: "/opt/snort293/etc/snort293.template"
+   fastlog: "alert"
+   perflog: "perf.txt"
+   enable: yes
+   config: "/opt/snort293/etc/test/snort293-test-test.conf"
+
