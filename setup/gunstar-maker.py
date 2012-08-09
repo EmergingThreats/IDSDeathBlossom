@@ -81,7 +81,7 @@ version=0.6.0\n" % (rules_file, ocode, engine, feed_type, engine, feed_type, eng
     f.close()
 
     #save the update command
-    update_script_buf = update_script_buf + "pulledpork.pl -c %s -o /opt/%s/etc/%s/ -k -K /opt/%s/etc/%s/\n" % (ppconfig,engine,feed_type,engine,feed_type)
+    update_script_buf = update_script_buf + "/usr/local/bin/pulledpork.pl -c %s -o /opt/%s/etc/%s/ -k -K /opt/%s/etc/%s/\n" % (ppconfig,engine,feed_type,engine,feed_type)
 
 def make_engine_config(engine,feed_type,rset):
     buff = ""
