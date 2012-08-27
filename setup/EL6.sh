@@ -6,9 +6,12 @@ sudo mkdir -p /opt/snort2905/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/e
 sudo mkdir -p /opt/snort2922/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log}
 sudo mkdir -p /opt/snort2923/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log}
 sudo mkdir -p /opt/snort293/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log}
+sudo mkdir -p /opt/snort2931/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log}
 sudo mkdir -p /opt/suricata121/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log}
 sudo mkdir -p /opt/suricata13/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log}
 sudo mkdir -p /opt/suricata13JIT/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log}
+sudo mkdir -p /opt/suricata131/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log}
+sudo mkdir -p /opt/suricata131JIT/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log}
 
 NUM_CORES=`grep processor /proc/cpuinfo | sort -u | wc -l`
 
@@ -53,6 +56,19 @@ make distclean
 sudo cp suricata.yaml /opt/suricata13JIT/etc/
 sudo cp reference.config /opt/suricata13JIT/etc/
 sudo cp classification.config /opt/suricata13JIT/etc/
+cd ..
+
+tar -xzvf suricata-1.3.1.tar.gz
+cd suricata-1.3.1
+./configure --enable-profiling --prefix=/opt/suricata131/ --with-libnss-includes=/usr/include/nss --with-libnss-libs=/usr/lib/nss --with-libnspr-includes=/usr/include/nspr --with-libnspr-libraries=/usr/lib/nspr && make  && sudo make install
+sudo cp suricata.yaml /opt/suricata131/etc/
+sudo cp reference.config /opt/suricata131/etc/
+sudo cp classification.config /opt/suricata131/etc/
+make distclean
+./configure LD_RUN_PATH="/opt/pcre-8.30/lib:/usr/lib:/usr/local/lib" --enable-pcre-jit --with-libpcre-libraries=/opt/pcre-8.30/lib/ --with-libpcre-includes=/opt/pcre-8.30/include/ --enable-profiling --prefix=/opt/suricata131JIT/ --with-libnss-includes=/usr/include/nss --with-libnss-libs=/usr/lib/nss --with-libnspr-includes=/usr/include/nspr --with-libnspr-libraries=/usr/lib/nspr && make && sudo make install
+sudo cp suricata.yaml /opt/suricata131JIT/etc/
+sudo cp reference.config /opt/suricata131JIT/etc/
+sudo cp classification.config /opt/suricata131JIT/etc/
 cd ..
 
 tar -xzvf libdnet-1.11.tar.gz
@@ -103,12 +119,21 @@ cd ..
 tar -xzvf daq-1.1.1.tar.gz
 cd daq-1.1.1
 ./configure --prefix=/opt/snort293/ && make  && sudo make install
+make clean
+./configure --prefix=/opt/snort2931/ && make  && sudo make install
 cd ..
+
 
 tar -xzvf snort-2.9.3.tar.gz
 cd snort-2.9.3
 PATH="/opt/snort293/bin:$PATH" ./configure --enable-ipv6 --enable-gre --enable-mpls --with-dnet-includes=/opt/libdnet111/include/ --with-dnet-libraries=/opt/libdnet111/lib/ --enable-targetbased --enable-decoder-preprocessor-rules --enable-ppm --enable-perfprofiling --enable-zlib --enable-active-response --enable-normalizer --enable-reload --enable-react --enable-flexresp3 LD_RUN_PATH="/opt/snort293/lib:/opt/libdnet111/lib:/usr/lib:/usr/local/lib" --prefix=/opt/snort293/ --with-daq-includes=/opt/snort293/include/ --with-daq-libraries=/opt/snort293/lib/ && make  && sudo make install
 sudo cp etc/* /opt/snort293/etc/
+cd ..
+
+tar -xzvf snort-2.9.3.1.tar.gz
+cd snort-2.9.3.1
+PATH="/opt/snort2931/bin:$PATH" ./configure --enable-ipv6 --enable-gre --enable-mpls --with-dnet-includes=/opt/libdnet111/include/ --with-dnet-libraries=/opt/libdnet111/lib/ --enable-targetbased --enable-decoder-preprocessor-rules --enable-ppm --enable-perfprofiling --enable-zlib --enable-active-response --enable-normalizer --enable-reload --enable-react --enable-flexresp3 LD_RUN_PATH="/opt/snort2931/lib:/opt/libdnet111/lib:/usr/lib:/usr/local/lib" --prefix=/opt/snort2931/ --with-daq-includes=/opt/snort2931/include/ --with-daq-libraries=/opt/snort2931/lib/ && make  && sudo make install
+sudo cp etc/* /opt/snort2931/etc/
 cd ..
 
 sudo python ./gunstar-maker.py
@@ -133,8 +158,10 @@ rm snort-2.9.0.5 -Rf
 rm snort-2.9.2.2 -Rf
 rm snort-2.9.2.3 -Rf
 rm snort-2.9.3 -Rf
+rm snort-2.9.3.1 -Rf
 rm pcre-8.30 -Rf
 rm suricata-1.2.1 -Rf 
 rm suricata-1.3 -Rf
+rm suricata-1.3.1 -Rf
 rm pulledpork-0.6.1 -Rf
 rm libdnet-1.11 -Rf

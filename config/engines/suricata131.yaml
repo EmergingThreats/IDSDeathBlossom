@@ -1,0 +1,73 @@
+#Configurations for suricata 1.3.1
+
+engines:
+ - engine: suricata-1.3.1-etpro-base
+   type: suricata
+   version: 1.3.1
+   syntax_version: 1.3.1
+   summary: "suricata 1.3.1 base config with etpro rules"
+   path: "/opt/suricata131/bin/suricata"
+   logdir: "/opt/suricata131/var/log/"
+   # For specifying custom rules, we use the following template
+   configtpl: "/opt/suricata131/etc/suricata131.template"
+   fastlog: "alert"
+   perflog: "perf.txt"
+   enable: yes
+   config: "/opt/suricata131/etc/etpro/suricata131-etpro-base.yaml"
+
+ - engine: suricata-1.3.1-etpro-all
+   type: suricata
+   version: 1.3.1
+   syntax_version: 1.3.1
+   summary: "suricata 1.3.1 all config with etpro rules"
+   path: "/opt/suricata131/bin/suricata"
+   logdir: "/opt/suricata131/var/log/"
+   # For specifying custom rules, we use the following template
+   configtpl: "/opt/suricata131/etc/suricata131.template"
+   fastlog: "alert"
+   perflog: "perf.txt"
+   enable: yes
+   config: "/opt/suricata131/etc/etpro/suricata131-etpro-all.yaml"
+
+ - engine: suricata-1.3.1-etopen-base
+   type: suricata
+   version: 1.3.1
+   syntax_version: 1.3.1
+   summary: "suricata 1.3.1 base config with etopen rules"
+   path: "/opt/suricata131/bin/suricata"
+   logdir: "/opt/suricata131/var/log/"
+   # For specifying custom rules, we use the following template
+   configtpl: "/opt/suricata131/etc/suricata131.template"
+   fastlog: "alert"
+   perflog: "perf.txt"
+   enable: yes
+   config: "/opt/suricata131/etc/etopen/suricata131-etopen-base.yaml"
+
+ - engine: suricata-1.3.1-etopen-all
+   type: suricata
+   version: 1.3.1
+   syntax_version: 1.3.1
+   summary: "suricata 1.3.1 all config with etopen rules"
+   path: "/opt/suricata131/bin/suricata"
+   logdir: "/opt/suricata131/var/log/"
+   # For specifying custom rules, we use the following template
+   configtpl: "/opt/suricata131/etc/suricata131.template"
+   fastlog: "alert"
+   perflog: "perf.txt"
+   enable: yes
+   config: "/opt/suricata131/etc/etopen/suricata131-etopen-all.yaml"
+
+ - engine: suricata-1.3.1-test-test
+   type: suricata
+   version: 1.3.1
+   syntax_version: 1.3.1
+   summary: "suricata 1.3.1 test config with test rules"
+   path: "/opt/suricata131/bin/suricata"
+   logdir: "/opt/suricata131/var/log/"
+   # For specifying custom rules, we use the following template
+   configtpl: "/opt/suricata131/etc/suricata131.template"
+   fastlog: "alert"
+   perflog: "perf.txt"
+   enable: yes
+   config: "/opt/suricata131/etc/test/suricata131-test-test.yaml"
+
