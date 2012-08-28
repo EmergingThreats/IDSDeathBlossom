@@ -160,7 +160,11 @@ class IDSToolEnv(RunmodeCompare, RunmodeSidperfq):
         self.currentts = time.strftime("%Y-%m-%d-T-%H-%M-%S", time.localtime())
 
         #Generate a specific run-id for this run in the format of runmode-timestamp
-        self.runid = "%s-%s" %(str(self.Runmode.runmode),time.strftime("%Y-%m-%d-T-%H-%M-%S", time.localtime()))
+        if self.Runmode.conf.has_key("custom_runid") and self.Runmode.conf["custom_runid"]:
+            self.runid = self.Runmode.conf["custom_runid"]
+        else:
+            self.runid = "%s-%s" %(str(self.Runmode.runmode),time.strftime("%Y-%m-%d-T-%H-%M-%S", time.localtime()))
+
         for engine in self.targets:
             e = self.EngineMgr.engines[engine]
             e.runid = self.runid
@@ -362,7 +366,7 @@ class IDSToolEnv(RunmodeCompare, RunmodeSidperfq):
 "parseout ", "warnaserror", "globallogdir", "topN", "appendrunid", "cmpropts",
 "snortrules", "surirules", "sperfsid", "enableallrules", "fpblacklistopts",
 "reportgroup",
-"usecustomrules", "usesnortvalidator", "usedumbpig", "sqlquery","appendengineid","glogoverride"]:
+"usecustomrules", "usesnortvalidator", "usedumbpig", "sqlquery","appendengineid","glogoverride","custom_runid"]:
                 overrideOption(self.Runmode.conf, options.__dict__, v)
             if self.Runmode.conf.has_key("reporton") and self.Runmode.conf["reporton"]:
                 self.Runmode.conf["reportonarr"] = self.Runmode.conf["reporton"].split(",")

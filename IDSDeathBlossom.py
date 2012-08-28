@@ -166,6 +166,9 @@ if __name__ == "__main__":
     #fast pattern black list checking
     parser.add_option("--fpblacklistopts", dest="fpblacklistopts", help="format is <path to blacklist file:(case|nocase):optional rulesglob>")
 
+    #Use a custom runid
+    parser.add_option("--custom-runid", dest="custom_runid", help="Custom runid instead of runmode-datestamp format")
+
     # Parsed config
     (options, args) = parser.parse_args()
     #print str(options)
