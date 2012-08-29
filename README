@@ -10,7 +10,7 @@ python -i IDSDeathBlossom.py -c config/config.yaml -R run -t "snort2861open" --e
 
 
 # Sid perf
-python -i IDSDeathBlossom.py -c config/config.yaml -R sidperfq -t "snort2861open" --emailsubject="query perf stats" --perfdb="perfdata.sqlite" --sperfsid 2010238
+python -i IDSDeathBlossom.py -c config/config.yaml -R sidperfq -t "snort2861open" --emailsubject="query perf stats" --sperfsid 2010238
 
 
 # compare
@@ -41,3 +41,6 @@ python -i IDSDeathBlossom.py -c config/config.yaml -R verify -t "snort2861open" 
 
 #dumbfuzz
 python -i IDSDeathBlossom.py -c config/config.yaml -R dumbfuzz -t "snort2861open" --pcappath="/pcaps/ictf*/*.pcap,/pcaps/dc*/*" --loopnum forever
+
+#Generate a topN report for a past run
+IDSDeathBlossom.py -c config/config.yaml -R reportonly --custom-runid=Daily-Perf-Run-suricata-1.3-21-2012-08-29_01-04-44 --reporton=TopNWorstCurrent,LoadReportCurrent --topN=100

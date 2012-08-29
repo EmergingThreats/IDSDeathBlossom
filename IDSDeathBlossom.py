@@ -47,7 +47,7 @@ if __name__ == "__main__":
     # sanitizesnort, since we choose the target engines on a list of
     # targets (we just need an opt "sanitize")
     #runmodes_available = "fuzz,comparefast,comparefastxtract,rcomparefast,rcomparefastxtract,run,xtract,verify,sanitize,sidperfq"
-    runmodes_available = "dumbfuzz,comparefast,rcomparefast,run,xtract,verify,sanitize,sidperfq"
+    runmodes_available = "dumbfuzz,comparefast,rcomparefast,run,xtract,verify,sanitize,sidperfq,reportonly"
 
     # What else do you want from me?
     parser.add_option("-R","--runmode", dest="runmode", type="string", help="Currently the following runmodes are supported: %s" % runmodes_available)

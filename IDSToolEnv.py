@@ -220,9 +220,9 @@ class IDSToolEnv(RunmodeCompare, RunmodeSidperfq):
                 # And now execute the engine through the runmode
                 if self.Runmode.runmode in ["sanitize", "verify"]:
                     e.run(self.Runmode.runmode)
-                elif  self.Runmode.runmode == "sidperfq":
+                elif self.Runmode.runmode == "sidperfq":
                     # First check sperfsid
-                    if self.Runmode.conf.has_key("sperfsid") and self.Runmode.conf["sperfsid"].isdigit() and self.Runmode.conf.has_key("perfdb") and os.path.exists(self.Runmode.conf["perfdb"]):
+                    if self.Runmode.conf.has_key("sperfsid") and self.Runmode.conf["sperfsid"].isdigit():
                         e.run(self.Runmode.runmode)
                     else:
                         p_error("<%s><%s><%s>: sid provided via --sperfsid %s is invalid or None and/or --perfdb %s option was invalid or not provided" % (str(whoami()),str(lineno()),str(__file__),str(self.Runmode.conf["sperfsid"]),str(self.Runmode.conf["perfdb"])))
@@ -328,7 +328,16 @@ class IDSToolEnv(RunmodeCompare, RunmodeSidperfq):
                         self.rcomparefast(pcap)
             else:
                 p_warn("No runmode selected" % self.Runmode.runmode)
-
+        elif self.Runmode.runmode == "reportonly":
+            if self.Runmode.conf.has_key("custom_runid") != True:
+                p_error("You must specify a custom runid via --custom-runid for reportonly runmode")
+                sys.exit(-20)
+            elif self.Runmode.conf.has_key("reportonarr") != True:
+                p_error("You must specify something to report on for reportonly runmode")
+                sys.exit(-20)
+            elif not self.Runmode.conf["reportonarr"]:
+                p_error("You must specify something to report on for reportonly runmode")
+                sys.exit(-20)
         else:
             p_error("Unknown runmode?? %s??" % self.Runmode.runmode)
 

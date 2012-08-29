@@ -44,18 +44,19 @@ class RunmodeSidperfq:
 
         perfsum = "%s/SidPerfReport-%s-%s.txt" % (self.Runmode.conf["globallogdir"],str(self.Runmode.conf["sperfsid"]), time.strftime("%Y-%m-%d-T-%H-%M-%S", time.localtime()))
         report = open(perfsum, 'w')
-        report.write("historical data for sid %s as read from %s\n\n" % (str(self.Runmode.conf["sperfsid"]),self.Runmode.conf["perfdb"]))
-        cur = self.db.query("select runid, file, alertfile, engine, rank, sid, gid, rev, checks, matches, alerts, microsecs, avgtcheck, avgtmatch, avgtnomatch from rulestats where sid=\'%s\' order by id desc" % (self.Runmode.conf["sperfsid"]))
+        report.write("historical data for sid %s\n\n" % (str(self.Runmode.conf["sperfsid"])))
+        cur = self.db.execute("select runid, file, alertfile, engine, rank, sid, gid, rev, checks, matches, alerts, microsecs, avgtcheck, avgtmatch, avgtnomatch from rulestats where sid=\'%s\' order by id desc" % (self.Runmode.conf["sperfsid"]))
+
         if not cur:
             p_warn('No data available')
         else:
             for row in cur:
                 (runid,file,alertfile,engine,rank,sid,gid,rev,checks,matches,alerts,microsecs,avgtcheck,avgmatch,avgtnomatch) = row
                 lines.append("%s %s %s %s %s %s %s %s %s %s %s %s %s %s\n" % (runid,file,alertfile,engine,rank,gid,rev,checks,matches,alerts,microsecs,avgtcheck,avgmatch,avgtnomatch))
-                total_alerts += alerts
-                total_checks += checks
-                total_matches += matches
-                total_microsecs += microsecs
+                total_alerts += int(alerts)
+                total_checks += int(checks)
+                total_matches += int(matches)
+                total_microsecs += float(microsecs)
     
                 if alerts > 0:
                     alerts_in[alertfile] = "run-id:%s pcap:%s number of alerts:%s\n" % (str(runid),str(file),str(alerts))
