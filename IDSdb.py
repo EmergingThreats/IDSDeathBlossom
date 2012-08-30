@@ -35,7 +35,6 @@ class IDSdb:
 
         if self.dbtype == "MYSQL":
             import MySQLdb
-            import _mysql
             p_info("DBType: %s" % self.dbtype)
 
             db_user = self.options["user"]
@@ -43,65 +42,41 @@ class IDSdb:
             db_server = self.options["server"]
             db_scheme = self.options["scheme"]
 
-            self.db = _mysql.connect(host=db_server,user=db_user, passwd=db_pass,db=db_scheme)
+            self.db = MySQLdb.connect(host=db_server,user=db_user, passwd=db_pass,db=db_scheme)
 
-        elif self.dbtype == "sqlite3":
-            import sqlite3
-            if self.options.has_key("file"):
-                db_file = self.options["file"]
-
-                if not os.path.exists(db_file):
-                    p_info("creating sqlite db %s" % (db_file))
-                    self.db = sqlite3.Connection(db_file)
-                    self.initSqliteTables()
-                else:
-                    self.db = sqlite3.Connection(db_file)
-         
-    def query(self, cmd):
-            self.last_result = None
-            p_debug("Trying to query " + cmd)
-#        try:
-            if self.dbtype == "MYSQL":
-                import MySQLdb
-                import _mysql
-                r = self.db.query(cmd)
-                rs = self.db.store_result()
-
-                if rs:
-                    row = rs.fetch_row()
-                    self.last_result = []
-
-                    while row:
-                        for r in row: 
-                            break
-
-                        self.last_result.append(r)
-                        row = rs.fetch_row()
-
-            elif self.dbtype == "sqlite3":
-                import sqlite3
-                self.last_result = self.db.execute(cmd)
-
-            try:
-                if cmd.find("insert") >= 0 or cmd.find("INSERT") >= 0:
-                    self.db.commit()
-            except:
-                p_debug("No commit needed")
-            return self.last_result
- #       except:
-            #print "Error!!!"
-            #p_error("Error executing query")
-            #return None
-        #return None
-
-    def mass_execute(self,cmds):
-        if self.dbtype == "sqlite3":
-            for transact in cmds:
-                self.db.execute(transact)
+    def query(self, cmd, params):
+        self.last_result = None
+        p_debug("Trying to query " + cmd)
+        import MySQLdb
+        try:
+            cur = self.db.cursor()
+            cur.execute(cmd,params)
+            self.last_result = cur.fetchall()
+            cur.close()
             self.db.commit()
-        elif self.dbtype == "MYSQL":
-            for transact in cmds:
-                self.query(transact)
+        except MySQLdb.Error, e:
+            print "Error!!!"
+            p_error("Error executing query %d %s" % e.args[0], e.args[1])
+            return None
+
+        return self.last_result
+
+    def mass_execute(self, cmd, params):
+        self.last_result = None
+        p_debug("Trying to query " + cmd)
+        import MySQLdb
+        try:
+            cur = self.db.cursor()
+            cur.executemany(cmd,params)
+            self.last_result = cur.fetchall()
+            cur.close()
+            self.db.commit()
+        except MySQLdb.Error, e:
+            print "Error!!!"
+            p_error("Error executing query %d %s" % e.args[0], e.args[1])
+            return None
+
+        return self.last_result
 
     # An alias for query
     def execute(self, cmd):

@@ -354,10 +354,8 @@ class IDSEngine(RunmodeSanitize, RunmodeExtract, RunmodeVerify, RunmodeSidperfq,
                             avgpermatch = float(perf_vals[10])
                             avgpernomatch = float(perf_vals[11])
 
-                        #dump these stats into a db most men would put a \ here but I'm not most men.
-                        bulk_insert.append("""INSERT INTO rulestats (id, host,
-                                 timestamp, runid, file, alertfile, engine, rank, sid, gid, rev, checks, matches, alerts,
-                                 microsecs, avgtcheck, avgtmatch, avgtnomatch) VALUES(NULL, %s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)""", (self.host, self.currentts, self.runid, pcap, self.newfastlog, self.engine, rank, sid, gid, rev, checks, matches, alerts, microsecs, avgpercheck, avgpermatch, avgpernomatch))
+                        #dump these stats into a db
+                        bulk_insert.append((self.host, self.currentts, self.runid, pcap, self.newfastlog, self.engine, rank, sid, gid, rev, checks, matches, alerts, microsecs, avgpercheck, avgpermatch, avgpernomatch))
                     else:
                         if re.search(r"Avg\sNo\sMatch",line) != None:
                             perf_is_suri = True
@@ -373,7 +371,8 @@ class IDSEngine(RunmodeSanitize, RunmodeExtract, RunmodeVerify, RunmodeSidperfq,
                     #else:
                         #print "invalid perfstat line %s" % line
                 perf.close()
-                self.db.mass_execute(bulk_insert)
+                qstring = """INSERT INTO rulestats (id, host, timestamp, runid, file, alertfile, engine, rank, sid, gid, rev, checks, matches, alerts, microsecs, avgtcheck, avgtmatch, avgtnomatch) VALUES(NULL, %s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
+                self.db.mass_execute(qstring, bulk_insert)
 
 		#Ok, what to do here? return code is 0, but we got errors, and/or warnings
             if errors != "" or warnings != "":

@@ -70,10 +70,10 @@ if __name__ == "__main__":
     parser.add_option("--pcapignore", dest="pcapignore", type="string", help="glob for pcaps we will ignore")
 
     #path for storing performance stats
-    parser.add_option("--perfdb", dest="perfdb", type="string", help="path to sqlite3 db for storing perf stats")
+    parser.add_option("--perfdb", dest="perfdb", type="string", help="path to db for storing perf stats")
 
     #path for storing performance stats
-    parser.add_option("--reportdb", dest="reportdb", default="./logs/reportdb.sqlite", type="string", help="path to sqlite3 db for storing reports")
+    parser.add_option("--reportdb", dest="reportdb", default="./logs/reportdb", type="string", help="path to db for storing reports")
 
     #path for storing performance stats
     parser.add_option("--report-group", dest="reportgroup", default="default", type="string", help="Used in conjuction to reportdb. Attach the reports to this reportgroup")
@@ -129,8 +129,8 @@ if __name__ == "__main__":
     #global log directory for reporting etc.
     parser.add_option("--globallogdir", dest="globallogdir", help="shared global log directory for reports etc if IDS specific log dirs not specified this will be used")    
 
-    #custom query to the sqlite db
-    parser.add_option("--sqlquery", dest="sqlquery", help="Query to execute in the sqlite db specified with perfdb")
+    #custom query to the db
+    parser.add_option("--sqlquery", dest="sqlquery", help="Query to execute in the db specified with perfdb")
 
     #append and create run-id to log directories?
     parser.add_option("--appendrunid", dest="appendrunid", action="store_true", default = False, help="append the run-id to the log dir's will create and store logs in logdir/runmode-timestamp format")
