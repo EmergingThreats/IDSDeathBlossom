@@ -150,7 +150,7 @@ class IDSReport:
         if rtype == "sanitize":
             (reportgroup, timestamp, status, engine, path, relpath, errors,
 warnings, time, commented) = data
-            sqlcmd = '''INSERT INTO report(id, reportgroup, timestamp, status, engine, path, relpath, errors, warnings, time, commented) VALUES(NULL,'%s','%s','%s','%s','%s','%s','%i','%i','%i', '%i')''' % (reportgroup, timestamp, status, engine, path, relpath, errors, warnings, time, commented)
+            sqlcmd = '''INSERT INTO report(id, reportgroup, timestamp, status, engine, path, relpath, errors, warnings, time, commented) VALUES(NULL,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)''', (reportgroup, timestamp, status, engine, path, relpath, errors, warnings, time, commented)
             p_info("Executing %s" % sqlcmd)
             con.execute(sqlcmd)
             con.commit()
@@ -161,8 +161,7 @@ warnings, time, commented) = data
         if rtype == "sanitize":
             (reportgroup, timestamp, status, engine, path, relpath, errors,
 warnings, time, commented) = data
-            sqlcmd = '''UPDATE report SET status='%s', path='%s', relpath='%s', errors=%i, warnings=%i, time=%i, commented=%i WHERE reportgroup='%s' and timestamp='%s' and engine='%s' ''' % (status, path, relpath, errors, warnings,
-time, commented, reportgroup, timestamp, engine)
+            sqlcmd = '''UPDATE report SET status=%s, path=%s, relpath=%s, errors=%s, warnings=%s, time=%s, commented=%s WHERE reportgroup=%s and timestamp=%s and engine=%s''', (status, path, relpath, errors, warnings, time, commented, reportgroup, timestamp, engine)
             p_info("Executing %s" % sqlcmd)
             con.execute(sqlcmd)
             con.commit()

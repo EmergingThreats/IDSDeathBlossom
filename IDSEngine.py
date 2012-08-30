@@ -262,7 +262,7 @@ class IDSEngine(RunmodeSanitize, RunmodeExtract, RunmodeVerify, RunmodeSidperfq,
 
                 fast.close()
                 print "HOST: " + self.host
-                sqlcmd = 'INSERT INTO filestats(id, host, timestamp, runid, cmd, file, engine, runtime, ualerts, alertfile, alertcnt, exitcode) VALUES(NULL,"%s","%s","%s","%s","%s","%s",%f,"%s","%s",%i,%i)' % (self.host, self.currentts, self.runid, self.lastcmd, pcap, self.engine, self.elapsed, str(tmpsiddict), self.newfastlog, alertcnt, self.returncode)
+                sqlcmd = 'INSERT INTO filestats(id, host, timestamp, runid, cmd, file, engine, runtime, ualerts, alertfile, alertcnt, exitcode) VALUES(NULL,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)', (self.host, self.currentts, self.runid, self.lastcmd, pcap, self.engine, self.elapsed, str(tmpsiddict), self.newfastlog, alertcnt, self.returncode)
                 p_debug("Executing: %s" % sqlcmd)
                 self.db.execute(sqlcmd)
                 try:
@@ -357,7 +357,7 @@ class IDSEngine(RunmodeSanitize, RunmodeExtract, RunmodeVerify, RunmodeSidperfq,
                         #dump these stats into a db most men would put a \ here but I'm not most men.
                         bulk_insert.append("""INSERT INTO rulestats (id, host,
                                  timestamp, runid, file, alertfile, engine, rank, sid, gid, rev, checks, matches, alerts,
-                                 microsecs, avgtcheck, avgtmatch, avgtnomatch) VALUES(NULL,"%s","%s","%s","%s","%s","%s",%i,%i,%i,%i,%i,%i,%i,%i,%.2f,%.2f,%.2f)""" % (self.host, self.currentts, self.runid, pcap, self.newfastlog, self.engine, rank, sid, gid, rev, checks, matches, alerts, microsecs, avgpercheck, avgpermatch, avgpernomatch))
+                                 microsecs, avgtcheck, avgtmatch, avgtnomatch) VALUES(NULL, %s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)""", (self.host, self.currentts, self.runid, pcap, self.newfastlog, self.engine, rank, sid, gid, rev, checks, matches, alerts, microsecs, avgpercheck, avgpermatch, avgpernomatch))
                     else:
                         if re.search(r"Avg\sNo\sMatch",line) != None:
                             perf_is_suri = True
