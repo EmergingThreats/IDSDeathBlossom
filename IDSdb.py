@@ -56,7 +56,7 @@ class IDSdb:
             self.db.commit()
         except MySQLdb.Error, e:
             print "Error!!!"
-            p_error("Error executing query %d %s" % e.args[0], e.args[1])
+            p_error("Error executing query %s" % (e))
             return None
 
         return self.last_result
@@ -73,7 +73,7 @@ class IDSdb:
             self.db.commit()
         except MySQLdb.Error, e:
             print "Error!!!"
-            p_error("Error executing query %d %s" % e.args[0], e.args[1])
+            p_error("Error executing query %s" % (e))
             return None
 
         return self.last_result
