@@ -6,7 +6,7 @@
 
 
 # Some reports
-python -i IDSDeathBlossom.py -c config/config.yaml -R run -t "snort2861open" --emailsubject="generate sidperf" --pcappath=/pcaps/etqa/2003579.pcap --perfdb="perfdata.sqlite" --loopnum 5 --reporton="TopNWorstAll,TopNWorstCurrent,LoadReportCurrent"
+python -i IDSDeathBlossom.py -c config/config.yaml -R run -t "snort2861open" --emailsubject="generate sidperf" --pcappath=/pcaps/etqa/2003579.pcap --loopnum 5 --reporton="TopNWorstAll,TopNWorstCurrent,LoadReportCurrent"
 
 
 # Sid perf
@@ -31,10 +31,10 @@ python IDSDeathBlossom.py -c config/config.yaml -t snort2861pro -R run --pcappat
 
 
 # some stats
-python -i IDSDeathBlossom.py -c config/config.yaml -R run --pcappath=/pcaps/etqa/201114*  -t snort2861open,snort2861pro,snort2841open,snort2841pro,suricata102open,suricata102pro --perfdb=perfdata.sqlite --reporton=idsperf,ruleperf --loopnum=1
+python -i IDSDeathBlossom.py -c config/config.yaml -R run --pcappath=/pcaps/etqa/201114*  -t snort2861open,snort2861pro,snort2841open,snort2841pro,suricata102open,suricata102pro --reporton=idsperf,ruleperf --loopnum=1
 
 # custom queries
-python IDSDeathBlossom.py -c config/config.yaml --perfdb perfdata.sqlite --sqlquery="SELECT * from rulestats"|more
+python IDSDeathBlossom.py -c config/config.yaml --sqlquery="SELECT * from rulestats"|more
 
 #verify
 python -i IDSDeathBlossom.py -c config/config.yaml -R verify -t "snort2861open" --target-opts="snort2861open:configtpl=config/engines/snort2861.tpl.conf" --verifyconf="config/tests.yaml"

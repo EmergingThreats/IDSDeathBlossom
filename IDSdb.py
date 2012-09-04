@@ -79,8 +79,8 @@ class IDSdb:
         return self.last_result
 
     # An alias for query
-    def execute(self, cmd):
-        return self.query(cmd)
+    def execute(self, cmd, params):
+        return self.query(cmd, params)
 
     def commit(self):
         self.db.commit()
@@ -91,30 +91,6 @@ class IDSdb:
     def initMysqlTables(self):
         #Todo, check if the db tables are present or not. Try to create them if needed
         pass
-
-    def initSqliteTables(self):
-        # Todo, check if the db tables are present or not. Try to create them if needed
-        # create the reports table
-        try:
-            self.query('''create table report (id integer primary key, reportgroup text, timestamp text, status text, engine text, path text, relpath text, errors integer, warnings integer, time integer, commented integer)''')
-        except:
-            p_error("failed to create the report table")
-            sys.exit(1);
-
-        try:
-            self.query('''create table filestats (id integer primary key, host text, timestamp, runid, cmd text, file text, engine text, runtime , ualerts, alertfile, alertcnt integer, exitcode integer)''')
-        except:
-            p_error("failed to create the filestats table")
-            sys.exit(1);
-
-        # create the rulestats table
-        try:
-            self.query('''create table rulestats (id integer primary key, host, timestamp, runid, file, alertfile, engine, rank integer , sid integer, gid integer, rev integer , checks integer, matches integer, alerts integer, microsecs integer, avgtcheck float, avgtmatch float, avgtnomatch float)''')
-        except:
-            p_error("failed to create the rulestats table")
-            sys.exit(1);
-
-
 
 # Usage example:
 

@@ -12,14 +12,13 @@ editcap_options:
   # values from 0.00 to 1.00
   eratio: ""
 
-# Supported types are MYSQL and sqlite3
+# Supported type is currently only MYSQL
 db_options:
   type: "MYSQL"
   user: "someuser"
   pass: "somepass"
   server: "localhost"
   scheme: "IDSDeathBlossom"
-  #file: "logs/perfdata.sqlite"
 
 # Mail options
 mail_options:

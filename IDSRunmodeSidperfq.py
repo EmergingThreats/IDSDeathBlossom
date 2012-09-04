@@ -92,6 +92,7 @@ class RunmodeSidperfq:
         report.write("sid,microsecs,file\n")
         if cur:
             for row in cur:
+                print str(row)
                 report.write("%s\n" % str(row))
         else:
             p_warn("No data available")
@@ -148,21 +149,21 @@ class RunmodeSidperfq:
         perfsum = "%s/TopNWorstCurrent-%s.txt" % (self.Runmode.conf["globallogdir"], str(self.currentts))
         report = open(perfsum, 'w')
         report.write("top %s worst performing rules by total microseconds\n" % self.Runmode.conf["topN"])
-        cur = self.db.execute("select sid,engine,microsecs,file from rulestats where runid=%s order by microsecs desc limit %s", (self.runid,self.Runmode.conf["topN"],))
+        cur = self.db.execute("select sid,engine,microsecs,file from rulestats where runid=%s order by microsecs desc limit %s",(self.runid,self.Runmode.conf["topN"],))
         report.write("sid,microsecs,file\n")
         for row in cur:
             report.write("%s\n" % str(row))
         report.write("\n")
 
         report.write("top %s worst performing rules by avg ticks per non-match\n" % self.Runmode.conf["topN"])
-        cur = self.db.execute("select sid,engine,avgtnomatch,file from rulestats where runid=%s order by avgtnomatch desc limit %s", (self.runid,self.Runmode.conf["topN"],))
+        cur = self.db.execute("select sid,engine,avgtnomatch,file from rulestats where runid=%s order by avgtnomatch desc limit %s",(self.runid,self.Runmode.conf["topN"],))
         report.write("sid,avgtnomatch,file,cmd\n")
         for row in cur:
             report.write("%s\n" % str(row))
         report.write("\n")
 
         report.write("top %s worst performing rules by avg ticks per check\n" % self.Runmode.conf["topN"])
-        cur = self.db.execute("select sid,engine,avgtcheck,file from rulestats where runid=%s order by avgtcheck desc limit %s", (self.runid,self.Runmode.conf["topN"],))
+        cur = self.db.execute("select sid,engine,avgtcheck,file from rulestats where runid=%s order by avgtcheck desc limit %s",(self.runid,self.Runmode.conf["topN"],))
         report.write("sid,avgtcheck,file\n")
         for row in cur:
             report.write("%s\n" % str(row))

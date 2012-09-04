@@ -70,12 +70,6 @@ if __name__ == "__main__":
     parser.add_option("--pcapignore", dest="pcapignore", type="string", help="glob for pcaps we will ignore")
 
     #path for storing performance stats
-    parser.add_option("--perfdb", dest="perfdb", type="string", help="path to db for storing perf stats")
-
-    #path for storing performance stats
-    parser.add_option("--reportdb", dest="reportdb", default="./logs/reportdb", type="string", help="path to db for storing reports")
-
-    #path for storing performance stats
     parser.add_option("--report-group", dest="reportgroup", default="default", type="string", help="Used in conjuction to reportdb. Attach the reports to this reportgroup")
     
     #path to yaml file for verification modes
@@ -253,14 +247,6 @@ if __name__ == "__main__":
     # Override config with cli options if any
     options = IDSTool.setCliOpts(options)
     IDSTool.options = options
-
-    if options.perfdb:
-        IDSTool.perfdb = options.perfdb
-        #IDSTool.initPerfDB()
-
-    if options.reportdb:
-        IDSTool.reportdb = options.reportdb
-        #IDSTool.initReportDB()
 
     IDSTool.Runmode.runmode = options.runmode
 

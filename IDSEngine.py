@@ -262,12 +262,11 @@ class IDSEngine(RunmodeSanitize, RunmodeExtract, RunmodeVerify, RunmodeSidperfq,
 
                 fast.close()
                 print "HOST: " + self.host
-                sqlcmd = 'INSERT INTO filestats(id, host, timestamp, runid, cmd, file, engine, runtime, ualerts, alertfile, alertcnt, exitcode) VALUES(NULL,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)', (self.host, self.currentts, self.runid, self.lastcmd, pcap, self.engine, self.elapsed, str(tmpsiddict), self.newfastlog, alertcnt, self.returncode)
-                p_debug("Executing: %s" % sqlcmd)
-                self.db.execute(sqlcmd)
+                sqlcmd = 'INSERT INTO filestats(id, host, timestamp, runid, cmd, file, engine, runtime, ualerts, alertfile, alertcnt, exitcode) VALUES(NULL,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)'
+                params=(self.host, self.currentts, self.runid, self.lastcmd, pcap, self.engine, self.elapsed, str(tmpsiddict), self.newfastlog, alertcnt, self.returncode,)
                 try:
                     if self.db != None:
-                        self.db.execute(sqlcmd)
+                        self.db.execute(sqlcmd,params)
                     else:
                         p_error("Db handler not valid")
                         sys.exit(2)
