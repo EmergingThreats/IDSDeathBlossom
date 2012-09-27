@@ -46,9 +46,9 @@ engines["snort293"] = {"type":"snort", "version":"2.9.0", "eversion":"2.9.3"}
 engines["snort2931"] = {"type":"snort", "version":"2.9.0", "eversion":"2.9.3.1"}
 rule_sets = {}
 
-rule_sets["all"] = ["ftp.rules","policy.rules","trojan.rules","games.rules","pop3.rules","user_agents.rules","activex.rules","rpc.rules","virus.rules","attack_response.rules","icmp.rules","scan.rules","scada.rules","voip.rules","chat.rules","icmp_info.rules","info.rules","shellcode.rules","web_client.rules","imap.rules","web_server.rules","current_events.rules","inappropriate.rules","smtp.rules","web_specific_apps.rules","deleted.rules","malware.rules","snmp.rules","worm.rules","dns.rules","misc.rules","sql.rules","dos.rules","netbios.rules","telnet.rules","exploit.rules","p2p.rules","tftp.rules","mobile_malware.rules","botcc.rules","compromised.rules","drop.rules","dshield.rules","rbn.rules","rbn-malvertisers.rules","tor.rules","ciarmy.rules"]
+rule_sets["all"] = ["ftp.rules","policy.rules","trojan.rules","games.rules","pop3.rules","user_agents.rules","activex.rules","rpc.rules","virus.rules","attack_response.rules","icmp.rules","scan.rules","voip.rules","chat.rules","icmp_info.rules","info.rules","shellcode.rules","web_client.rules","imap.rules","web_server.rules","current_events.rules","inappropriate.rules","smtp.rules","web_specific_apps.rules","deleted.rules","malware.rules","snmp.rules","worm.rules","dns.rules","misc.rules","sql.rules","dos.rules","netbios.rules","telnet.rules","exploit.rules","p2p.rules","tftp.rules","mobile_malware.rules","botcc.rules","compromised.rules","drop.rules","dshield.rules","rbn.rules","rbn-malvertisers.rules","tor.rules","ciarmy.rules"]
 
-rule_sets["base"] = ["ftp.rules","policy.rules","trojan.rules","games.rules","pop3.rules","user_agents.rules","rpc.rules","virus.rules","attack_response.rules","icmp.rules","scan.rules","scada.rules","voip.rules","chat.rules","web_client.rules","imap.rules","web_server.rules","current_events.rules","smtp.rules","malware.rules","snmp.rules","worm.rules","dns.rules","misc.rules","sql.rules","dos.rules","netbios.rules","telnet.rules","exploit.rules","p2p.rules","tftp.rules","mobile_malware.rules"]
+rule_sets["base"] = ["ftp.rules","policy.rules","trojan.rules","games.rules","pop3.rules","user_agents.rules","rpc.rules","attack_response.rules","icmp.rules","scan.rules","voip.rules","chat.rules","web_client.rules","imap.rules","web_server.rules","current_events.rules","smtp.rules","malware.rules","snmp.rules","worm.rules","dns.rules","misc.rules","sql.rules","dos.rules","netbios.rules","telnet.rules","exploit.rules","p2p.rules","tftp.rules","mobile_malware.rules"]
 
 rule_sets["test"] = []
 update_script_buf = ""
@@ -89,7 +89,7 @@ version=0.6.0\n" % (rules_file, ocode, engine, feed_type, engine, feed_type, eng
 def make_engine_config(engine,feed_type,rset):
     buff = ""
     tmp_list = []
-
+    
     try:
         buff = open("engine-templates/%s.template" % (engine)).read()
     except:
@@ -102,6 +102,13 @@ def make_engine_config(engine,feed_type,rset):
     elif engines[engine]["type"] == "suricata":
         buff +="default-rule-path: /opt/%s/etc/%s/\nrule-files:\n" % (engine,feed_type)
         rprefix = " - "
+
+    if feed_type == "test":
+        #This is a really shit hack...
+        if engines[engine]["type"] == "snort":
+            buff = re.sub(r"var HOME_NET\s[^\r\n]+[\r\n]" , "var HOME_NET any\n", buff,1)
+        elif engines[engine]["type"] == "suricata":
+            buff = re.sub(r"    HOME_NET\:\s[^\r\n]+[\r\n]","    HOME_NET\: \"any\"\n", buff,1)
 
     for rule_file in rule_sets[rset]:
         if feed_type == "etopen":

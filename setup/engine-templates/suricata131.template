@@ -205,7 +205,7 @@ reference-config-file: /opt/suricata131/etc/reference.config
 vars:
   address-groups:
     HOME_NET: "[192.168.0.0/16,10.0.0.0/8,172.16.0.0/12]"
-    EXTERNAL_NET: "!$HOME_NET"
+    EXTERNAL_NET: "any"
     HTTP_SERVERS: "$HOME_NET"
     SMTP_SERVERS: "$HOME_NET"
     SQL_SERVERS: "$HOME_NET"
@@ -213,7 +213,7 @@ vars:
     TELNET_SERVERS: "$HOME_NET"
     AIM_SERVERS: "$EXTERNAL_NET"
   port-groups:
-    HTTP_PORTS: "80"
+    HTTP_PORTS: "[80,81,311,591,593,901,1220,1414,1830,2301,2381,2809,3128,3702,4343,5250,7001,7145,7510,7777,7779,8000,8008,8014,8028,8080,8088,8118,8123,8180,8181,8243,8280,8800,8888,8899,9080,9090,9091,9443,9999,11371,55555]"
     SHELLCODE_PORTS: "!80"
     ORACLE_PORTS: 1521
     SSH_PORTS: 22
@@ -229,9 +229,9 @@ host-os-policy:
   bsd: []
   bsd-right: []
   old-linux: []
-  linux: [10.0.0.0/8, 192.168.1.100, "8762:2352:6241:7245:E000:0000:0000:0000"]
+  linux: []
   old-solaris: []
-  solaris: ["::1"]
+  solaris: []
   hpux10: []
   hpux11: []
   irix: []
@@ -252,21 +252,8 @@ pcre:
 libhtp:
    default-config:
      personality: IDS
-     request-body-limit: 3072
-     response-body-limit: 3072
-   server-config:
-     - apache:
-         address: [192.168.1.0/24, 127.0.0.0/8, "::1"]
-         personality: Apache_2_2
-         request-body-limit: 4096
-         response-body-limit: 4096
-     - iis7:
-         address:
-           - 192.168.0.0/24
-           - 192.168.10.0/24
-         personality: IIS_7_0
-         request-body-limit: 4096
-         response-body-limit: 4096
+     request-body-limit: 0
+     response-body-limit: 0
 
 profiling:
   rules:

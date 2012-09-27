@@ -55,7 +55,6 @@ class RunmodeSanitize:
 
         self.drule_warnings = {}
         self.drule_errors = {}
-
         self.reportonsanitize = 1
         self.emailsubject = " Sanitization Summary Report"
         # Build custom subject with the prefix (we should change the name)
@@ -80,8 +79,8 @@ class RunmodeSanitize:
         self.pcapfile = self.Pcap.gen_dummy_pcap()
         p_debug("Initializing Sanitization for %s" % self.conf['engine'])
 
-        r = IDSReport(self.conf['engine'] + " " + self.emailsubject + " " + self.currentts, self.conf)
-        r.storeReport((self.Runmode.conf['reportgroup'], self.ts, "Running", self.engine, "", "", 0, 0, 0, 0), self.r, "sanitize") 
+        r = IDSReport(self.db, self.conf['engine'] + " " + self.emailsubject + " " + self.currentts, self.conf)
+        r.storeReport((self.Runmode.conf['reportgroup'], self.ts, "Running", self.engine, "", "", 0, 0, 0, 0), r, "sanitize") 
 
         r.addHeader({"Engine" : self.conf['engine'], "Time" : self.currentts})
 
@@ -359,7 +358,7 @@ class RunmodeSanitize:
         # (reportgroup, timestamp, rstatus, engine, path, relpath, errors, warnings, time) = data
         r.updateReport((self.Runmode.conf['reportgroup'], self.ts, rstatus,
 self.engine, self.resultPath + "report.html", self.resultPath + "report.html",
-self.errcnt, self.warncnt, time.time() - int(self.ts), commented), self.r, "sanitize")
+self.errcnt, self.warncnt, time.time() - int(self.ts), commented), r, "sanitize")
 
         #print mailbody
         report.write(mailbody)

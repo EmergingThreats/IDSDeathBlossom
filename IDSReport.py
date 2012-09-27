@@ -32,7 +32,7 @@ from IDSLogging import *
 
 
 class IDSReport:
-    def __init__(self, title="", conf={}):
+    def __init__(self, dbhandle, title="", conf={}):
         self.title = title
         self.headers = []
         self.body = []
@@ -40,7 +40,10 @@ class IDSReport:
         self.spacechr = {}
         self.spacechr["raw"] = ' '
         self.spacechr["html"] = '&nbsp;'
-        self.host = conf["host"] 
+        #broken
+        #self.host = conf["host"] 
+        self.host = "localhost"
+        self.db = dbhandle
 
     def setData(self, data):
         self.title=data['title']
@@ -150,10 +153,9 @@ class IDSReport:
         if rtype == "sanitize":
             (reportgroup, timestamp, status, engine, path, relpath, errors,
 warnings, time, commented) = data
-            sqlcmd = '''INSERT INTO report(id, reportgroup, timestamp, status, engine, path, relpath, errors, warnings, time, commented) VALUES(NULL,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)''', (reportgroup, timestamp, status, engine, path, relpath, errors, warnings, time, commented)
-            p_info("Executing %s" % sqlcmd)
-            con.execute(sqlcmd)
-            con.commit()
+            sqlcmd = 'INSERT INTO report(id, reportgroup, timestamp, status, engine, path, relpath, errors, warnings, time, commented) VALUES(NULL,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)'
+            params = (reportgroup, timestamp, status, engine, path, relpath, errors, warnings, time, commented)
+            cur = self.db.execute(sqlcmd,params)
 
     def updateReport(self, data, con, rtype = "sanitize"):
         #(id primary key, reportgroup, timestamp, status, engine, path, relpath, errors integer, warnings integer, time integer)
@@ -161,10 +163,9 @@ warnings, time, commented) = data
         if rtype == "sanitize":
             (reportgroup, timestamp, status, engine, path, relpath, errors,
 warnings, time, commented) = data
-            sqlcmd = '''UPDATE report SET status=%s, path=%s, relpath=%s, errors=%s, warnings=%s, time=%s, commented=%s WHERE reportgroup=%s and timestamp=%s and engine=%s''', (status, path, relpath, errors, warnings, time, commented, reportgroup, timestamp, engine)
-            p_info("Executing %s" % sqlcmd)
-            con.execute(sqlcmd)
-            con.commit()
+            sqlcmd = 'UPDATE report SET status=%s, path=%s, relpath=%s, errors=%s, warnings=%s, time=%s, commented=%s WHERE reportgroup=%s and timestamp=%s and engine=%s'
+            params = (status, path, relpath, errors, warnings, time, commented, reportgroup, timestamp, engine)
+            cur = self.db.execute(sqlcmd,params)
 
     def save(self, path, reportFormat = "raw"):
         data = self.build(reportFormat)

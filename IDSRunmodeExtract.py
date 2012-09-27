@@ -103,7 +103,7 @@ class RunmodeExtract:
     #extract based on the flow
     # TODO: Maybe move this function to the pcap class?
     def run_tcpdump(self, sid, bpffilter, pcap):
-        cmd = "tcpdump -n -r %s -w %s/%s.pcap %s" % (pcap, self.logdir, sid, bpffilter)
+        cmd = "tcpdump -n -r %s -w %s/%s.pcap %s" % (pcap, self.Runmode.conf["globallogdir"], sid, bpffilter)
         returncode, stderr, stdout, elapsed = cmd_wrapper(cmd, 0)
         if returncode == 0:
             p_info("extraction successful" + sid + ": " + bpffilter)
