@@ -238,7 +238,7 @@ class IDSToolEnv(RunmodeCompare, RunmodeSidperfq):
 
 
         # The looping runmodes should go here
-        elif self.Runmode.runmode in ["run","dumbfuzz","xtract","rcomparefast"]:
+        elif self.Runmode.runmode in ["run","dumbfuzz","xtract","xtractall","rcomparefast"]:
             if self.Signature.conf.has_key("xtractignore") and self.Signature.conf["xtractignore"]:
                 self.xignore = self.parse_xtract_ignore()
             else:
@@ -297,7 +297,7 @@ class IDSToolEnv(RunmodeCompare, RunmodeSidperfq):
 
             p_info("looping %s times in runmode %s" % (str(self.convloop), self.Runmode.runmode))
 
-            if self.Runmode.runmode in ["xtract","run","dumbfuzz"]:
+            if self.Runmode.runmode in ["xtract","xtractall","run","dumbfuzz"]:
                 for engine in self.targets:
                     loopcnt = 0
                     e = self.EngineMgr.engines[engine]
@@ -311,6 +311,8 @@ class IDSToolEnv(RunmodeCompare, RunmodeSidperfq):
                             if self.Runmode.runmode == "run":
                                 e.run_ids(pcap, "yes")
                             elif self.Runmode.runmode == "xtract":
+                                e.run(self.Runmode.runmode, pcap)
+                            elif self.Runmode.runmode == "xtractall":
                                 e.run(self.Runmode.runmode, pcap)
                             elif self.Runmode.runmode == "dumbfuzz":
                                 e.run(self.Runmode.runmode, pcap)

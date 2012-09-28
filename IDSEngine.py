@@ -31,6 +31,7 @@ from IDSUtils import *
 from IDSMail import *
 from IDSRunmodeSanitize import *
 from IDSRunmodeExtract import *
+from IDSRunmodeExtractAll import *
 from IDSRunmodeVerify import *
 from IDSRunmodeSidperfq import *
 from IDSRunmodeCompare import *
@@ -38,7 +39,7 @@ from IDSRunmodeDumbFuzz import *
 from IDSLogging import *
 
 # Class for any type of engine
-class IDSEngine(RunmodeSanitize, RunmodeExtract, RunmodeVerify, RunmodeSidperfq, RunmodeCompare, RunmodeDumbFuzz):
+class IDSEngine(RunmodeSanitize, RunmodeExtract, RunmodeExtractAll, RunmodeVerify, RunmodeSidperfq, RunmodeCompare, RunmodeDumbFuzz):
     def __init__(self, engine):
         self.errcnt = 0
         self.warncnt = 0
@@ -406,6 +407,8 @@ class IDSEngine(RunmodeSanitize, RunmodeExtract, RunmodeVerify, RunmodeSidperfq,
             self.verify2()
         if runmode == "xtract":
             self.xtract(pcap)
+        if runmode == "xtractall":
+            self.xtractall(pcap)
         if runmode == "sidperfq":
             self.sidperfreport()
         if runmode == "dumbfuzz":
