@@ -1,7 +1,9 @@
+/usr/local/bin/pulledpork.pl -c /opt/snort2904/etc/etpro/pp-snort2904-etpro.config -o /opt/snort2904/etc/etpro/ -k -K /opt/snort2904/etc/etpro/
+/usr/local/bin/pulledpork.pl -c /opt/snort2904/etc/etopen/pp-snort2904-etopen.config -o /opt/snort2904/etc/etopen/ -k -K /opt/snort2904/etc/etopen/
 /usr/local/bin/pulledpork.pl -c /opt/snort293/etc/etpro/pp-snort293-etpro.config -o /opt/snort293/etc/etpro/ -k -K /opt/snort293/etc/etpro/
 /usr/local/bin/pulledpork.pl -c /opt/snort293/etc/etopen/pp-snort293-etopen.config -o /opt/snort293/etc/etopen/ -k -K /opt/snort293/etc/etopen/
-/usr/local/bin/pulledpork.pl -c /opt/snort2861/etc/etpro/pp-snort2861-etpro.config -o /opt/snort2861/etc/etpro/ -k -K /opt/snort2861/etc/etpro/
-/usr/local/bin/pulledpork.pl -c /opt/snort2861/etc/etopen/pp-snort2861-etopen.config -o /opt/snort2861/etc/etopen/ -k -K /opt/snort2861/etc/etopen/
+/usr/local/bin/pulledpork.pl -c /opt/suricata133JIT/etc/etpro/pp-suricata133JIT-etpro.config -o /opt/suricata133JIT/etc/etpro/ -k -K /opt/suricata133JIT/etc/etpro/
+/usr/local/bin/pulledpork.pl -c /opt/suricata133JIT/etc/etopen/pp-suricata133JIT-etopen.config -o /opt/suricata133JIT/etc/etopen/ -k -K /opt/suricata133JIT/etc/etopen/
 /usr/local/bin/pulledpork.pl -c /opt/suricata13JIT/etc/etpro/pp-suricata13JIT-etpro.config -o /opt/suricata13JIT/etc/etpro/ -k -K /opt/suricata13JIT/etc/etpro/
 /usr/local/bin/pulledpork.pl -c /opt/suricata13JIT/etc/etopen/pp-suricata13JIT-etopen.config -o /opt/suricata13JIT/etc/etopen/ -k -K /opt/suricata13JIT/etc/etopen/
 /usr/local/bin/pulledpork.pl -c /opt/snort2931/etc/etpro/pp-snort2931-etpro.config -o /opt/snort2931/etc/etpro/ -k -K /opt/snort2931/etc/etpro/
@@ -14,8 +16,10 @@
 /usr/local/bin/pulledpork.pl -c /opt/snort2923/etc/etopen/pp-snort2923-etopen.config -o /opt/snort2923/etc/etopen/ -k -K /opt/snort2923/etc/etopen/
 /usr/local/bin/pulledpork.pl -c /opt/suricata131/etc/etpro/pp-suricata131-etpro.config -o /opt/suricata131/etc/etpro/ -k -K /opt/suricata131/etc/etpro/
 /usr/local/bin/pulledpork.pl -c /opt/suricata131/etc/etopen/pp-suricata131-etopen.config -o /opt/suricata131/etc/etopen/ -k -K /opt/suricata131/etc/etopen/
-/usr/local/bin/pulledpork.pl -c /opt/snort2904/etc/etpro/pp-snort2904-etpro.config -o /opt/snort2904/etc/etpro/ -k -K /opt/snort2904/etc/etpro/
-/usr/local/bin/pulledpork.pl -c /opt/snort2904/etc/etopen/pp-snort2904-etopen.config -o /opt/snort2904/etc/etopen/ -k -K /opt/snort2904/etc/etopen/
+/usr/local/bin/pulledpork.pl -c /opt/snort2861/etc/etpro/pp-snort2861-etpro.config -o /opt/snort2861/etc/etpro/ -k -K /opt/snort2861/etc/etpro/
+/usr/local/bin/pulledpork.pl -c /opt/snort2861/etc/etopen/pp-snort2861-etopen.config -o /opt/snort2861/etc/etopen/ -k -K /opt/snort2861/etc/etopen/
+/usr/local/bin/pulledpork.pl -c /opt/suricata133/etc/etpro/pp-suricata133-etpro.config -o /opt/suricata133/etc/etpro/ -k -K /opt/suricata133/etc/etpro/
+/usr/local/bin/pulledpork.pl -c /opt/suricata133/etc/etopen/pp-suricata133-etopen.config -o /opt/suricata133/etc/etopen/ -k -K /opt/suricata133/etc/etopen/
 /usr/local/bin/pulledpork.pl -c /opt/snort2905/etc/etpro/pp-snort2905-etpro.config -o /opt/snort2905/etc/etpro/ -k -K /opt/snort2905/etc/etpro/
 /usr/local/bin/pulledpork.pl -c /opt/snort2905/etc/etopen/pp-snort2905-etopen.config -o /opt/snort2905/etc/etopen/ -k -K /opt/snort2905/etc/etopen/
 /usr/local/bin/pulledpork.pl -c /opt/suricata13/etc/etpro/pp-suricata13-etpro.config -o /opt/suricata13/etc/etpro/ -k -K /opt/suricata13/etc/etpro/
