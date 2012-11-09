@@ -12,6 +12,8 @@ sudo mkdir -p /opt/suricata13/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/
 sudo mkdir -p /opt/suricata13JIT/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log}
 sudo mkdir -p /opt/suricata131/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log}
 sudo mkdir -p /opt/suricata131JIT/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log}
+sudo mkdir -p /opt/suricata133/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log}
+sudo mkdir -p /opt/suricata133JIT/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log}
 
 NUM_CORES=`grep processor /proc/cpuinfo | sort -u | wc -l`
 
@@ -69,6 +71,19 @@ make distclean
 sudo cp suricata.yaml /opt/suricata131JIT/etc/
 sudo cp ../reference.config /opt/suricata131JIT/etc/
 sudo cp ../classification.config /opt/suricata131JIT/etc/
+cd ..
+
+tar -xzvf suricata-1.3.3.tar.gz
+cd suricata-1.3.3
+./configure --enable-profiling --prefix=/opt/suricata133/ --with-libnss-includes=/usr/include/nss --with-libnss-libs=/usr/lib/nss --with-libnspr-includes=/usr/include/nspr --with-libnspr-libraries=/usr/lib/nspr && make -j && sudo make install
+sudo cp suricata.yaml /opt/suricata133/etc/
+sudo cp ../reference.config /opt/suricata133/etc/
+sudo cp ../classification.config /opt/suricata133/etc/
+make distclean
+./configure LD_RUN_PATH="/opt/pcre-8.31/lib:/usr/lib:/usr/local/lib" --enable-pcre-jit --with-libpcre-libraries=/opt/pcre-8.31/lib/ --with-libpcre-includes=/opt/pcre-8.31/include/ --enable-profiling --prefix=/opt/suricata133JIT/ --with-libnss-includes=/usr/include/nss --with-libnss-libs=/usr/lib/nss --with-libnspr-includes=/usr/include/nspr --with-libnspr-libraries=/usr/lib/nspr && make -j && sudo make install
+sudo cp suricata.yaml /opt/suricata133JIT/etc/
+sudo cp ../reference.config /opt/suricata133JIT/etc/
+sudo cp ../classification.config /opt/suricata133JIT/etc/
 cd ..
 
 tar -xzvf libdnet-1.11.tar.gz
@@ -164,5 +179,6 @@ rm pcre-8.31 -Rf
 rm suricata-1.2.1 -Rf 
 rm suricata-1.3 -Rf
 rm suricata-1.3.1 -Rf
+rm suricata-1.3.3 -Rf
 rm pulledpork-0.6.1 -Rf
 rm libdnet-1.11 -Rf
