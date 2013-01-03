@@ -36,8 +36,12 @@ engines["suricata13"] = {"type":"suricata", "version":"1.3", "eversion":"1.3"}
 engines["suricata13JIT"] = {"type":"suricata", "version":"1.3", "eversion":"1.3JIT"}
 engines["suricata131"] = {"type":"suricata", "version":"1.3.1", "eversion":"1.3.1"}
 engines["suricata131JIT"] = {"type":"suricata", "version":"1.3.1", "eversion":"1.3.1JIT"}
-engines["suricata133"] = {"type":"suricata", "version":"1.3.3", "eversion":"1.3.3"}
-engines["suricata133JIT"] = {"type":"suricata", "version":"1.3.3", "eversion":"1.3.3JIT"}
+engines["suricata135"] = {"type":"suricata", "version":"1.3.3", "eversion":"1.3.3"}
+engines["suricata135JIT"] = {"type":"suricata", "version":"1.3.3", "eversion":"1.3.3JIT"}
+engines["suricata135"] = {"type":"suricata", "version":"1.3.3", "eversion":"1.3.5"}
+engines["suricata135JIT"] = {"type":"suricata", "version":"1.3.3", "eversion":"1.3.5JIT"}
+engines["suricata14"] = {"type":"suricata", "version":"1.3.3", "eversion":"1.4"}
+engines["suricata14JIT"] = {"type":"suricata", "version":"1.3.3", "eversion":"1.4JIT"}
 engines["snort2841"] = {"type":"snort", "version":"2.8.4", "eversion":"2.8.4.1"}
 engines["snort2861"] = {"type":"snort", "version":"2.8.6", "eversion":"2.8.6.1"}
 engines["snort2904"] = {"type":"snort", "version":"2.9.0", "eversion":"2.9.0.4"}
@@ -46,6 +50,7 @@ engines["snort2922"] = {"type":"snort", "version":"2.9.0", "eversion":"2.9.2.2"}
 engines["snort2923"] = {"type":"snort", "version":"2.9.0", "eversion":"2.9.2.3"}
 engines["snort293"] = {"type":"snort", "version":"2.9.0", "eversion":"2.9.3"}
 engines["snort2931"] = {"type":"snort", "version":"2.9.0", "eversion":"2.9.3.1"}
+engines["snort294"] = {"type":"snort", "version":"2.9.0", "eversion":"2.9.4"}
 rule_sets = {}
 
 rule_sets["all"] = ["ftp.rules","policy.rules","trojan.rules","games.rules","pop3.rules","user_agents.rules","activex.rules","rpc.rules","attack_response.rules","icmp.rules","scan.rules","voip.rules","chat.rules","icmp_info.rules","info.rules","shellcode.rules","web_client.rules","imap.rules","web_server.rules","current_events.rules","inappropriate.rules","smtp.rules","web_specific_apps.rules","deleted.rules","malware.rules","snmp.rules","worm.rules","dns.rules","misc.rules","sql.rules","dos.rules","netbios.rules","telnet.rules","exploit.rules","p2p.rules","tftp.rules","mobile_malware.rules","botcc.rules","compromised.rules","drop.rules","dshield.rules","rbn.rules","rbn-malvertisers.rules","tor.rules","ciarmy.rules"]
@@ -110,7 +115,7 @@ def make_engine_config(engine,feed_type,rset):
         if engines[engine]["type"] == "snort":
             buff = re.sub(r"var HOME_NET\s[^\r\n]+[\r\n]" , "var HOME_NET any\n", buff,1)
         elif engines[engine]["type"] == "suricata":
-            buff = re.sub(r"    HOME_NET\:\s[^\r\n]+[\r\n]","    HOME_NET\: \"any\"\n", buff,1)
+            buff = re.sub(r"    HOME_NET\:\s[^\r\n]+[\r\n]","    HOME_NET: \"any\"\n", buff,1)
 
     for rule_file in rule_sets[rset]:
         if feed_type == "etopen":

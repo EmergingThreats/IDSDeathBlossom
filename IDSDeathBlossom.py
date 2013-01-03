@@ -118,7 +118,7 @@ if __name__ == "__main__":
     parser.add_option("--reporton", dest="reporton", type="string", help="list of events to report on options are ids,ruleperf,idsperf,fpblacklist,TopNWorstAll,TopNWorstCurrent,LoadReportCurrent")
 
     #number of things to report on for topN thingies.
-    parser.add_option("--topN", dest="topN", type="string", default=10, help="number of events to return for topN reports defaults to 50")
+    parser.add_option("--topN", dest="topN", type="int", default=50, help="number of events to return for topN reports defaults to 50")
     
     #global log directory for reporting etc.
     parser.add_option("--globallogdir", dest="globallogdir", help="shared global log directory for reports etc if IDS specific log dirs not specified this will be used")    
