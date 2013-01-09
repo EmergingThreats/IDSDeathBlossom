@@ -113,7 +113,7 @@ sudo cp ../reference.config /opt/suricata14/etc/
 sudo cp ../classification.config /opt/suricata14/etc/
 make distclean
 
-./configure LD_RUN_PATH="/opt/pcre-8.31/lib:/opt/lib/:/usr/lib:/usr/local/lib" --enable-pcre-jit --with-libpcre-libraries=/opt/pcre-8.31/lib/ --with-libpcre-includes=/opt/pcre-8.31/include/ --enable-profiling --prefix=/opt/suricata/ --with-libnss-includes=/usr/include/nss --with-libnss-libs=/usr/lib/nss --with-libnspr-includes=/usr/include/nspr --with-libnspr-libraries=/usr/lib/nspr --enable-luajit --with-libluajit-includes=/opt/include/luajit-2.0/ --with-libluajit-libraries=/opt/lib/
+./configure LD_RUN_PATH="/opt/pcre-8.31/lib:/opt/lib/:/usr/lib:/usr/local/lib" --enable-pcre-jit --with-libpcre-libraries=/opt/pcre-8.31/lib/ --with-libpcre-includes=/opt/pcre-8.31/include/ --enable-profiling --prefix=/opt/suricata14JIT/ --with-libnss-includes=/usr/include/nss --with-libnss-libs=/usr/lib/nss --with-libnspr-includes=/usr/include/nspr --with-libnspr-libraries=/usr/lib/nspr --enable-luajit --with-libluajit-includes=/opt/luajit20/include/luajit-2.0/ --with-libluajit-libraries=/opt/luajit20/lib/ && make -j && make install
 sudo cp suricata.yaml /opt/suricata14JIT/etc/
 sudo cp ../reference.config /opt/suricata14JIT/etc/
 sudo cp ../classification.config /opt/suricata14JIT/etc/

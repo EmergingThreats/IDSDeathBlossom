@@ -199,8 +199,8 @@ pfring:
 pcap:
   - interface: eth0
 
-classification-file: /opt/suricata14rc1JIT/etc/classification.config
-reference-config-file: /opt/suricata14rc1JIT/etc/reference.config
+classification-file: /opt/suricata14JIT/etc/classification.config
+reference-config-file: /opt/suricata14JIT/etc/reference.config
 
 vars:
   address-groups:
