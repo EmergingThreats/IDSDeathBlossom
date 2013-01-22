@@ -21,9 +21,10 @@ NUM_CORES=`grep processor /proc/cpuinfo | sort -u | wc -l`
 
 sudo apt-get install build-essential libnspr4-dev libnss3-dev libwww-Perl libcrypt-ssleay-perl python-dev python-scapy python-yaml bison libpcre3-dev bison flex libpcap-ruby libdumbnet-dev autotools-dev libnet1-dev libpcap-dev libyaml-dev libnetfilter-queue-dev libprelude-dev zlib1g-dev  libz-dev libcap-ng-dev libmagic-dev python-mysqldb liblua5.1-zip-dev luarocks cmake
 
+#Snort 2.8.4.x and earlier screw up with make -j
 tar -xzvf snort_2.8.4.1.orig.tar.gz
 cd snort-2.8.4.1
-./configure --enable-perfprofiling --prefix=/opt/snort2841/ && make -j && sudo make install
+./configure --enable-perfprofiling --prefix=/opt/snort2841/ && make && sudo make install
 sudo cp etc/* /opt/snort2841/etc/
 cd ..
 
@@ -113,7 +114,7 @@ sudo cp ../reference.config /opt/suricata14/etc/
 sudo cp ../classification.config /opt/suricata14/etc/
 make distclean
 
-./configure LD_RUN_PATH="/opt/pcre-8.31/lib:/opt/lib/:/usr/lib:/usr/local/lib" --enable-pcre-jit --with-libpcre-libraries=/opt/pcre-8.31/lib/ --with-libpcre-includes=/opt/pcre-8.31/include/ --enable-profiling --prefix=/opt/suricata14JIT/ --with-libnss-includes=/usr/include/nss --with-libnss-libs=/usr/lib/nss --with-libnspr-includes=/usr/include/nspr --with-libnspr-libraries=/usr/lib/nspr --enable-luajit --with-libluajit-includes=/opt/luajit20/include/luajit-2.0/ --with-libluajit-libraries=/opt/luajit20/lib/ && make -j && make install
+./configure LD_RUN_PATH="/opt/pcre-8.31/lib:/opt/luajit20/lib/:/opt/lib/:/usr/lib:/usr/local/lib" --enable-pcre-jit --with-libpcre-libraries=/opt/pcre-8.31/lib/ --with-libpcre-includes=/opt/pcre-8.31/include/ --enable-profiling --prefix=/opt/suricata14JIT/ --with-libnss-includes=/usr/include/nss --with-libnss-libs=/usr/lib/nss --with-libnspr-includes=/usr/include/nspr --with-libnspr-libraries=/usr/lib/nspr --enable-luajit --with-libluajit-includes=/opt/luajit20/include/luajit-2.0/ --with-libluajit-libraries=/opt/luajit20/lib/ && make -j && sudo make install
 sudo cp suricata.yaml /opt/suricata14JIT/etc/
 sudo cp ../reference.config /opt/suricata14JIT/etc/
 sudo cp ../classification.config /opt/suricata14JIT/etc/
