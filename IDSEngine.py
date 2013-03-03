@@ -218,9 +218,7 @@ class IDSEngine(RunmodeSanitize, RunmodeExtract, RunmodeExtractAll, RunmodeVerif
             report.write ('warnings:\n' + warnings)
             report.close()
 
-        print "Here"
         if self.returncode == 0:
-            print "Here TOO"
             p_info("%s ran successfully" % self.mode)
             #move the alert log and update the global
             newfastlog = "%s/%s-%s-%s-%s.txt" % (self.conf["logdir"], self.engine, str(os.path.basename(self.fastlog)), str(self.currentts), str(os.path.basename(pcap)))
@@ -236,6 +234,13 @@ class IDSEngine(RunmodeSanitize, RunmodeExtract, RunmodeExtractAll, RunmodeVerif
                 os.rename(self.perflogfile, newperflog)
                 self.newperflog = newperflog
 
+            self.httplog = "%s/http.log" % (self.conf["logdir"])
+            if self.mode == "suricata" and os.path.exists(self.httplog):
+                newhttplog = "%s/%s-%s-%s-%s.txt" % (self.conf["logdir"], self.engine, "http.log", str(self.currentts), str(os.path.basename(pcap)))
+                os.rename(self.httplog, newhttplog)
+                self.httplog = newhttplog
+               
+                
             #open up the log file and get a count of unique sids we see and a total non-preproc alerts
             if "idsperf" in self.Runmode.conf["reportonarr"]:
                 print "Extracting IDS Perf stats"
