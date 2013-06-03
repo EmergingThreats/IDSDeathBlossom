@@ -36,12 +36,12 @@ engines["suricata13"] = {"type":"suricata", "version":"1.3", "eversion":"1.3"}
 engines["suricata13JIT"] = {"type":"suricata", "version":"1.3", "eversion":"1.3JIT"}
 engines["suricata131"] = {"type":"suricata", "version":"1.3.1", "eversion":"1.3.1"}
 engines["suricata131JIT"] = {"type":"suricata", "version":"1.3.1", "eversion":"1.3.1JIT"}
-engines["suricata135"] = {"type":"suricata", "version":"1.3.3", "eversion":"1.3.3"}
-engines["suricata135JIT"] = {"type":"suricata", "version":"1.3.3", "eversion":"1.3.3JIT"}
-engines["suricata135"] = {"type":"suricata", "version":"1.3.3", "eversion":"1.3.5"}
-engines["suricata135JIT"] = {"type":"suricata", "version":"1.3.3", "eversion":"1.3.5JIT"}
-engines["suricata14"] = {"type":"suricata", "version":"1.3.3", "eversion":"1.4"}
-engines["suricata14JIT"] = {"type":"suricata", "version":"1.3.3", "eversion":"1.4JIT"}
+engines["suricata136"] = {"type":"suricata", "version":"1.3.3", "eversion":"1.3.6"}
+engines["suricata136JIT"] = {"type":"suricata", "version":"1.3.3", "eversion":"1.3.6JIT"}
+engines["suricata141"] = {"type":"suricata", "version":"1.3.3", "eversion":"1.4.1"}
+engines["suricata141JIT"] = {"type":"suricata", "version":"1.3.3", "eversion":"1.4.1JIT"}
+engines["suricata142"] = {"type":"suricata", "version":"1.3.3", "eversion":"1.4.2"}
+engines["suricata142JIT"] = {"type":"suricata", "version":"1.3.3", "eversion":"1.4.2JIT"}
 engines["snort2841"] = {"type":"snort", "version":"2.8.4", "eversion":"2.8.4.1"}
 engines["snort2861"] = {"type":"snort", "version":"2.8.6", "eversion":"2.8.6.1"}
 engines["snort2904"] = {"type":"snort", "version":"2.9.0", "eversion":"2.9.0.4"}
@@ -50,7 +50,8 @@ engines["snort2922"] = {"type":"snort", "version":"2.9.0", "eversion":"2.9.2.2"}
 engines["snort2923"] = {"type":"snort", "version":"2.9.0", "eversion":"2.9.2.3"}
 engines["snort293"] = {"type":"snort", "version":"2.9.0", "eversion":"2.9.3"}
 engines["snort2931"] = {"type":"snort", "version":"2.9.0", "eversion":"2.9.3.1"}
-engines["snort294"] = {"type":"snort", "version":"2.9.0", "eversion":"2.9.4"}
+engines["snort2941"] = {"type":"snort", "version":"2.9.0", "eversion":"2.9.4.1"}
+engines["snort2946"] = {"type":"snort", "version":"2.9.0", "eversion":"2.9.4.6"}
 rule_sets = {}
 
 rule_sets["all"] = ["ftp.rules","policy.rules","trojan.rules","games.rules","pop3.rules","user_agents.rules","activex.rules","rpc.rules","attack_response.rules","icmp.rules","scan.rules","voip.rules","chat.rules","icmp_info.rules","info.rules","shellcode.rules","web_client.rules","imap.rules","web_server.rules","current_events.rules","inappropriate.rules","smtp.rules","web_specific_apps.rules","deleted.rules","malware.rules","snmp.rules","worm.rules","dns.rules","misc.rules","sql.rules","dos.rules","netbios.rules","telnet.rules","exploit.rules","p2p.rules","tftp.rules","mobile_malware.rules","botcc.rules","compromised.rules","drop.rules","dshield.rules","rbn.rules","rbn-malvertisers.rules","tor.rules","ciarmy.rules"]
@@ -93,6 +94,10 @@ version=0.6.0\n" % (rules_file, ocode, engine, feed_type, engine, feed_type, eng
     #save the update command
     update_script_buf = update_script_buf + "/usr/local/bin/pulledpork.pl -c %s -o /opt/%s/etc/%s/ -k -K /opt/%s/etc/%s/\n" % (ppconfig,engine,feed_type,engine,feed_type)
 
+    #LuaJIT
+    if re.search(r'suricata14\d*JIT$',engine) != None:
+        update_script_buf = update_script_buf + "cd /opt/et-luajit-scripts/ && git pull && cp /opt/%s/etc/%s/\n" % (engine,feed_type)
+ 
 def make_engine_config(engine,feed_type,rset):
     buff = ""
     tmp_list = []
@@ -132,7 +137,9 @@ def make_engine_config(engine,feed_type,rset):
     local_rules = "/opt/%s/etc/%s/local.rules" % (engine,feed_type)
     if not os.path.exists(local_rules):
         file(local_rules, 'w').close()
-    buff += "%slocal.rules\n" % (rprefix) 
+    buff += "%slocal.rules\n" % (rprefix)
+    if re.search(r'suricata14\d*JIT$',engine) != None:
+        buff += "%sluajit.rules\n" % (rprefix)
     buff += "\n"
 
     f = None

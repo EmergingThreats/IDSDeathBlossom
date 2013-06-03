@@ -1,0 +1,73 @@
+#Configurations for snort 2.9.4.1
+
+engines:
+ - engine: snort-2.9.4.1-etpro-base
+   type: snort
+   version: 2.9.4.1
+   syntax_version: 2.9.0
+   summary: "snort 2.9.4.1 base config with etpro rules"
+   path: "/opt/snort2941/bin/snort"
+   logdir: "/opt/snort2941/var/log/"
+   # For specifying custom rules, we use the following template
+   configtpl: "/opt/snort2941/etc/snort2941.template"
+   fastlog: "alert"
+   perflog: "perf.txt"
+   enable: yes
+   config: "/opt/snort2941/etc/etpro/snort2941-etpro-base.conf"
+
+ - engine: snort-2.9.4.1-etpro-all
+   type: snort
+   version: 2.9.4.1
+   syntax_version: 2.9.0
+   summary: "snort 2.9.4.1 all config with etpro rules"
+   path: "/opt/snort2941/bin/snort"
+   logdir: "/opt/snort2941/var/log/"
+   # For specifying custom rules, we use the following template
+   configtpl: "/opt/snort2941/etc/snort2941.template"
+   fastlog: "alert"
+   perflog: "perf.txt"
+   enable: yes
+   config: "/opt/snort2941/etc/etpro/snort2941-etpro-all.conf"
+
+ - engine: snort-2.9.4.1-etopen-base
+   type: snort
+   version: 2.9.4.1
+   syntax_version: 2.9.0
+   summary: "snort 2.9.4.1 base config with etopen rules"
+   path: "/opt/snort2941/bin/snort"
+   logdir: "/opt/snort2941/var/log/"
+   # For specifying custom rules, we use the following template
+   configtpl: "/opt/snort2941/etc/snort2941.template"
+   fastlog: "alert"
+   perflog: "perf.txt"
+   enable: yes
+   config: "/opt/snort2941/etc/etopen/snort2941-etopen-base.conf"
+
+ - engine: snort-2.9.4.1-etopen-all
+   type: snort
+   version: 2.9.4.1
+   syntax_version: 2.9.0
+   summary: "snort 2.9.4.1 all config with etopen rules"
+   path: "/opt/snort2941/bin/snort"
+   logdir: "/opt/snort2941/var/log/"
+   # For specifying custom rules, we use the following template
+   configtpl: "/opt/snort2941/etc/snort2941.template"
+   fastlog: "alert"
+   perflog: "perf.txt"
+   enable: yes
+   config: "/opt/snort2941/etc/etopen/snort2941-etopen-all.conf"
+
+ - engine: snort-2.9.4.1-test-test
+   type: snort
+   version: 2.9.4.1
+   syntax_version: 2.9.0
+   summary: "snort 2.9.4.1 test config with test rules"
+   path: "/opt/snort2941/bin/snort"
+   logdir: "/opt/snort2941/var/log/"
+   # For specifying custom rules, we use the following template
+   configtpl: "/opt/snort2941/etc/snort2941.template"
+   fastlog: "alert"
+   perflog: "perf.txt"
+   enable: yes
+   config: "/opt/snort2941/etc/test/snort2941-test-test.conf"
+
