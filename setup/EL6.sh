@@ -26,7 +26,7 @@ NUM_CORES=`grep processor /proc/cpuinfo | sort -u | wc -l`
 #Install required packages
 yum -y install epel-release
 
-sudo yum -y install lua lua-devel libpcap libpcap-devel libnet libnet-devel pcre pcre-devel gcc gcc-c++ automake autoconf libtool make libyaml libyaml-devel zlib zlib-devel python-devel scapy python-yaml bison flex mysql-client mysql-server libdnet libcapng libcapng-devel MySQL-python PyYAML nss-devel nspr-devel perl-libwww-perl perl-Crypt-SSLeay perl-libwww-perl perl-Archive-Tar file-devel
+sudo yum -y install lua cmake lua-devel libpcap libpcap-devel libnet libnet-devel pcre pcre-devel gcc gcc-c++ automake autoconf libtool make libyaml libyaml-devel zlib zlib-devel python-devel scapy python-yaml bison flex mysql-client mysql-server libdnet libcapng libcapng-devel MySQL-python PyYAML nss-devel nspr-devel perl-libwww-perl perl-Crypt-SSLeay perl-libwww-perl perl-Archive-Tar file-devel
 
 #Snort 2.8.4.x and earlier screw up with make -j
 tar -xzvf snort_2.8.4.1.orig.tar.gz
@@ -104,11 +104,13 @@ sudo luarocks install struct
 mkdir lua-zlib
 cd lua-zlib
 git clone https://github.com/brimworks/lua-zlib.git
-cmake lua-zlib
+make lua-zlib
 cd lua-zlib 
 make
 sudo make install
 cd ../..
+sudo ln -s  /usr/local/share/lua/cmod/zlib.so /usr/local/lib/lua/5.1/zlib.so
+sudo ln -s  /usr/local/lib/lua/5.1/zip.so.1.2.3 /usr/local/lib/lua/5.1/zip.so
 
 tar -xzvf suricata-1.3.6.tar.gz
 cd suricata-1.3.6
