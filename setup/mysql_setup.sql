@@ -5,4 +5,4 @@ create table rulestats (id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE, prima
 
 create table filestats (id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE, primary key (id), host text, timestamp text, runid text, cmd text, file text, engine text, runtime text, ualerts text, alertfile text, alertcnt integer, exitcode integer);
 
-create table report (id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE, primary key (id), timestamp text, status text, engine text, path text, relpath text, errors integer, warnings integer, time integer, commented integer);
+create table report (id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE, primary key (id), timestamp text, status text, engine text, path text, relpath text, errors integer, warnings integer, time integer, commented integer, reportgroup text);
