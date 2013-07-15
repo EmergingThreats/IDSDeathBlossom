@@ -42,6 +42,8 @@ engines["suricata141"] = {"type":"suricata", "version":"1.3.3", "eversion":"1.4.
 engines["suricata141JIT"] = {"type":"suricata", "version":"1.3.3", "eversion":"1.4.1JIT"}
 engines["suricata142"] = {"type":"suricata", "version":"1.3.3", "eversion":"1.4.2"}
 engines["suricata142JIT"] = {"type":"suricata", "version":"1.3.3", "eversion":"1.4.2JIT"}
+engines["suricata143"] = {"type":"suricata", "version":"1.3.3", "eversion":"1.4.3"}
+engines["suricata143JIT"] = {"type":"suricata", "version":"1.3.3", "eversion":"1.4.3JIT"}
 engines["snort2841"] = {"type":"snort", "version":"2.8.4", "eversion":"2.8.4.1"}
 engines["snort2861"] = {"type":"snort", "version":"2.8.6", "eversion":"2.8.6.1"}
 engines["snort2904"] = {"type":"snort", "version":"2.9.0", "eversion":"2.9.0.4"}
@@ -52,6 +54,7 @@ engines["snort293"] = {"type":"snort", "version":"2.9.0", "eversion":"2.9.3"}
 engines["snort2931"] = {"type":"snort", "version":"2.9.0", "eversion":"2.9.3.1"}
 engines["snort2941"] = {"type":"snort", "version":"2.9.0", "eversion":"2.9.4.1"}
 engines["snort2946"] = {"type":"snort", "version":"2.9.0", "eversion":"2.9.4.6"}
+engines["snort295"] = {"type":"snort", "version":"2.9.0", "eversion":"2.9.5"}
 rule_sets = {}
 
 rule_sets["all"] = ["ftp.rules","policy.rules","trojan.rules","games.rules","pop3.rules","user_agents.rules","activex.rules","rpc.rules","attack_response.rules","icmp.rules","scan.rules","voip.rules","chat.rules","icmp_info.rules","info.rules","shellcode.rules","web_client.rules","imap.rules","web_server.rules","current_events.rules","inappropriate.rules","smtp.rules","web_specific_apps.rules","deleted.rules","malware.rules","snmp.rules","worm.rules","dns.rules","misc.rules","sql.rules","dos.rules","netbios.rules","telnet.rules","exploit.rules","p2p.rules","tftp.rules","mobile_malware.rules","botcc.rules","compromised.rules","drop.rules","dshield.rules","rbn.rules","rbn-malvertisers.rules","tor.rules","ciarmy.rules"]
