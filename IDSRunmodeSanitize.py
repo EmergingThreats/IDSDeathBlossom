@@ -364,8 +364,9 @@ self.errcnt, self.warncnt, time.time() - int(self.ts), commented), r, "sanitize"
         report.write(mailbody)
         report.close()
         files.append(sreport)
-        if self.reportonsanitize == 1:
-            self.Mail.sendEmail(self.emailsubject, reportdata, files)
+        #### Disabled e-mail notifcation for now WAM 08/09/13
+        #if self.reportonsanitize == 1:
+            #self.Mail.sendEmail(self.emailsubject, reportdata, files)
 
         os.remove(self.pcapfile)
 

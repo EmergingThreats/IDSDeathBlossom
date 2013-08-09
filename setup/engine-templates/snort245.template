@@ -1,0 +1,47 @@
+var HOME_NET [10.0.0.0/8,172.16.0.0/12,192.168.0.0/16]
+var EXTERNAL_NET any
+var DNS_SERVERS $HOME_NET
+var SMTP_SERVERS $HOME_NET
+var HTTP_SERVERS $HOME_NET
+var SQL_SERVERS $HOME_NET
+var TELNET_SERVERS $HOME_NET
+var SNMP_SERVERS $HOME_NET
+var HTTP_PORTS [80,81,82,83,84,85,86,87,88,89,90,311,383,591,593,631,901,1220,1414,1741,1830,2301,2381,2809,3037,3057,3128,3702,4343,4848,5250,6080,6988,7000,7001,7144,7145,7510,7777,7779,8000,8008,8014,8028,8080,8085,8088,8090,8118,8123,8180,8181,8222,8243,8280,8300,8500,8800,8888,8899,9000,9060,9080,9090,9091,9443,9999,10000,11371,34443,34444,41080,50002,55555]
+var SHELLCODE_PORTS !80
+var ORACLE_PORTS 1024:
+var SSH_PORTS 22
+var FTP_PORTS [21,2100,3535]
+var SIP_PORTS [5060,5061,5600]
+var FILE_DATA_PORTS [$HTTP_PORTS,110,143]
+var GTP_PORTS [2123,2152,3386]
+var AIM_SERVERS [64.12.24.0/23,64.12.28.0/23,64.12.161.0/24,64.12.163.0/24,64.12.200.0/24,205.188.3.0/24,205.188.5.0/24,205.188.7.0/24,205.188.9.0/24,205.188.153.0/24,205.188.179.0/24,205.188.248.0/24]
+
+
+config disable_decode_alerts
+config disable_tcpopt_experimental_alerts
+config disable_tcpopt_obsolete_alerts
+config disable_tcpopt_ttcp_alerts
+config disable_tcpopt_alerts
+config disable_ipopt_alerts
+config checksum_mode: all
+#For perf stats
+config profile_rules: print all, sort avg_ticks, filename perf.txt append
+
+preprocessor flow: stats_interval 0 hash 2
+preprocessor frag3_global: max_frags 65536
+preprocessor frag3_engine: policy first detect_anomalies
+preprocessor stream4: disable_evasion_alerts
+preprocessor stream4_reassemble
+preprocessor http_inspect: global \
+    iis_unicode_map unicode.map 1252 
+preprocessor http_inspect_server: server default \
+    profile all ports { 80 81 82 83 84 85 86 87 88 89 90 311 383 591 593 631 901 1220 1414 1741 1830 2301 2381 2809 3037 3057 3128 3702 4343 4848 5250 6080 6988 7000 7001 7144 7145 7510 7777 7779 8000 8008 8014 8028 8080 8085 8088 8090 8118 8123 8180 8181 8222 8243 8280 8300 8500 8800 8888 8899 9000 9060 9080 9090 9091 9443 9999 10000 11371 34443 34444 41080 50002 55555 } oversize_dir_length 500
+preprocessor rpc_decode: 111 32771
+preprocessor bo
+preprocessor telnet_decode
+preprocessor sfportscan: proto  { all } \
+                         memcap { 10000000 } \
+                         sense_level { low }
+preprocessor xlink2state: ports { 25 691 }
+include /opt/snort245/etc/classification.config
+include /opt/snort245/etc/reference.config

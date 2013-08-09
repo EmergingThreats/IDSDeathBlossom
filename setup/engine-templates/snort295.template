@@ -250,5 +250,5 @@ preprocessor dnp3: ports { 20000 } \
    memcap 262144 \
    check_crc
 
-include /opt/snort2946/etc/classification.config
-include /opt/snort2946/etc/reference.config
+include /opt/snort295/etc/classification.config
+include /opt/snort295/etc/reference.config

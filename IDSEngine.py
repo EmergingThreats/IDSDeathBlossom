@@ -155,6 +155,8 @@ class IDSEngine(RunmodeSanitize, RunmodeExtract, RunmodeExtractAll, RunmodeVerif
             if self.mode == "snort":
                 if  self.conf["version"] == "2.4.5":
                     cmd = "%s -c %s -K none -l %s -T -i eth0" % (self.conf["path"], self.conf["config"], self.conf["logdir"])
+                elif re.match(r"^2\.9\.",self.conf["version"]) != None:
+                    cmd = "%s -c %s -K none -l %s -T --daq pcap" % (self.conf["path"], self.conf["config"], self.conf["logdir"])
                 else:
                     cmd = "%s -c %s -K none -l %s -T" % (self.conf["path"], self.conf["config"], self.conf["logdir"])
             elif self.mode == "suricata":

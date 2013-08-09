@@ -235,7 +235,10 @@ if __name__ == "__main__":
         else:
             for target in options.targets.replace(' ','').split(','):
                 if target not in engines_available.replace(' ','').split(','):
-                    p_error("Target not available (%s), choose one of %s. To view more details of them, please, use the option -L" % (options.targets, engines_available))
+                    p_error("Target not available (%s), choose one of:" % (options.targets))
+                    for e in sorted(set(IDSTool.EngineMgr.engines.keys())):
+                        print e
+                    p_error(" To view more details of them, please, use the option -L")
                     print parser.print_help()
                     sys.exit(-3)
                 else:

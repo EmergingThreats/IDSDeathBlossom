@@ -1,0 +1,11 @@
+--- snort-2.4.5/src/preprocessors/flow/portscan/server_stats.c	2004-01-13 16:54:47.000000000 -0600
++++ snort-2.4.5-new/src/preprocessors/flow/portscan/server_stats.c	2013-07-26 12:08:10.616589178 -0500
+@@ -325,7 +325,7 @@
+ 
+     /* open this description, create it if necessary, always wait on
+      * sync to disk w/ every write, only write */
+-    fd = open(filename, O_CREAT|O_TRUNC|O_SYNC|O_WRONLY);
++    fd = open(filename, O_CREAT|O_TRUNC|O_SYNC|O_WRONLY,S_IRUSR|S_IWUSR);
+ 
+     if(fd < 0)
+     {
