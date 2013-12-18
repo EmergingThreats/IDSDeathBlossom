@@ -349,6 +349,8 @@ class IDSToolEnv(RunmodeCompare, RunmodeSidperfq):
                 self.TopNWorstAll()
             if "TopNWorstCurrent" in self.Runmode.conf["reportonarr"]:
                 self.TopNWorstCurrent()
+            if "TopNWorstCurrentHTML" in self.Runmode.conf["reportonarr"]:
+                self.TopNWorstCurrentHTML()
             if "LoadReportCurrent" in self.Runmode.conf["reportonarr"]:
                 self.LoadReportCurrent()
 

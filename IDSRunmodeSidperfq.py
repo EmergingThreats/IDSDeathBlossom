@@ -92,7 +92,6 @@ class RunmodeSidperfq:
         report.write("sid,microsecs,file\n")
         if cur:
             for row in cur:
-                print str(row)
                 report.write("%s\n" % str(row))
         else:
             p_warn("No data available")
@@ -188,6 +187,47 @@ class RunmodeSidperfq:
             filearr=[perfsum]
             #send_email(self.options.emailsrc, self.emaildstarr, str(self.options.emailsubject) + "Rule Perf Summary Report TopNWorstCurrent", None, self.options.emailsrv, filearr)
             self.Mail.sendEmail("Rule Perf Summary Report TopNWorstCurrent", None, filearr)
+
+    def TopNWorstCurrentHTML(self):
+        perfsum = "%s/TopNWorstCurrent-%s.html" % (self.Runmode.conf["globallogdir"], str(self.currentts))
+        report = open(perfsum, 'w')
+        report.write("<!DOCTYPE html><html><body>")
+        report.write("<h4>top %s worst performing rules by total microseconds</h4>" % self.Runmode.conf["topN"])
+        cur = self.db.execute("select sid,engine,microsecs,file from rulestats where runid=%s order by microsecs desc limit %s",(self.runid,self.Runmode.conf["topN"],))
+        report.write("<table border=\"1\"><tr><th>sid</th><th>engine</th><th>microsecs</th><th>file</th></tr>\n")
+        for row in cur:
+            report.write("<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>\n" % (row[0],row[1],row[2],row[3]))
+        report.write("</table>\n")
+
+        report.write("<h4>top %s worst performing rules by avg ticks per non-match\n</h4>" % self.Runmode.conf["topN"])
+        cur = self.db.execute("select sid,engine,avgtnomatch,file from rulestats where runid=%s order by avgtnomatch desc limit %s",(self.runid,self.Runmode.conf["topN"],))
+        report.write("<table border=\"1\"><tr><th>sid</th><th>engine</th><th>avgnomatch</th><th>file</th></tr>\n")
+        for row in cur:
+            report.write("<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>\n" % (row[0],row[1],row[2],row[3]))
+        report.write("</table>\n")
+
+        report.write("<h4>top %s worst performing rules by avg ticks per check\n</h4>" % self.Runmode.conf["topN"])
+        cur = self.db.execute("select sid,engine,avgtcheck,file from rulestats where runid=%s order by avgtcheck desc limit %s",(self.runid,self.Runmode.conf["topN"],))
+        report.write("<table border=\"1\"><tr><th>sid</th><th>engine</th><th>avgtcheck</th><th>file</th></tr>\n")
+        for row in cur:
+            report.write("<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>\n" % (row[0],row[1],row[2],row[3]))
+        report.write("</table>\n")
+
+        report.write("<h4>top %s worst performing rules by avg ticks per match\n</h4>" % self.Runmode.conf["topN"])
+        cur = self.db.execute("select sid,engine,avgtmatch,file from rulestats where runid=%s order by avgtmatch desc limit %s", (self.runid,self.Runmode.conf["topN"],))
+        report.write("<table border=\"1\"><tr><th>sid</th><th>engine</th><th>avgtmatch</th><th>file</th></tr>\n")
+        for row in cur:
+            report.write("<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>\n" % (row[0],row[1],row[2],row[3]))
+        report.write("</table>\n")
+
+        report.write("<h4>top %s worst performing rules by checks (no. of checks after fast_pattern)\n</h4>" % self.Runmode.conf["topN"])
+        cur = self.db.execute("select sid,engine,checks,file from rulestats where runid=%s order by checks desc limit %s", (self.runid,self.Runmode.conf["topN"]))
+        report.write("<table border=\"1\"><tr><th>sid</th><th>engine</th><th>checks</th><th>file</th></tr>\n")
+        for row in cur:
+            report.write("<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>\n" % (row[0],row[1],row[2],row[3]))
+        report.write("</table>\n")
+        report.write("</body></html>")
+        report.close()
 
     def LoadReportCurrent(self):
         total_ids_runtime = 0

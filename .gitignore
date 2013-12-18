@@ -1,1 +1,3 @@
 *.pyc
+setup/ruleupdates.sh
+config/engines/*
