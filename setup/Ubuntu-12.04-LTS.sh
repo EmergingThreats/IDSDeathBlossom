@@ -33,8 +33,8 @@ sudo mkdir -p /opt/suricata146/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,
 sudo mkdir -p /opt/suricata146JIT/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize}
 sudo mkdir -p /opt/suricata147/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize}
 sudo mkdir -p /opt/suricata147JIT/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize}
-sudo mkdir -p /opt/suricata20b1/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize}
-sudo mkdir -p /opt/suricata20b1JIT/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize}
+sudo mkdir -p /opt/suricata20b2/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize}
+sudo mkdir -p /opt/suricata20b2JIT/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize}
 sudo mkdir -p /opt/et-luajit-scripts
 NUM_CORES=`grep processor /proc/cpuinfo | sort -u | wc -l`
 
