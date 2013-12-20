@@ -27,6 +27,7 @@
 import time
 import yaml 
 import glob
+import socket, struct
 from IDSUtils import *
 from IDSMail import *
 from IDSRunmodeSanitize import *
@@ -57,6 +58,7 @@ class IDSEngine(RunmodeSanitize, RunmodeExtract, RunmodeExtractAll, RunmodeVerif
         self.regex = {}
         #Regex for matching on alert fast formated log files with GID of one. If somebody else wants to add support for .so rule etc go for it
         self.regex["afast"] = re.compile(r".+\[1\:(?P<sid>\d+)\:\d+\].+\{(?P<proto>UDP|TCP|ICMP|(PROTO\:)?\d+)\}\s(?P<src>\d+\.\d+\.\d+\.\d+)(:(?P<sport>\d+))?\s.+\s(?P<dst>\d+\.\d+\.\d+\.\d+)(:(?P<dport>\d+))?")
+        self.regex["afast_full_parser"] = re.compile(r"^(?P<ts>[^\s]*)\s+?\[\*\*\]\s+?\[(?P<gid>\d+)\:(?P<sid>\d+)\:(?P<rev>\d+)\]\s+(?P<msg>.+?)\s+?\[\*\*\]\s+?(\[Classification\:\s+?(?P<class>[^\]]+)\]\s+?)?\[Priority\:\s+?(?P<prio>\d+?)\]\s+?{(?P<proto>UDP|TCP|ICMP|(PROTO\:)?\d+)\}\s(?P<src>\d+\.\d+\.\d+\.\d+)(:(?P<sport>\d+))?\s.+\s(?P<dst>\d+\.\d+\.\d+\.\d+)(:(?P<dport>\d+))?$")
         #Regex for matching on snort perf logs
         #self.regex["perf"] = re.compile(r"^\s+(?P<rank>\d+)\s+(?P<sid>\d+)\s+(?P<gid>1)\s+(?P<rev>\d+)?\s+(?P<checks>\d+)\s+(?P<matches>\d+)\s+(?P<alerts>\d+)\s+(?P<microsecs>\d+)\s+(?P<avgpercheck>\d+\.\d+)\s+(?P<avgpermatch>\d+\.\d+)\s+(?P<avgpernomatch>\d+\.\d+)\s+$")
 
@@ -259,17 +261,39 @@ class IDSEngine(RunmodeSanitize, RunmodeExtract, RunmodeExtractAll, RunmodeVerif
                 tmpsiddict = {}
                 alertcnt = 0
                 for line in fast:
-                    m = self.regex["afast"].match(line)
+                    m = self.regex["afast_full_parser"].match(line)
                     if m != None:
                         sid = m.group('sid')
+                        src = struct.unpack("!I", socket.inet_aton(m.group('src')))[0] 
+                        dst = struct.unpack("!I", socket.inet_aton(m.group('dst')))[0] 
+                        gid = int(m.group('sid'))
+                        rev = int(m.group('rev'))
+                        msg = m.group('msg')
+                        if m.group('class'):
+                            classification =  m.group('class')
+                        priority = m.group('prio')
+                        proto = m.group('proto')
+                        if m.group('dport'):
+                           dport = int(m.group('dport'))
+                        if m.group('sport'):
+                           sport = int(m.group('sport'))
                         if not sid in tmpsiddict:
                             tmpsiddict[sid] = 1
                         else:
                             tmpsiddict[sid] += 1
                         alertcnt += 1
-
+                    sqlcmd = 'INSERT INTO alerts(id, host, timestamp, runid, file, engine, alertfile, sid, gid, rev, msg, class, prio, proto, src, dst, sport, dport) VALUES(NULL,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)'
+                    params=(self.host, self.currentts, self.runid, pcap, self.engine, self.newfastlog, sid, gid, rev, msg, classification, priority, proto, src, dst, sport, dport,)
+                    try:
+                        if self.db != None:
+                            self.db.execute(sqlcmd,params)
+                        else:
+                            p_error("Db handler not valid")
+                            sys.exit(2)
+                    except:
+                        p_error("failed to insert %s into perfdb\n" % (sqlcmd))
+                        sys.exit(1)
                 fast.close()
-                print "HOST: " + self.host
                 sqlcmd = 'INSERT INTO filestats(id, host, timestamp, runid, cmd, file, engine, runtime, ualerts, alertfile, alertcnt, exitcode) VALUES(NULL,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)'
                 params=(self.host, self.currentts, self.runid, self.lastcmd, pcap, self.engine, self.elapsed, str(tmpsiddict), self.newfastlog, alertcnt, self.returncode,)
                 try:
@@ -281,6 +305,8 @@ class IDSEngine(RunmodeSanitize, RunmodeExtract, RunmodeExtractAll, RunmodeVerif
                 except:
                     p_error("failed to insert %s into perfdb\n" % (sqlcmd))
                     sys.exit(1)
+                 #create table alerts (id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE, primary key (id), host text, timestamp text, runid text, file text, engine text, alertfile text, sid BIGINT UNSIGNED NOT NULL, gid BIGINT UNSIGNED NOT NULL,rev BIGINT UNSIGNED NOT NULL, msg text, class text, prio text, proto text, src INT UNSIGNED, dst INT UNSIGNED, sport int, dport int);
+                 #self.regex["afast_full_parser"] = re.compile(r"^(?P<ts>[^\s]*)\s+?\[\*\*\]\s+?\[(?P<gid>\d+)\:(?P<sid>\d+)\:(?P<rev>\d+)\]\s+(?P<msg>.+?)\s+?\[\*\*\]\s+?(\[Classification\:\s+?(?P<class>[^\]]+)\]\s+?)?\[Priority\:\s+?(?P<prio>\d+?)\]\s+?{(?P<proto>UDP|TCP|ICMP|(PROTO\:)?\d+)\}\s(?P<src>\d+\.\d+\.\d+\.\d+)(:(?P<sport>\d+))?\s.+\s(?P<dst>\d+\.\d+\.\d+\.\d+)(:(?P<dport>\d+))?$")
             #if we have the perflog lets add this data to the db as well
             if "ruleperf" in self.Runmode.conf["reportonarr"]:
                 perf_has_rev = False

@@ -29,7 +29,7 @@ from IDSUtils import *
 from IDSMail import *
 from IDSLogging import *
 from IDSdb import *
-
+import urllib
 import time
 
 
@@ -251,7 +251,6 @@ class RunmodeSidperfq:
             report.write("alertfile:%s\n" % str(row[6]))
             report.write("total alerts:%s\n" % str(row[7]))
             report.write("alerts by sid:\n")
-
             #there has to be a cleaner way to do this although dict(row[8]) gives an error
             tmpstring = row[8].replace('{','').replace('}','').replace('\'','')
             #print tmpstring
@@ -282,6 +281,78 @@ class RunmodeSidperfq:
             #send_email(self.options.emailsrc, self.emaildstarr, str(self.options.emailsubject) + "IDS Perf Summary Report", None, self.options.emailsrv, filearr)
             self.Mail.sendEmail("IDS Perf Summary Report", None, filearr)
 
+    def LoadReportCurrentHTMLMoloch(self):
+        total_ids_runtime = 0
+        total_ids_alerts = 0
+        total_files_processed = 0
+        if self.moloch_base_url == None:
+            p_error("Moloch base url not defined and LoadReportCurrentHTMLMoloch specified")
+            sys.exit(-234)
+            
+        perfsum = "%s/LoadReportCurrent-Moloch-%s.html" % (self.Runmode.conf["globallogdir"], str(self.currentts))
+        report = open(perfsum, 'w')
+        cur = self.db.execute("select runid,cmd,file,engine,runtime,exitcode,alertfile,alertcnt,ualerts from filestats where runid=%s", (self.runid,))
+        #report.write("runid,cmd,file,engine,runtime,alertfile,alertcnt,exitcode\n")
+        report.write("<html></body>\n")
+        for row in cur:
+            #rowarr = list(row)
+            #report.write("%s\n" % str(row))
+            tmpalertdict={}
+            report.write("<p>runid:%s<br>\n" % str(row[0]))
+            report.write("cmd:%s<br>\n" % str(row[1]))
+            report.write("file:<br>%s\n" % str(row[2]))
+            report.write("engine:<br>%s\n" % str(row[3]))
+            report.write("runtime:<br>%s\n" % str(row[4]))
+            report.write("exitcode:<br>%s\n" % str(row[5]))
+            report.write("+++++++++++++++++++++++++++++<br>\n")
+            report.write("alertfile:%s<br>\n" % str(row[6]))
+            report.write("total alerts:%s<br>\n" % str(row[7]))
+            report.write("alerts by sid:<br>\n")
+
+            #there has to be a cleaner way to do this although dict(row[8]) gives an error
+            tmpstring = row[8].replace('{','').replace('}','').replace('\'','')
+            #print tmpstring
+            sitems = [s for s in tmpstring.split(',') if s]
+            tmpalertdict = {}
+            for item in sitems:
+                key,value = item.split(':')
+                tmpalertdict[key] = value
+
+            for key,value in tmpalertdict.iteritems():
+                report.write("%i:%i<br>\n" % (int(key),int(value)))
+            report.write("=============================\n\n<br></p>")
+
+            #incriment totals stats
+            total_ids_runtime += float(row[4])
+            total_ids_alerts += float(row[7])
+            total_files_processed += 1
+
+        report.write("\n")
+        report.write("<p>Unique Run ID:%s<br>\n" % self.runid)
+        report.write("total ids runtime:%i<br>\n" % total_ids_runtime)
+        report.write("total ids alerts:%i<br>\n" % total_ids_alerts)
+        report.write("total files processed:%i<br>\n</p>" % total_files_processed)
+        cur = self.db.execute("select runid, file, engine, alertfile, sid, gid, rev, msg, class, prio, proto, src, dst, sport, dport from alerts where runid=%s", (self.runid,))       
+        report.write("<table border=1 cellspacing=0 cellpadding=5>")
+        report.write("<tr><td>Engine</td><td>File</td><td>Sid</td><td>MSG</td><td>Protocol</td><td>Src</td><td>Dst</td><td>Sport</td><td>Dport</td><td>Moloch</td></tr>")
+        for row in cur:
+            f = str(row[1])
+            engine = str(row[2])
+            sid = str(row[4])
+            msg = str(row[7])
+            proto = str(row[10])
+            src = socket.inet_ntoa(struct.pack("!I",int(row[11])))
+            dst = socket.inet_ntoa(struct.pack("!I",int(row[12])))
+            if proto == "TCP" or proto == "UDP":
+                sport = str(row[13])
+                dport = str(row[14])
+                expression = urllib.quote_plus("ip==%s&&ip==%s&&port==%s&&port==%s&&file==\"%s\"" % (src,dst,sport,dport,f))
+                report.write("<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td><a href=%s%s>Moloch</a></td></tr>\n" % (engine,f,sid,msg,proto,src,dst,sport,dport,self.moloch_base_url,expression))
+            else:
+                expression = urllib.quote_plus("ip==%s&&ip==%s&&port==%s&&port==%s&&file==\"%s\"" % (src,dst,f))
+                report.write("<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>N/A</td><td>N/A</td><td><a href=%s%s>Moloch</a></td></tr>\n" % (engine,f,sid,msg,proto,src,dst,sport,dport,self.moloch_base_url,expression))
+        report.write("</table></body></html>")
+
     def queryDB(self, query):
         data = ''
         try:
@@ -302,7 +373,6 @@ class RunmodeSidperfq:
         except:
             p_error("Error executing query")
             sys.exit(-321)
-        print data
         if "sqlquery" in self.Runmode.conf["emailonarr"]:
             try:
                 res = file(self.Runmode.conf["globallogdir"] + "/customresults.txt","w")

@@ -113,6 +113,10 @@ class IDSToolEnv(RunmodeCompare, RunmodeSidperfq):
         if not self.host:
             self.host = "localhost"
 
+        self.moloch_base_url = self.getConfVal('moloch_base_url')
+        if not self.moloch_base_url:
+            self.moloch_base_url = None
+
         engines = self.getConfVal('engine_definitions')
         if engines:
             self.EngineMgr = IDSEngineContainer(engines)
@@ -126,7 +130,7 @@ class IDSToolEnv(RunmodeCompare, RunmodeSidperfq):
         self.regex["cmpropts"] = re.compile(r"^(?P<file1>.+)\:(?P<mode1>.+)\,(?P<file2>.+)\:(?P<mode2>.+)$")
         #Regex for matching on alert fast formated log files with GID of one. If somebody else wants to add support for .so rule etc go for it
         self.regex["afast"] = re.compile(r".+\[1\:(?P<sid>\d+)\:\d+\].+\{(?P<proto>UDP|TCP|ICMP|(PROTO\:)?\d+)\}\s(?P<src>\d+\.\d+\.\d+\.\d+)(:(?P<sport>\d+))?\s.+\s(?P<dst>\d+\.\d+\.\d+\.\d+)(:(?P<dport>\d+))?")
-
+        self.regex["afast_full_parser"] = re.compile(r"^(?P<ts>[^\s]*)\s+?\[\*\*\]\s+?\[(?P<gid>\d+)\:(?P<sid>\d+)\:(?P<rev>\d+)\]\s+(?P<msg>.+?)\s+?\[\*\*\]\s+?(\[Classification\:\s+?(?P<class>[^\]]+)\]\s+?)?\[Priority\:\s+?(?P<prio>\d+?)\]\s+?{(?P<proto>UDP|TCP|ICMP|(PROTO\:)?\d+)\}\s(?P<src>\d+\.\d+\.\d+\.\d+)(:(?P<sport>\d+))?\s.+\s(?P<dst>\d+\.\d+\.\d+\.\d+)(:(?P<dport>\d+))?$")
 
     # Use this one for generic options
     def getConfVal(self, key):
@@ -353,6 +357,8 @@ class IDSToolEnv(RunmodeCompare, RunmodeSidperfq):
                 self.TopNWorstCurrentHTML()
             if "LoadReportCurrent" in self.Runmode.conf["reportonarr"]:
                 self.LoadReportCurrent()
+            if "LoadReportCurrentHTMLMoloch" in self.Runmode.conf["reportonarr"]:
+                self.LoadReportCurrentHTMLMoloch()
 
         if self.Runmode.conf.has_key("sqlquery") and self.Runmode.conf["sqlquery"] != "":
             self.queryDB(self.Runmode.conf["sqlquery"])
@@ -410,7 +416,7 @@ class IDSToolEnv(RunmodeCompare, RunmodeSidperfq):
                     p_error("fpblacklist used in --reporton but opitons not passed via --fpblacklistopts")
                     sys.exit(1)
 
-                if "LoadReportCurrent" in self.Runmode.conf["reportonarr"] and not "idsperf" in self.Runmode.conf["reportonarr"]:
+                if "LoadReportCurrent" in self.Runmode.conf["reportonarr"] or "LoadReportCurrentHTMLMoloch" in self.Runmode.conf["reportonarr"] and not "idsperf" in self.Runmode.conf["reportonarr"]:
                     self.Runmode.conf["reportonarr"].append("idsperf")
             else:
                 self.Runmode.conf["reportonarr"] = []

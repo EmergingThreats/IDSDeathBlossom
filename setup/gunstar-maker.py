@@ -77,6 +77,8 @@ rule_sets["base"] = ["ftp.rules","policy.rules","trojan.rules","games.rules","po
 rule_sets["test"] = []
 update_script_buf = ""
 
+rule_sets["sopen"] = ["emerging-all.rules","botcc.rules","compromised.rules","drop.rules","dshield.rules","rbn.rules","rbn-malvertisers.rules","tor.rules","ciarmy.rules"]
+rule_sets["spro"] = ["all.rules","botcc.rules","compromised.rules","drop.rules","dshield.rules","rbn.rules","rbn-malvertisers.rules","tor.rules","ciarmy.rules"]
 def make_pp_config(engine,feed_type):
     ocode = ""
     rules_file = ""
@@ -117,7 +119,6 @@ version=0.6.0\n" % (rules_file, ocode, engine, feed_type, engine, feed_type, eng
 def make_engine_config(engine,feed_type,rset):
     buff = ""
     tmp_list = []
-    
     try:
         buff = open("engine-templates/%s.template" % (engine)).read()
         
@@ -126,10 +127,16 @@ def make_engine_config(engine,feed_type,rset):
         sys.exit(-1)
 
     if engines[engine]["type"] == "snort":
-        buff += "var RULE_PATH /opt/%s/etc/%s\n" % (engine,feed_type)
+        if feed_type == "sanitize":
+            buff += "var RULE_PATH /opt/%s/etc/%s/%s\n" % (engine,feed_type,rset)
+        else:
+            buff += "var RULE_PATH /opt/%s/etc/%s\n" % (engine,feed_type)
         rprefix = "include $RULE_PATH/";
     elif engines[engine]["type"] == "suricata":
-        buff +="default-rule-path: /opt/%s/etc/%s/\nrule-files:\n" % (engine,feed_type)
+        if feed_type == "sanitize":
+            buff +="default-rule-path: /opt/%s/etc/%s/%s\nrule-files:\n" % (engine,feed_type,rset)
+        else:
+            buff +="default-rule-path: /opt/%s/etc/%s/\nrule-files:\n" % (engine,feed_type)
         rprefix = " - "
 
     if feed_type == "test":
@@ -138,7 +145,6 @@ def make_engine_config(engine,feed_type,rset):
             buff = re.sub(r"var HOME_NET\s[^\r\n]+[\r\n]" , "var HOME_NET any\n", buff,1)
         elif engines[engine]["type"] == "suricata":
             buff = re.sub(r"    HOME_NET\:\s[^\r\n]+[\r\n]","    HOME_NET: \"any\"\n", buff,1)
-
     for rule_file in rule_sets[rset]:
         if feed_type == "etopen":
             if re.match(r"^(botcc|compromised|drop|dshield|rbn|rbn-malvertisers|tor|ciarmy)\.rules$",rule_file) != None and engines[engine]["type"] == "suricata":
@@ -147,16 +153,18 @@ def make_engine_config(engine,feed_type,rset):
                 buff += "%sET-emerging-%s\n" % (rprefix,rule_file)
         elif feed_type == "etpro":
             buff += "%sET-%s\n" % (rprefix,rule_file)
+        elif feed_type == "sanitize": 
+            buff += "%s%s\n" % (rprefix,rule_file)
         elif feed_type != "test":
             print "unknown feed type"
             sys.exit(-1)
-
-    local_rules = "/opt/%s/etc/%s/local.rules" % (engine,feed_type)
-    if not os.path.exists(local_rules):
-        file(local_rules, 'w').close()
-    buff += "%slocal.rules\n" % (rprefix)
-    if re.search(r'suricata14\d*JIT$',engine) != None:
-        buff += "%sluajit.rules\n" % (rprefix)
+    if feed_type != "sanitize":
+        local_rules = "/opt/%s/etc/%s/local.rules" % (engine,feed_type)
+        if not os.path.exists(local_rules):
+            file(local_rules, 'w').close()
+        buff += "%slocal.rules\n" % (rprefix)
+        if re.search(r'suricata14\d*JIT$',engine) != None:
+            buff += "%sluajit.rules\n" % (rprefix)
     buff += "\n"
 
     f = None
@@ -202,11 +210,13 @@ for engine in engines:
     if oinkcode != None:
         dblossom_config_buff += make_engine_config(engine,"etpro","base")
         dblossom_config_buff += make_engine_config(engine,"etpro","all")
+        dblossom_config_buff += make_engine_config(engine,"sanitize","spro")
         make_pp_config(engine,"etpro")
     #always cook open
     dblossom_config_buff += make_engine_config(engine,"etopen","base")
     dblossom_config_buff += make_engine_config(engine,"etopen","all")
     dblossom_config_buff += make_engine_config(engine,"test","test")
+    dblossom_config_buff += make_engine_config(engine,"sanitize","sopen")
     make_pp_config(engine,"etopen")
     f.write(dblossom_config_buff)
     f.close()

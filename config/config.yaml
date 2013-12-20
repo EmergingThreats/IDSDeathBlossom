@@ -65,4 +65,5 @@ server_options:
 # Glob expr
 engine_definitions: "config/engines/*.yaml"
 
-
+#Moloch Server
+moloch_base_url: "https://127.0.0.1:8005/?date=-1&expression=" 
