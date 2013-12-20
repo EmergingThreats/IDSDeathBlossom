@@ -1,7 +1,7 @@
 %YAML 1.1
 ---
 runmode: single
-default-log-dir: /opt/suricata145JIT/var/log/
+default-log-dir: /opt/suricata20b2/var/log/
 outputs:
   - fast:
       enabled: yes
@@ -199,8 +199,8 @@ pfring:
 pcap:
   - interface: eth0
 
-classification-file: /opt/suricata145JIT/etc/classification.config
-reference-config-file: /opt/suricata145JIT/etc/reference.config
+classification-file: /opt/suricata20b2/etc/classification.config
+reference-config-file: /opt/suricata20b2/etc/reference.config
 
 vars:
   address-groups:
