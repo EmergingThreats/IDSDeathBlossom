@@ -1,40 +1,27 @@
 #/bin/sh
-sudo mkdir -p /opt/snort245/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize}
-sudo mkdir -p /opt/snort2841/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize}
-sudo mkdir -p /opt/snort2861/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize}
-sudo mkdir -p /opt/snort2904/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize}
-sudo mkdir -p /opt/snort2905/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize}
-sudo mkdir -p /opt/snort2922/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize}
-sudo mkdir -p /opt/snort2923/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize}
-sudo mkdir -p /opt/snort293/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize}
-sudo mkdir -p /opt/snort2931/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize}
-sudo mkdir -p /opt/snort2941/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize}
-sudo mkdir -p /opt/snort2946/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize}
-sudo mkdir -p /opt/snort295/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize}
-sudo mkdir -p /opt/snort2953/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize}
-sudo mkdir -p /opt/snort2955/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize}
-sudo mkdir -p /opt/snort2956/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize}
-sudo mkdir -p /opt/suricata121/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize}
-sudo mkdir -p /opt/suricata13/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize}
-sudo mkdir -p /opt/suricata13JIT/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize}
-sudo mkdir -p /opt/suricata131/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize}
-sudo mkdir -p /opt/suricata131JIT/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize}
-sudo mkdir -p /opt/suricata136/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize}
-sudo mkdir -p /opt/suricata136JIT/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize}
-sudo mkdir -p /opt/suricata141/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize}
-sudo mkdir -p /opt/suricata141JIT/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize}
-sudo mkdir -p /opt/suricata142/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize}
-sudo mkdir -p /opt/suricata142JIT/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize}
-sudo mkdir -p /opt/suricata143/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize}
-sudo mkdir -p /opt/suricata143JIT/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize}
-sudo mkdir -p /opt/suricata145/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize}
-sudo mkdir -p /opt/suricata145JIT/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize}
-sudo mkdir -p /opt/suricata146/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize}
-sudo mkdir -p /opt/suricata146JIT/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize}
-sudo mkdir -p /opt/suricata147/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize}
-sudo mkdir -p /opt/suricata147JIT/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize}
-sudo mkdir -p /opt/suricata20b2/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize}
-sudo mkdir -p /opt/suricata20b2JIT/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize}
+sudo mkdir -p /opt/snort245/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize/sopen,etc/sanitize/spro}
+sudo mkdir -p /opt/snort2841/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize/sopen,etc/sanitize/spro}
+sudo mkdir -p /opt/snort2861/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize/sopen,etc/sanitize/spro}
+sudo mkdir -p /opt/snort2905/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize/sopen,etc/sanitize/spro}
+sudo mkdir -p /opt/snort2923/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize/sopen,etc/sanitize/spro}
+sudo mkdir -p /opt/snort2931/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize/sopen,etc/sanitize/spro}
+sudo mkdir -p /opt/snort2946/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize/sopen,etc/sanitize/spro}
+sudo mkdir -p /opt/snort295/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize/sopen,etc/sanitize/spro}
+sudo mkdir -p /opt/snort2953/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize/sopen,etc/sanitize/spro}
+sudo mkdir -p /opt/snort2955/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize/sopen,etc/sanitize/spro}
+sudo mkdir -p /opt/snort2956/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize/sopen,etc/sanitize/spro}
+sudo mkdir -p /opt/suricata121/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize/sopen,etc/sanitize/spro}
+sudo mkdir -p /opt/suricata13JIT/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize/sopen,etc/sanitize/spro}
+sudo mkdir -p /opt/suricata131/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize/sopen,etc/sanitize/spro}
+sudo mkdir -p /opt/suricata131JIT/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize/sopen,etc/sanitize/spro}
+sudo mkdir -p /opt/suricata136/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize/sopen,etc/sanitize/spro}
+sudo mkdir -p /opt/suricata136JIT/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize/sopen,etc/sanitize/spro}
+sudo mkdir -p /opt/suricata146/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize/sopen,etc/sanitize/spro}
+sudo mkdir -p /opt/suricata146JIT/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize/sopen,etc/sanitize/spro}
+sudo mkdir -p /opt/suricata147/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize/sopen,etc/sanitize/spro}
+sudo mkdir -p /opt/suricata147JIT/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize/sopen,etc/sanitize/spro}
+sudo mkdir -p /opt/suricata20b2/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize/sopen,etc/sanitize/spro}
+sudo mkdir -p /opt/suricata20b2JIT/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize/sopen,etc/sanitize/spro}
 sudo mkdir -p /opt/et-luajit-scripts
 NUM_CORES=`grep processor /proc/cpuinfo | sort -u | wc -l`
 
@@ -72,19 +59,6 @@ cd suricata-1.2.1
 sudo cp suricata.yaml /opt/suricata121/etc/
 sudo cp ../reference.config /opt/suricata121/etc/
 sudo cp ../classification.config /opt/suricata121/etc/
-cd ..
-
-tar -xzvf suricata-1.3.tar.gz
-cd suricata-1.3
-./configure --enable-profiling --prefix=/opt/suricata13/ --with-libnss-includes=/usr/include/nss --with-libnss-libs=/usr/lib/nss --with-libnspr-includes=/usr/include/nspr --with-libnspr-libraries=/usr/lib/nspr && make -j && sudo make install
-sudo cp suricata.yaml /opt/suricata13/etc/
-sudo cp ../reference.config /opt/suricata13/etc/
-sudo cp ../classification.config /opt/suricata13/etc/
-make distclean
-./configure LD_RUN_PATH="/opt/pcre-8.33/lib:/usr/lib:/usr/local/lib" --enable-pcre-jit --with-libpcre-libraries=/opt/pcre-8.33/lib/ --with-libpcre-includes=/opt/pcre-8.33/include/ --enable-profiling --prefix=/opt/suricata13JIT/ --with-libnss-includes=/usr/include/nss --with-libnss-libs=/usr/lib/nss --with-libnspr-includes=/usr/include/nspr --with-libnspr-libraries=/usr/lib/nspr && make -j && sudo make install
-sudo cp suricata.yaml /opt/suricata13JIT/etc/
-sudo cp ../reference.config /opt/suricata13JIT/etc/
-sudo cp ../classification.config /opt/suricata13JIT/etc/
 cd ..
 
 tar -xzvf suricata-1.3.1.tar.gz
@@ -136,70 +110,6 @@ cd ..
 
 sudo git clone https://github.com/EmergingThreats/et-luajit-scripts /opt/et-luajit-scripts
 
-tar -xzvf suricata-1.4.1.tar.gz
-cd suricata-1.4.1
-./configure --enable-profiling --prefix=/opt/suricata141/ --with-libnss-includes=/usr/include/nss --with-libnss-libs=/usr/lib/nss --with-libnspr-includes=/usr/include/nspr --with-libnspr-libraries=/usr/lib/nspr && make -j && sudo make install
-sudo cp suricata.yaml /opt/suricata141/etc/
-sudo cp ../reference.config /opt/suricata141/etc/
-sudo cp ../classification.config /opt/suricata141/etc/
-make distclean
-
-./configure LD_RUN_PATH="/opt/pcre-8.33/lib:/opt/luajit20/lib/:/opt/lib/:/usr/lib:/usr/local/lib" --enable-pcre-jit --with-libpcre-libraries=/opt/pcre-8.33/lib/ --with-libpcre-includes=/opt/pcre-8.33/include/ --enable-profiling --prefix=/opt/suricata141JIT/ --with-libnss-includes=/usr/include/nss --with-libnss-libs=/usr/lib/nss --with-libnspr-includes=/usr/include/nspr --with-libnspr-libraries=/usr/lib/nspr --enable-luajit --with-libluajit-includes=/opt/luajit20/include/luajit-2.0/ --with-libluajit-libraries=/opt/luajit20/lib/ && make -j && sudo make install
-sudo cp suricata.yaml /opt/suricata141JIT/etc/
-sudo cp ../reference.config /opt/suricata141JIT/etc/
-sudo cp ../classification.config /opt/suricata141JIT/etc/
-sudo cp /usr/local/suricata/et-luajit-scripts/* /opt/suricata141JIT/etc/etpro
-sudo cp /usr/local/suricata/et-luajit-scripts/* /opt/suricata141JIT/etc/etopen
-cd ..
-
-tar -xzvf suricata-1.4.2.tar.gz
-cd suricata-1.4.2
-./configure --enable-profiling --prefix=/opt/suricata142/ --with-libnss-includes=/usr/include/nss --with-libnss-libs=/usr/lib/nss --with-libnspr-includes=/usr/include/nspr --with-libnspr-libraries=/usr/lib/nspr && make -j && sudo make install
-sudo cp suricata.yaml /opt/suricata142/etc/
-sudo cp ../reference.config /opt/suricata142/etc/
-sudo cp ../classification.config /opt/suricata142/etc/
-make distclean
-
-./configure LD_RUN_PATH="/opt/pcre-8.33/lib:/opt/luajit20/lib/:/opt/lib/:/usr/lib:/usr/local/lib" --enable-pcre-jit --with-libpcre-libraries=/opt/pcre-8.33/lib/ --with-libpcre-includes=/opt/pcre-8.33/include/ --enable-profiling --prefix=/opt/suricata142JIT/ --with-libnss-includes=/usr/include/nss --with-libnss-libs=/usr/lib/nss --with-libnspr-includes=/usr/include/nspr --with-libnspr-libraries=/usr/lib/nspr --enable-luajit --with-libluajit-includes=/opt/luajit20/include/luajit-2.0/ --with-libluajit-libraries=/opt/luajit20/lib/ && make -j && sudo make install
-sudo cp suricata.yaml /opt/suricata142JIT/etc/
-sudo cp ../reference.config /opt/suricata142JIT/etc/
-sudo cp ../classification.config /opt/suricata142JIT/etc/
-sudo cp /usr/local/suricata/et-luajit-scripts/* /opt/suricata142JIT/etc/etpro
-sudo cp /usr/local/suricata/et-luajit-scripts/* /opt/suricata142JIT/etc/etopen
-cd ..
-
-tar -xzvf suricata-1.4.3.tar.gz
-cd suricata-1.4.3
-./configure --enable-profiling --prefix=/opt/suricata143/ --with-libnss-includes=/usr/include/nss --with-libnss-libs=/usr/lib/nss --with-libnspr-includes=/usr/include/nspr --with-libnspr-libraries=/usr/lib/nspr && make -j && sudo make install
-sudo cp suricata.yaml /opt/suricata143/etc/
-sudo cp ../reference.config /opt/suricata143/etc/
-sudo cp ../classification.config /opt/suricata143/etc/
-make distclean
-
-./configure LD_RUN_PATH="/opt/pcre-8.33/lib:/opt/luajit20/lib/:/opt/lib/:/usr/lib:/usr/local/lib" --enable-pcre-jit --with-libpcre-libraries=/opt/pcre-8.33/lib/ --with-libpcre-includes=/opt/pcre-8.33/include/ --enable-profiling --prefix=/opt/suricata143JIT/ --with-libnss-includes=/usr/include/nss --with-libnss-libs=/usr/lib/nss --with-libnspr-includes=/usr/include/nspr --with-libnspr-libraries=/usr/lib/nspr --enable-luajit --with-libluajit-includes=/opt/luajit20/include/luajit-2.0/ --with-libluajit-libraries=/opt/luajit20/lib/ && make -j && sudo make install
-sudo cp suricata.yaml /opt/suricata143JIT/etc/
-sudo cp ../reference.config /opt/suricata143JIT/etc/
-sudo cp ../classification.config /opt/suricata143JIT/etc/
-sudo cp /usr/local/suricata/et-luajit-scripts/* /opt/suricata143JIT/etc/etpro
-sudo cp /usr/local/suricata/et-luajit-scripts/* /opt/suricata143JIT/etc/etopen
-cd ..
-
-tar -xzvf suricata-1.4.5.tar.gz
-cd suricata-1.4.5
-./configure --enable-profiling --prefix=/opt/suricata145/ --with-libnss-includes=/usr/include/nss --with-libnss-libs=/usr/lib/nss --with-libnspr-includes=/usr/include/nspr --with-libnspr-libraries=/usr/lib/nspr && make -j && sudo make install
-sudo cp suricata.yaml /opt/suricata145/etc/
-sudo cp ../reference.config /opt/suricata145/etc/
-sudo cp ../classification.config /opt/suricata145/etc/
-make distclean
-
-./configure LD_RUN_PATH="/opt/pcre-8.33/lib:/opt/luajit20/lib/:/opt/lib/:/usr/lib:/usr/local/lib" --enable-pcre-jit --with-libpcre-libraries=/opt/pcre-8.33/lib/ --with-libpcre-includes=/opt/pcre-8.33/include/ --enable-profiling --prefix=/opt/suricata145JIT/ --with-libnss-includes=/usr/include/nss --with-libnss-libs=/usr/lib/nss --with-libnspr-includes=/usr/include/nspr --with-libnspr-libraries=/usr/lib/nspr --enable-luajit --with-libluajit-includes=/opt/luajit20/include/luajit-2.0/ --with-libluajit-libraries=/opt/luajit20/lib/ && make -j && sudo make install
-sudo cp suricata.yaml /opt/suricata145JIT/etc/
-sudo cp ../reference.config /opt/suricata145JIT/etc/
-sudo cp ../classification.config /opt/suricata145JIT/etc/
-sudo cp /usr/local/suricata/et-luajit-scripts/* /opt/suricata145JIT/etc/etpro
-sudo cp /usr/local/suricata/et-luajit-scripts/* /opt/suricata145JIT/etc/etopen
-cd ..
-
 tar -xzvf suricata-1.4.6.tar.gz
 cd suricata-1.4.6
 ./configure --enable-profiling --prefix=/opt/suricata146/ --with-libnss-includes=/usr/include/nss --with-libnss-libs=/usr/lib/nss --with-libnspr-includes=/usr/include/nspr --with-libnspr-libraries=/usr/lib/nspr && make -j && sudo make install
@@ -232,20 +142,20 @@ sudo cp /usr/local/suricata/et-luajit-scripts/* /opt/suricata147JIT/etc/etpro
 sudo cp /usr/local/suricata/et-luajit-scripts/* /opt/suricata147JIT/etc/etopen
 cd ..
 
-tar -xzvf suricata-2.0beta1.tar.gz
-cd suricata-2.0beta1
-./configure --enable-profiling --prefix=/opt/suricata20b1/ --with-libnss-includes=/usr/include/nss --with-libnss-libs=/usr/lib/nss --with-libnspr-includes=/usr/include/nspr --with-libnspr-libraries=/usr/lib/nspr && make -j && sudo make install
-sudo cp suricata.yaml /opt/suricata20b1/etc/
-sudo cp ../reference.config /opt/suricata20b1/etc/
-sudo cp ../classification.config /opt/suricata20b1/etc/
+tar -xzvf suricata-2.0beta2.tar.gz
+cd suricata-2.0beta2
+./configure --enable-profiling --prefix=/opt/suricata20b2/ --with-libnss-includes=/usr/include/nss --with-libnss-libs=/usr/lib/nss --with-libnspr-includes=/usr/include/nspr --with-libnspr-libraries=/usr/lib/nspr && make -j && sudo make install
+sudo cp suricata.yaml /opt/suricata20b2/etc/
+sudo cp ../reference.config /opt/suricata20b2/etc/
+sudo cp ../classification.config /opt/suricata20b2/etc/
 make distclean
 
-./configure LD_RUN_PATH="/opt/pcre-8.33/lib:/opt/luajit20/lib/:/opt/lib/:/usr/lib:/usr/local/lib" --enable-pcre-jit --with-libpcre-libraries=/opt/pcre-8.33/lib/ --with-libpcre-includes=/opt/pcre-8.33/include/ --enable-profiling --prefix=/opt/suricata20b1JIT/ --with-libnss-includes=/usr/include/nss --with-libnss-libs=/usr/lib/nss --with-libnspr-includes=/usr/include/nspr --with-libnspr-libraries=/usr/lib/nspr --enable-luajit --with-libluajit-includes=/opt/luajit20/include/luajit-2.0/ --with-libluajit-libraries=/opt/luajit20/lib/ && make -j && sudo make install
-sudo cp suricata.yaml /opt/suricata20b1JIT/etc/
-sudo cp ../reference.config /opt/suricata20b1JIT/etc/
-sudo cp ../classification.config /opt/suricata20b1JIT/etc/
-sudo cp /usr/local/suricata/et-luajit-scripts/* /opt/suricata20b1JIT/etc/etpro
-sudo cp /usr/local/suricata/et-luajit-scripts/* /opt/suricata20b1JIT/etc/etopen
+./configure LD_RUN_PATH="/opt/pcre-8.33/lib:/opt/luajit20/lib/:/opt/lib/:/usr/lib:/usr/local/lib" --enable-pcre-jit --with-libpcre-libraries=/opt/pcre-8.33/lib/ --with-libpcre-includes=/opt/pcre-8.33/include/ --enable-profiling --prefix=/opt/suricata20b2JIT/ --with-libnss-includes=/usr/include/nss --with-libnss-libs=/usr/lib/nss --with-libnspr-includes=/usr/include/nspr --with-libnspr-libraries=/usr/lib/nspr --enable-luajit --with-libluajit-includes=/opt/luajit20/include/luajit-2.0/ --with-libluajit-libraries=/opt/luajit20/lib/ && make -j && sudo make install
+sudo cp suricata.yaml /opt/suricata20b2JIT/etc/
+sudo cp ../reference.config /opt/suricata20b2JIT/etc/
+sudo cp ../classification.config /opt/suricata20b2JIT/etc/
+sudo cp /usr/local/suricata/et-luajit-scripts/* /opt/suricata20b2JIT/etc/etpro
+sudo cp /usr/local/suricata/et-luajit-scripts/* /opt/suricata20b2JIT/etc/etopen
 
 tar -xzvf libdnet-1.11.tar.gz
 cd libdnet-1.11
@@ -258,12 +168,6 @@ cd daq-0.5
 ./configure --prefix=/opt/snort2904/ && make -j && sudo make install
 make distclean
 ./configure --prefix=/opt/snort2905/ && make -j && sudo make install
-cd ..
-
-tar -xzvf snort-2.9.0.4.tar.gz
-cd snort-2.9.0.4
-PATH="/opt/snort2904/bin:$PATH" ./configure  --enable-ipv6 --enable-gre --enable-mpls --with-dnet-includes=/opt/libdnet111/include/ --with-dnet-libraries=/opt/libdnet111/lib/ --enable-targetbased --enable-decoder-preprocessor-rules --enable-ppm --enable-perfprofiling --enable-zlib LD_RUN_PATH="/opt/snort2904/lib:/opt/libdnet111/lib:/usr/lib:/usr/local/lib" --prefix=/opt/snort2904/ --with-daq-includes=/opt/snort2904/include/ --with-daq-libraries=/opt/snort2904/lib/ && make -j && sudo make install
-sudo cp etc/* /opt/snort2904/etc/
 cd ..
 
 tar -xzvf snort-2.9.0.5.tar.gz
@@ -279,12 +183,6 @@ make distclean
 ./configure --prefix=/opt/snort2923/ && make -j && sudo make install
 cd ..
 
-tar -xzvf snort-2.9.2.2.tar.gz
-cd snort-2.9.2.2
-PATH="/opt/snort2922/bin:$PATH" ./configure --enable-ipv6 --enable-gre --enable-mpls --with-dnet-includes=/opt/libdnet111/include/ --with-dnet-libraries=/opt/libdnet111/lib/ --enable-targetbased --enable-decoder-preprocessor-rules --enable-ppm --enable-perfprofiling --enable-zlib --enable-active-response --enable-normalizer --enable-reload --enable-react --enable-flexresp3 LD_RUN_PATH="/opt/snort2922/lib:/opt/libdnet111/lib:/usr/lib:/usr/local/lib" --prefix=/opt/snort2922/ --with-daq-includes=/opt/snort2922/include/ --with-daq-libraries=/opt/snort2922/lib/ && make -j && sudo make install
-sudo cp etc/* /opt/snort2922/etc/
-cd ..
-
 tar -xzvf snort-2.9.2.3.tar.gz
 cd snort-2.9.2.3
 PATH="/opt/snort2923/bin:$PATH" ./configure --enable-ipv6 --enable-gre --enable-mpls --with-dnet-includes=/opt/libdnet111/include/ --with-dnet-libraries=/opt/libdnet111/lib/ --enable-targetbased --enable-decoder-preprocessor-rules --enable-ppm --enable-perfprofiling --enable-zlib --enable-active-response --enable-normalizer --enable-reload --enable-react --enable-flexresp3 LD_RUN_PATH="/opt/snort2923/lib:/opt/libdnet111/lib:/usr/lib:/usr/local/lib" --prefix=/opt/snort2923/ --with-daq-includes=/opt/snort2923/include/ --with-daq-libraries=/opt/snort2923/lib/ && make -j && sudo make install
@@ -296,13 +194,6 @@ cd daq-1.1.1
 ./configure --prefix=/opt/snort293/ && make -j && sudo make install
 make distclean
 ./configure --prefix=/opt/snort2931/ && make -j && sudo make install
-cd ..
-
-
-tar -xzvf snort-2.9.3.tar.gz
-cd snort-2.9.3
-PATH="/opt/snort293/bin:$PATH" ./configure --enable-ipv6 --enable-gre --enable-mpls --with-dnet-includes=/opt/libdnet111/include/ --with-dnet-libraries=/opt/libdnet111/lib/ --enable-targetbased --enable-decoder-preprocessor-rules --enable-ppm --enable-perfprofiling --enable-zlib --enable-active-response --enable-normalizer --enable-reload --enable-react --enable-flexresp3 LD_RUN_PATH="/opt/snort293/lib:/opt/libdnet111/lib:/usr/lib:/usr/local/lib" --prefix=/opt/snort293/ --with-daq-includes=/opt/snort293/include/ --with-daq-libraries=/opt/snort293/lib/ && make -j && sudo make install
-sudo cp etc/* /opt/snort293/etc/
 cd ..
 
 tar -xzvf snort-2.9.3.1.tar.gz
@@ -329,11 +220,6 @@ make distclean
 ./configure --prefix=/opt/snort2956/ && make -j && sudo make install
 cd ..
 
-tar -xzvf snort-2.9.4.1.tar.gz
-cd snort-2.9.4.1
-PATH="/opt/snort2941/bin:$PATH" ./configure --enable-ipv6 --enable-gre --enable-mpls --with-dnet-includes=/opt/libdnet111/include/ --with-dnet-libraries=/opt/libdnet111/lib/ --enable-targetbased --enable-decoder-preprocessor-rules --enable-ppm --enable-perfprofiling --enable-zlib --enable-active-response --enable-normalizer --enable-reload --enable-react --enable-flexresp3 LD_RUN_PATH="/opt/snort2941/lib:/opt/libdnet111/lib:/usr/lib:/usr/local/lib" --prefix=/opt/snort2941/ --with-daq-includes=/opt/snort2941/include/ --with-daq-libraries=/opt/snort2941/lib/ && make -j && sudo make install
-sudo cp etc/* /opt/snort2941/etc/
-cd ..
 tar -xzvf snort-2.9.4.6.tar.gz
 cd snort-2.9.4.6
 PATH="/opt/snort2946/bin:$PATH" ./configure --enable-ipv6 --enable-gre --enable-mpls --with-dnet-includes=/opt/libdnet111/include/ --with-dnet-libraries=/opt/libdnet111/lib/ --enable-targetbased --enable-decoder-preprocessor-rules --enable-ppm --enable-perfprofiling --enable-zlib --enable-active-response --enable-normalizer --enable-reload --enable-react --enable-flexresp3 LD_RUN_PATH="/opt/snort2946/lib:/opt/libdnet111/lib:/usr/lib:/usr/local/lib" --prefix=/opt/snort2946/ --with-daq-includes=/opt/snort2946/include/ --with-daq-libraries=/opt/snort2946/lib/ && make -j && sudo make install
@@ -348,11 +234,6 @@ tar -xzvf snort-2.9.5.3.tar.gz
 cd snort-2.9.5.3
 PATH="/opt/snort2953/bin:$PATH" ./configure --enable-ipv6 --enable-gre --enable-mpls --with-dnet-includes=/opt/libdnet111/include/ --with-dnet-libraries=/opt/libdnet111/lib/ --enable-targetbased --enable-decoder-preprocessor-rules --enable-ppm --enable-perfprofiling --enable-zlib --enable-active-response --enable-normalizer --enable-reload --enable-react --enable-flexresp3 LD_RUN_PATH="/opt/snort2953/lib:/opt/libdnet111/lib:/usr/lib:/usr/local/lib" --prefix=/opt/snort2953/ --with-daq-includes=/opt/snort2953/include/ --with-daq-libraries=/opt/snort2953/lib/ && make -j && sudo make install
 sudo cp etc/* /opt/snort2953/etc/
-cd ..
-tar -xzvf snort-2.9.5.5.tar.gz
-cd snort-2.9.5.5
-PATH="/opt/snort2955/bin:$PATH" ./configure --enable-ipv6 --enable-gre --enable-mpls --with-dnet-includes=/opt/libdnet111/include/ --with-dnet-libraries=/opt/libdnet111/lib/ --enable-targetbased --enable-decoder-preprocessor-rules --enable-ppm --enable-perfprofiling --enable-zlib --enable-active-response --enable-normalizer --enable-reload --enable-react --enable-flexresp3 LD_RUN_PATH="/opt/snort2955/lib:/opt/libdnet111/lib:/usr/lib:/usr/local/lib" --prefix=/opt/snort2955/ --with-daq-includes=/opt/snort2955/include/ --with-daq-libraries=/opt/snort2955/lib/ && make -j && sudo make install
-sudo cp etc/* /opt/snort2955/etc/
 cd ..
 tar -xzvf snort-2.9.5.6.tar.gz
 cd snort-2.9.5.6
@@ -405,7 +286,7 @@ rm suricata-1.4.3 -Rf
 rm suricata-1.4.5 -Rf
 rm suricata-1.4.6 -Rf
 rm suricata-1.4.7 -Rf
-rm suricata-2.0beta1 -Rf
+rm suricata-2.0beta2 -Rf
 rm pulledpork-0.6.1 -Rf
 rm libdnet-1.11 -Rf
 rm LuaJIT-2.0.2 -Rf
