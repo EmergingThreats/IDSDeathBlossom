@@ -4,5 +4,4 @@ sudo rm /opt/luajit20 -Rf
 sudo rm /opt/pcre-8.33 -Rf
 sudo rm /opt/snort* -Rf
 sudo rm /opt/suricata* -Rf
-sudo rm /opt/IDSDeathBlossom -Rf
 sudo rm /opt/et-luajit-scripts -Rf
