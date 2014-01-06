@@ -64,8 +64,8 @@ rule_sets["base"] = ["ftp.rules","policy.rules","trojan.rules","games.rules","po
 rule_sets["test"] = []
 update_script_buf = ""
 
-rule_sets["sopen"] = ["emerging-all.rules","botcc.rules","compromised.rules","drop.rules","dshield.rules","rbn.rules","rbn-malvertisers.rules","tor.rules","ciarmy.rules"]
-rule_sets["spro"] = ["all.rules","botcc.rules","compromised.rules","drop.rules","dshield.rules","rbn.rules","rbn-malvertisers.rules","tor.rules","ciarmy.rules"]
+rule_sets["sopen"] = ["all.rules","emerging-botcc.rules","emerging-compromised.rules","emerging-drop.rules","emerging-dshield.rules","emerging-rbn.rules","emerging-rbn-malvertisers.rules","emerging-tor.rules","emerging-ciarmy.rules"]
+rule_sets["spro"] = ["all.rules","emerging-botcc.rules","emerging-compromised.rules","emerging-drop.rules","emerging-dshield.rules","emerging-rbn.rules","emerging-rbn-malvertisers.rules","emerging-tor.rules","emerging-ciarmy.rules"]
 def make_pp_config(engine,feed_type):
     ocode = ""
     rules_file = ""
