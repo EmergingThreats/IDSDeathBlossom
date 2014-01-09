@@ -201,6 +201,7 @@ pcap:
 
 classification-file: /opt/suricata143JIT/etc/classification.config
 reference-config-file: /opt/suricata143JIT/etc/reference.config
+threshold-file: /opt/suricata143JIT/etc/threshold.config
 
 vars:
   address-groups:

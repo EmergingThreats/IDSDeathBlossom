@@ -59,6 +59,7 @@ cd suricata-1.2.1
 sudo cp suricata.yaml /opt/suricata121/etc/
 sudo cp ../reference.config /opt/suricata121/etc/
 sudo cp ../classification.config /opt/suricata121/etc/
+sudo cp ../threshold.config /opt/suricata121/etc/
 cd ..
 
 tar -xzvf suricata-1.3.1.tar.gz
@@ -72,6 +73,7 @@ make distclean
 sudo cp suricata.yaml /opt/suricata131JIT/etc/
 sudo cp ../reference.config /opt/suricata131JIT/etc/
 sudo cp ../classification.config /opt/suricata131JIT/etc/
+sudo cp ../threshold.config /opt/suricata131JIT/etc/
 cd ..
 
 tar -xzvf LuaJIT-2.0.2.tar.gz
@@ -100,12 +102,15 @@ cd suricata-1.3.6
 sudo cp suricata.yaml /opt/suricata136/etc/
 sudo cp ../reference.config /opt/suricata136/etc/
 sudo cp ../classification.config /opt/suricata136/etc/
+sudo cp ../threshold.config /opt/suricata136/etc/
 make distclean
 
 ./configure LD_RUN_PATH="/opt/pcre-8.33/lib:/usr/lib:/usr/local/lib" --enable-pcre-jit --with-libpcre-libraries=/opt/pcre-8.33/lib/ --with-libpcre-includes=/opt/pcre-8.33/include/ --enable-profiling --prefix=/opt/suricata136JIT/ --with-libnss-includes=/usr/include/nss --with-libnss-libs=/usr/lib/nss --with-libnspr-includes=/usr/include/nspr --with-libnspr-libraries=/usr/lib/nspr && make -j && sudo make install
 sudo cp suricata.yaml /opt/suricata136JIT/etc/
 sudo cp ../reference.config /opt/suricata136JIT/etc/
 sudo cp ../classification.config /opt/suricata136JIT/etc/
+sudo cp ../threshold.config /opt/suricata136JIT/etc/
+
 cd ..
 
 sudo git clone https://github.com/EmergingThreats/et-luajit-scripts /opt/et-luajit-scripts
@@ -116,6 +121,7 @@ cd suricata-1.4.6
 sudo cp suricata.yaml /opt/suricata146/etc/
 sudo cp ../reference.config /opt/suricata146/etc/
 sudo cp ../classification.config /opt/suricata146/etc/
+sudo cp ../threshold.config /opt/suricata146/etc/
 make distclean
 
 ./configure LD_RUN_PATH="/opt/pcre-8.33/lib:/opt/luajit20/lib/:/opt/lib/:/usr/lib:/usr/local/lib" --enable-pcre-jit --with-libpcre-libraries=/opt/pcre-8.33/lib/ --with-libpcre-includes=/opt/pcre-8.33/include/ --enable-profiling --prefix=/opt/suricata146JIT/ --with-libnss-includes=/usr/include/nss --with-libnss-libs=/usr/lib/nss --with-libnspr-includes=/usr/include/nspr --with-libnspr-libraries=/usr/lib/nspr --enable-luajit --with-libluajit-includes=/opt/luajit20/include/luajit-2.0/ --with-libluajit-libraries=/opt/luajit20/lib/ && make -j && sudo make install
@@ -124,6 +130,7 @@ sudo cp ../reference.config /opt/suricata146JIT/etc/
 sudo cp ../classification.config /opt/suricata146JIT/etc/
 sudo cp /usr/local/suricata/et-luajit-scripts/* /opt/suricata146JIT/etc/etpro
 sudo cp /usr/local/suricata/et-luajit-scripts/* /opt/suricata146JIT/etc/etopen
+sudo cp ../threshold.config /opt/suricata146JIT/etc/
 cd ..
 
 tar -xzvf suricata-1.4.7.tar.gz
@@ -132,6 +139,7 @@ cd suricata-1.4.7
 sudo cp suricata.yaml /opt/suricata147/etc/
 sudo cp ../reference.config /opt/suricata147/etc/
 sudo cp ../classification.config /opt/suricata147/etc/
+sudo cp ../threshold.config /opt/suricata147/etc/
 make distclean
 
 ./configure LD_RUN_PATH="/opt/pcre-8.33/lib:/opt/luajit20/lib/:/opt/lib/:/usr/lib:/usr/local/lib" --enable-pcre-jit --with-libpcre-libraries=/opt/pcre-8.33/lib/ --with-libpcre-includes=/opt/pcre-8.33/include/ --enable-profiling --prefix=/opt/suricata147JIT/ --with-libnss-includes=/usr/include/nss --with-libnss-libs=/usr/lib/nss --with-libnspr-includes=/usr/include/nspr --with-libnspr-libraries=/usr/lib/nspr --enable-luajit --with-libluajit-includes=/opt/luajit20/include/luajit-2.0/ --with-libluajit-libraries=/opt/luajit20/lib/ && make -j && sudo make install
@@ -140,6 +148,7 @@ sudo cp ../reference.config /opt/suricata147JIT/etc/
 sudo cp ../classification.config /opt/suricata147JIT/etc/
 sudo cp /usr/local/suricata/et-luajit-scripts/* /opt/suricata147JIT/etc/etpro
 sudo cp /usr/local/suricata/et-luajit-scripts/* /opt/suricata147JIT/etc/etopen
+sudo cp ../threshold.config /opt/suricata147JIT/etc/
 cd ..
 
 tar -xzvf suricata-2.0beta2.tar.gz
@@ -148,6 +157,7 @@ cd suricata-2.0beta2
 sudo cp suricata.yaml /opt/suricata20b2/etc/
 sudo cp ../reference.config /opt/suricata20b2/etc/
 sudo cp ../classification.config /opt/suricata20b2/etc/
+sudo cp ../threshold.config /opt/suricata20b2/etc/
 make distclean
 
 ./configure LD_RUN_PATH="/opt/pcre-8.33/lib:/opt/luajit20/lib/:/opt/lib/:/usr/lib:/usr/local/lib" --enable-pcre-jit --with-libpcre-libraries=/opt/pcre-8.33/lib/ --with-libpcre-includes=/opt/pcre-8.33/include/ --enable-profiling --prefix=/opt/suricata20b2JIT/ --with-libnss-includes=/usr/include/nss --with-libnss-libs=/usr/lib/nss --with-libnspr-includes=/usr/include/nspr --with-libnspr-libraries=/usr/lib/nspr --enable-luajit --with-libluajit-includes=/opt/luajit20/include/luajit-2.0/ --with-libluajit-libraries=/opt/luajit20/lib/ && make -j && sudo make install
@@ -156,6 +166,7 @@ sudo cp ../reference.config /opt/suricata20b2JIT/etc/
 sudo cp ../classification.config /opt/suricata20b2JIT/etc/
 sudo cp /usr/local/suricata/et-luajit-scripts/* /opt/suricata20b2JIT/etc/etpro
 sudo cp /usr/local/suricata/et-luajit-scripts/* /opt/suricata20b2JIT/etc/etopen
+sudo cp ../threshold.config /opt/suricata20b2JIT/etc/
 
 tar -xzvf libdnet-1.11.tar.gz
 cd libdnet-1.11
