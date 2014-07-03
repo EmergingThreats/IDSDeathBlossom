@@ -42,30 +42,32 @@ engines["suricata146"] = {"type":"suricata", "version":"1.4.6", "eversion":"1.4.
 engines["suricata146JIT"] = {"type":"suricata", "version":"1.4.6", "eversion":"1.4.6JIT"}
 engines["suricata147"] = {"type":"suricata", "version":"1.4.6", "eversion":"1.4.7"}
 engines["suricata147JIT"] = {"type":"suricata", "version":"1.4.6", "eversion":"1.4.7JIT"}
-engines["suricata20b2"] = {"type":"suricata", "version":"1.4.5", "eversion":"2.0b2"}
-engines["suricata20b2JIT"] = {"type":"suricata", "version":"1.4.5", "eversion":"2.0b2JIT"}
-engines["snort245"] = {"type":"snort", "version":"2.4.0", "eversion":"2.4.5"}
+engines["suricata20"] = {"type":"suricata", "version":"2.0", "eversion":"2.0"}
+engines["suricata20JIT"] = {"type":"suricata", "version":"2.0", "eversion":"2.0JIT"}
+engines["suricata201"] = {"type":"suricata", "version":"2.0.1", "eversion":"2.0.1"}
+engines["suricata201JIT"] = {"type":"suricata", "version":"2.0.1", "eversion":"2.0.1JIT"}
+engines["suricata202"] = {"type":"suricata", "version":"2.0.2", "eversion":"2.0.2"}
+engines["suricata202JIT"] = {"type":"suricata", "version":"2.0.2", "eversion":"2.0.2JIT"}
 engines["snort2841"] = {"type":"snort", "version":"2.8.4", "eversion":"2.8.4.1"}
 engines["snort2861"] = {"type":"snort", "version":"2.8.6", "eversion":"2.8.6.1"}
 engines["snort2905"] = {"type":"snort", "version":"2.9.0", "eversion":"2.9.0.5"}
 engines["snort2923"] = {"type":"snort", "version":"2.9.0", "eversion":"2.9.2.3"}
 engines["snort2931"] = {"type":"snort", "version":"2.9.0", "eversion":"2.9.3.1"}
 engines["snort2946"] = {"type":"snort", "version":"2.9.0", "eversion":"2.9.4.6"}
-engines["snort295"] = {"type":"snort", "version":"2.9.0", "eversion":"2.9.5"}
-engines["snort2953"] = {"type":"snort", "version":"2.9.0", "eversion":"2.9.5.3"}
-engines["snort2955"] = {"type":"snort", "version":"2.9.0", "eversion":"2.9.5.5"}
 engines["snort2956"] = {"type":"snort", "version":"2.9.0", "eversion":"2.9.5.6"}
+engines["snort2960"] = {"type":"snort", "version":"2.9.0", "eversion":"2.9.6.0"}
+engines["snort2961"] = {"type":"snort", "version":"2.9.0", "eversion":"2.9.6.1"}
 rule_sets = {}
 
-rule_sets["all"] = ["ftp.rules","policy.rules","trojan.rules","games.rules","pop3.rules","user_agents.rules","activex.rules","rpc.rules","attack_response.rules","icmp.rules","scan.rules","voip.rules","chat.rules","icmp_info.rules","info.rules","shellcode.rules","web_client.rules","imap.rules","web_server.rules","current_events.rules","inappropriate.rules","smtp.rules","web_specific_apps.rules","deleted.rules","malware.rules","snmp.rules","worm.rules","dns.rules","misc.rules","sql.rules","dos.rules","netbios.rules","telnet.rules","exploit.rules","p2p.rules","tftp.rules","mobile_malware.rules","botcc.rules","compromised.rules","drop.rules","dshield.rules","rbn.rules","rbn-malvertisers.rules","tor.rules","ciarmy.rules"]
+rule_sets["all"] = ["ftp.rules","policy.rules","trojan.rules","games.rules","pop3.rules","user_agents.rules","activex.rules","rpc.rules","attack_response.rules","icmp.rules","scan.rules","voip.rules","chat.rules","icmp_info.rules","info.rules","shellcode.rules","web_client.rules","imap.rules","web_server.rules","current_events.rules","inappropriate.rules","smtp.rules","web_specific_apps.rules","deleted.rules","malware.rules","snmp.rules","worm.rules","dns.rules","misc.rules","sql.rules","dos.rules","netbios.rules","telnet.rules","exploit.rules","p2p.rules","tftp.rules","mobile_malware.rules","botcc.rules","compromised.rules","drop.rules","dshield.rules","tor.rules","ciarmy.rules"]
 
 rule_sets["base"] = ["ftp.rules","policy.rules","trojan.rules","games.rules","pop3.rules","user_agents.rules","rpc.rules","attack_response.rules","icmp.rules","scan.rules","voip.rules","chat.rules","web_client.rules","imap.rules","web_server.rules","current_events.rules","smtp.rules","malware.rules","snmp.rules","worm.rules","dns.rules","misc.rules","sql.rules","dos.rules","netbios.rules","telnet.rules","exploit.rules","p2p.rules","tftp.rules","mobile_malware.rules"]
 
 rule_sets["test"] = []
 update_script_buf = ""
 
-rule_sets["sopen"] = ["all.rules","emerging-botcc.rules","emerging-compromised.rules","emerging-drop.rules","emerging-dshield.rules","emerging-rbn.rules","emerging-rbn-malvertisers.rules","emerging-tor.rules","emerging-ciarmy.rules"]
-rule_sets["spro"] = ["all.rules","emerging-botcc.rules","emerging-compromised.rules","emerging-drop.rules","emerging-dshield.rules","emerging-rbn.rules","emerging-rbn-malvertisers.rules","emerging-tor.rules","emerging-ciarmy.rules"]
+rule_sets["sopen"] = ["all.rules","emerging-botcc.rules","emerging-compromised.rules","emerging-drop.rules","emerging-dshield.rules","emerging-tor.rules","emerging-ciarmy.rules"]
+rule_sets["spro"] = ["all.rules","emerging-botcc.rules","emerging-compromised.rules","emerging-drop.rules","emerging-dshield.rules","emerging-tor.rules","emerging-ciarmy.rules"]
 def make_pp_config(engine,feed_type):
     ocode = ""
     rules_file = ""

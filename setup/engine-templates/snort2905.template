@@ -50,16 +50,16 @@ preprocessor stream5_tcp: policy windows, detect_anomalies, require_3whs 180, \
         7917 7918 7919 7920 8000 8008 8028 8080 8088 8118 8123 8180 8243 8280 8888 9090 9091 9443 9999 11371
 preprocessor stream5_udp: timeout 180
 
-preprocessor http_inspect: global iis_unicode_map /opt/snort2905/etc/unicode.map 1252 compress_depth 20480 decompress_depth 20480
+preprocessor http_inspect: global iis_unicode_map /opt/snort2905/etc/unicode.map 1252 compress_depth 65535 decompress_depth 65535
 preprocessor http_inspect_server: server default \
     chunk_length 500000 \
     server_flow_depth 0 \
     client_flow_depth 0 \
     post_depth 65495 \
-	oversize_dir_length 500 \
+        oversize_dir_length 500 \
     max_header_length 750 \
     max_headers 100 \
-    ports  { 80,81,311,591,593,901,1220,1414,1830,2301,2381,2809,3128,3702,4343,5250,7001,7145,7510,7777,7779,8000,8008,8014,8028,8080,8088,8118,8123,8180,8181,8243,8280,8800,8888,8899,9080,9090,9091,9443,9999,11371,55555 } \
+    ports  { 80 81 311 591 593 901 1220 1414 1830 2301 2381 2809 3128 3702 4343 5250 7001 7145 7510 7777 7779 8000 8008 8014 8028 8080 8088 8118 8123 8180 8181 8243 8280 8800 8888 8899 9080 9090 9091 9443 9999 11371 55555 } \
     non_rfc_char { 0x00 0x01 0x02 0x03 0x04 0x05 0x06 0x07 } \
     enable_cookie \
     extended_response_inspection \
@@ -70,15 +70,15 @@ preprocessor http_inspect_server: server default \
     ascii no \
     bare_byte no \
     base36 no \
-	directory no \
-	double_decode no \
-	iis_backslash no \
-	iis_delimiter no \
-	iis_unicode no \
-	multi_slash no \
-   utf_8 no \
-	u_encode yes \
-	webroot no
+    directory no \
+    double_decode no \
+    iis_backslash no \
+    iis_delimiter no \
+    iis_unicode no \
+    multi_slash no \
+    utf_8 no \
+    u_encode yes \
+    webroot no
 
 preprocessor rpc_decode: 111 32770 32771 32772 32773 32774 32775 32776 32777 32778 32779 no_alert_multiple_requests no_alert_large_fragments no_alert_incomplete
 

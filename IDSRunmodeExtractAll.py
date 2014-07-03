@@ -144,7 +144,6 @@ class RunmodeExtractAll:
         p_info(xignore)
 
         return xignore
-
     #given a pcap run the ids and extract flows
     def xtractall(self, pcap):
         self.alerthash ={}
@@ -154,7 +153,10 @@ class RunmodeExtractAll:
             for entry in self.alerthash:
                 print entry
                 sidlist = '-'.join(map(str,self.alerthash[entry]['sids']))
-                out = "%s-proto-%s-s-%s-sport-%s-d-%s-dport-%s-sids-%s.pcap" % (os.path.basename(pcap),self.alerthash[entry]['cproto'], self.alerthash[entry]['src'], self.alerthash[entry]['sport'],self.alerthash[entry]['dst'],self.alerthash[entry]['dport'],sidlist)
+                if self.alerthash[entry]['cproto'] == "tcp" or  self.alerthash[entry]['cproto'] == "udp":
+                    out = "%s-proto-%s-s-%s-sport-%s-d-%s-dport-%s-sids-%s.pcap" % (os.path.basename(pcap),self.alerthash[entry]['cproto'], self.alerthash[entry]['src'], self.alerthash[entry]['sport'],self.alerthash[entry]['dst'],self.alerthash[entry]['dport'],sidlist)
+                else:
+                    out = "%s-proto-%s-s-%s-d-%s-sids-%s.pcap" % (os.path.basename(pcap),self.alerthash[entry]['cproto'], self.alerthash[entry]['src'], self.alerthash[entry]['dst'],sidlist)
                 self.run_xa_tcpdump(self.alerthash[entry]['bpffilter'], pcap ,out)
 
     #given a pcap and a fast log extract flows
@@ -166,6 +168,9 @@ class RunmodeExtractAll:
             for entry in self.alerthash:
                 print entry
                 sidlist = '-'.join(map(str,self.alerthash[entry]['sids']))
-                out = "%s-proto-%s-s-%s-sport-%s-d-%s-dport-%s-sids-%s.pcap" % (os.path.basename(pcap),self.alerthash[entry]['cproto'], self.alerthash[entry]['src'], self.alerthash[entry]['sport'],self.alerthash[entry]['dst'],self.alerthash[entry]['dport'],sidlist)
+                if self.alerthash[entry]['cproto'] == "tcp" or  self.alerthash[entry]['cproto'] == "udp":
+                    out = "%s-proto-%s-s-%s-sport-%s-d-%s-dport-%s-sids-%s.pcap" % (os.path.basename(pcap),self.alerthash[entry]['cproto'], self.alerthash[entry]['src'], self.alerthash[entry]['sport'],self.alerthash[entry]['dst'],self.alerthash[entry]['dport'],sidlist)
+                else:
+                    out = "%s-proto-%s-s-%s-d-%s-sids-%s.pcap" % (os.path.basename(pcap),self.alerthash[entry]['cproto'], self.alerthash[entry]['src'], self.alerthash[entry]['dst'],sidlist)
                 self.run_xa_tcpdump(self.alerthash[entry]['bpffilter'], pcap ,out)
- 
+
