@@ -60,7 +60,11 @@ class RunmodeSanitize:
         # Build custom subject with the prefix (we should change the name)
         self.currentts = time.strftime("%Y-%m-%d-T-%H-%M-%S", time.localtime())
         self.ts = str(int(time.time()))
-        self.resultPath = self.Runmode.conf["globallogdir"] + "/RunmodeSanitize/" + self.conf['engine'] + "/Sanitization_Summary_Report%s" % self.Mail.conf['emailsubject'].replace("/","").replace(" ", "_").replace("[","_").replace("]","_") + "/" + self.currentts + "/" 
+        if self.Runmode.conf["custom_runid"]:
+             self.resultPath = self.Runmode.conf["globallogdir"] + "/RunmodeSanitize/" + self.conf['engine'] + "/Sanitization_Summary_Report%s" % (self.Runmode.conf["custom_runid"])
+        else:
+            self.resultPath = self.Runmode.conf["globallogdir"] + "/RunmodeSanitize/" + self.conf['engine'] + "/Sanitization_Summary_Report%s" \
+                              % self.Mail.conf['emailsubject'].replace("/","").replace(" ", "_").replace("[","_").replace("]","_") + "/" + self.currentts + "/"
         if not os.path.exists(self.resultPath):
             try:
                os.makedirs(self.resultPath)

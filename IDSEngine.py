@@ -162,13 +162,19 @@ class IDSEngine(RunmodeSanitize, RunmodeExtract, RunmodeExtractAll, RunmodeVerif
                 else:
                     cmd = "%s -c %s -K none -l %s -T" % (self.conf["path"], self.conf["config"], self.conf["logdir"])
             elif self.mode == "suricata":
-                cmd = "%s -c %s -l %s -r %s --init-errors" % (self.conf["path"], self.conf["config"], self.conf["logdir"], self.pcapfile)
+                if re.match(r"^2\.",self.conf["version"]) != None:
+                    cmd = "%s -c %s -l %s -r %s --init-errors -v" % (self.conf["path"], self.conf["config"], self.conf["logdir"], self.pcapfile)
+                else:
+                    cmd = "%s -c %s -l %s -r %s --init-errors" % (self.conf["path"], self.conf["config"], self.conf["logdir"], self.pcapfile)
         # Other runmodes should be equal
         else:
             if self.mode == "snort":
                 cmd = "%s -c %s -l %s -K none -k none -r %s -A fast" % (self.conf["path"], self.conf["config"], self.conf["logdir"], pcap)
             elif self.mode == "suricata":
-                cmd = "%s -c %s -l %s -r %s " % (self.conf["path"], self.conf["config"], self.conf["logdir"], pcap)
+                if re.match(r"^2\.",self.conf["version"]) != None:
+                    cmd = "%s -c %s -l %s -r %s -v " % (self.conf["path"], self.conf["config"], self.conf["logdir"], pcap)
+                else:
+                    cmd = "%s -c %s -l %s -r %s " % (self.conf["path"], self.conf["config"], self.conf["logdir"], pcap)
         return cmd
 
     def execute(self, runmode, pcap):
