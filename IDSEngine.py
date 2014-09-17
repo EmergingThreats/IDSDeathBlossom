@@ -162,10 +162,15 @@ class IDSEngine(RunmodeSanitize, RunmodeExtract, RunmodeExtractAll, RunmodeVerif
                 else:
                     cmd = "%s -c %s -K none -l %s -T" % (self.conf["path"], self.conf["config"], self.conf["logdir"])
             elif self.mode == "suricata":
+                #if re.match(r"^2\.",self.conf["version"]) != None:
+                #    cmd = "%s -c %s -l %s -r %s --init-errors -v" % (self.conf["path"], self.conf["config"], self.conf["logdir"], self.pcapfile)
+                #else:
+                #    cmd = "%s -c %s -l %s -r %s --init-errors" % (self.conf["path"], self.conf["config"], self.conf["logdir"], self.pcapfile)
                 if re.match(r"^2\.",self.conf["version"]) != None:
-                    cmd = "%s -c %s -l %s -r %s --init-errors -v" % (self.conf["path"], self.conf["config"], self.conf["logdir"], self.pcapfile)
+                    cmd = "%s -c %s -l %s -r %s -v" % (self.conf["path"], self.conf["config"], self.conf["logdir"], self.pcapfile)
                 else:
-                    cmd = "%s -c %s -l %s -r %s --init-errors" % (self.conf["path"], self.conf["config"], self.conf["logdir"], self.pcapfile)
+                    cmd = "%s -c %s -l %s -r %s" % (self.conf["path"], self.conf["config"], self.conf["logdir"], self.pcapfile)
+
         # Other runmodes should be equal
         else:
             if self.mode == "snort":

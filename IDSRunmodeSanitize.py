@@ -28,6 +28,7 @@ from IDSUtils import *
 from IDSMail import *
 from IDSSignature import *
 import time
+import cgi
 from IDSLogging import *
 from IDSReport import *
 
@@ -61,9 +62,9 @@ class RunmodeSanitize:
         self.currentts = time.strftime("%Y-%m-%d-T-%H-%M-%S", time.localtime())
         self.ts = str(int(time.time()))
         if self.Runmode.conf["custom_runid"]:
-             self.resultPath = self.Runmode.conf["globallogdir"] + "/RunmodeSanitize/" + self.conf['engine'] + "/Sanitization_Summary_Report%s" % (self.Runmode.conf["custom_runid"])
+             self.resultPath = self.Runmode.conf["globallogdir"] + "/RunmodeSanitize/" + self.conf['engine'] + "/Sanitization_Summary_Report/%s/" % (self.Runmode.conf["custom_runid"])
         else:
-            self.resultPath = self.Runmode.conf["globallogdir"] + "/RunmodeSanitize/" + self.conf['engine'] + "/Sanitization_Summary_Report%s" \
+            self.resultPath = self.Runmode.conf["globallogdir"] + "/RunmodeSanitize/" + self.conf['engine'] + "/Sanitization_Summary_Report/%s/" \
                               % self.Mail.conf['emailsubject'].replace("/","").replace(" ", "_").replace("[","_").replace("]","_") + "/" + self.currentts + "/"
         if not os.path.exists(self.resultPath):
             try:
@@ -129,12 +130,12 @@ class RunmodeSanitize:
                 commentedsid = self.Signature.extract_sid(self.Signature.get_rule(fil, lin))
                 if commentedsid:
                     r.addFooter({"link_proback_rule_sid_%s" % str(commentedsid) : "https://proback.emergingthreatspro.com/active/ruleview?rule_id=%s" % str(commentedsid)})
-                    r.addBody("File: %s (Line: %s) -- Rule with errors commented at %s, reason: %s -- Rule: %s" %(fil, lin, self.currentts, rea, self.Signature.get_rule(fil, lin)))
+                    r.addBody(cgi.escape("File: %s (Line: %s) -- Rule with errors commented at %s, reason: %s -- Rule: %s" %(fil, lin, self.currentts, rea, cgi.escape(self.Signature.get_rule(fil, lin)))))
             for (fil,lin,rea) in self.rule_warnings:
                 commentedsid = self.Signature.extract_sid(self.Signature.get_rule(fil, lin))
                 if commentedsid:
                     r.addFooter({"link_proback_rule_sid_%s" % str(commentedsid) : "https://proback.emergingthreatspro.com/active/ruleview?rule_id=%s" % str(commentedsid)})
-                    r.addBody("File: %s (Line: %s) -- Rule with errors commented at %s, reason: %s -- Rule: %s" %(fil, lin, self.currentts, rea, self.Signature.get_rule(fil, lin)))
+                    r.addBody(cgi.escape("File: %s (Line: %s) -- Rule with errors commented at %s, reason: %s -- Rule: %s" %(fil, lin, self.currentts, rea, self.Signature.get_rule(fil, lin))))
             self.rule_errors = []
             self.rule_warnings = []
             print str(self.rule_errors)
@@ -211,9 +212,9 @@ class RunmodeSanitize:
                 if self.rule_errors != []:
                     p_info("Sanitizing errors")
                     for (fil, line, log) in self.rule_errors:
-                        sanity_errors = "%s%s" % (sanity_errors, "File: %s (Line: %s) -- Rule with errors commented at %s, reason: %s --\nRule: %s\n" %(fil, line, self.currentts, log, self.Signature.get_rule(fil, line)))
+                        sanity_errors = "%s%s" % (sanity_errors, "File: %s (Line: %s) -- Rule with errors commented at %s, reason: %s --\nRule: %s\n" %(fil, line, self.currentts, log, cgi.escape(self.Signature.get_rule(fil, line))))
                         report.write("File: %s (Line: %s) -- Rule with errors commented at %s, reason: %s -- Rule: %s" %(fil, line, self.currentts, log, self.Signature.get_rule(fil, line)))
-                        r.addBody("File: %s (Line: %s) -- Rule with errors commented at %s, reason: %s -- Rule: %s" %(fil, line, self.currentts, log, self.Signature.get_rule(fil, line)))
+                        r.addBody(cgi.escape("File: %s (Line: %s) -- Rule with errors commented at %s, reason: %s -- Rule: %s" %(fil, line, self.currentts, log, self.Signature.get_rule(fil, line))))
                         commentedsid = self.Signature.extract_sid(self.Signature.get_rule(fil, line))
                         ret = self.Signature.comment_rule_line(fil, line, log)
                         if ret < 1:
@@ -227,6 +228,7 @@ class RunmodeSanitize:
                                 p_error("Can't continue the sanitization. Reporting and exiting now.")
                                 stop = 1
                             else:
+                                p_error("Error, Stopping due to unknown error" % (ret))
                                 stop = 1 # (Unknown err)
                         else:
                             commented = commented + 1
@@ -235,9 +237,9 @@ class RunmodeSanitize:
                 if self.rule_warnings!= []:
                     p_info("Sanitizing warnings")
                     for (fil, line, log) in self.rule_warnings:
-                        sanity_warnings = "%s%s" % (sanity_warnings, "File: %s (Line: %s) -- Rule with errors commented at %s, reason: %s --\nRule: %s\n" %(fil, line, self.currentts, log, self.Signature.get_rule(fil, line)))
-                        report.write("File: %s (Line: %s) -- Rule with warnings commented at %s, reason: %s -- Rule: %s" %(fil, line, self.currentts, log, self.Signature.get_rule(fil, line)))
-                        r.addBody("File: %s (Line: %s) -- Rule with warnings commented at %s, reason: %s -- Rule: %s" %(fil, line, self.currentts, log, self.Signature.get_rule(fil, line)))
+                        sanity_warnings = "%s%s" % (sanity_warnings, "File: %s (Line: %s) -- Rule with errors commented at %s, reason: %s --\nRule: %s\n" %(fil, line, self.currentts, log, cgi.escape(self.Signature.get_rule(fil, line))))
+                        report.write("File: %s (Line: %s) -- Rule with warnings commented at %s, reason: %s -- Rule: %s" %(fil, line, self.currentts, log, cgi.escape(self.Signature.get_rule(fil, line))))
+                        r.addBody(cgi.escape("File: %s (Line: %s) -- Rule with warnings commented at %s, reason: %s -- Rule: %s" %(fil, line, self.currentts, log, self.Signature.get_rule(fil, line))))
                         commentedsid = self.Signature.extract_sid(self.Signature.get_rule(fil, line))
                         ret = self.Signature.comment_rule_line(fil, line, log)
                         if ret < 1:
@@ -279,10 +281,10 @@ class RunmodeSanitize:
         if ret < 1:
             if ret == -1:
                 mailbody = "%sFatal Error! Not a rule error (probably a config error (at file %s, line %s). Can't comment out. Check the config of %s Exiting.\n" % (mailbody, fil, line, self.engine)
-                r.addBody("Fatal Error! Not a rule error (probably a config error (at file %s, line %s). Can't comment out. Check the config of %s Exiting." % (fil, line, self.engine))
+                r.addBody(cgi.escape("Fatal Error! Not a rule error (probably a config error (at file %s, line %s). Can't comment out. Check the config of %s Exiting." % (fil, line, self.engine)))
             if ret == 0:
                 mailbody = "%sFatal Error! Can't comment out a rule (at file %s, line %s). Check the config and perms of %s Exiting." % (mailbody, fil, line, self.engine) 
-                r.addBody("Fatal Error! Can't comment out a rule (at file %s, line %s). Check the config and perms of %s Exiting." % (fil, line, self.engine))
+                r.addBody(cgi.escape("Fatal Error! Can't comment out a rule (at file %s, line %s). Check the config and perms of %s Exiting." % (fil, line, self.engine)))
         # now we should have sanitized the files as much as possible. Let's see
         # the return codes and if we have checked the "all rules loaded" condition
         if not (sanity_errors != "" or  sanity_warnings != "" or self.returncode != 0 or warnings != "" or errors != ""):
@@ -294,7 +296,7 @@ class RunmodeSanitize:
             r.addFooter("%s returned 0 exiting correctly" % self.conf["engine"])
         else:
             mailbody = "%s[+] %s returned %d not exiting correctly\n" % (mailbody, self.mode, int(self.returncode))
-            r.addFooter("%s returned %d exiting correctly" % (self.conf["engine"], int(self.returncode)))
+            r.addFooter("%s returned %d not exiting correctly" % (self.conf["engine"], int(self.returncode)))
 
         mailbody = "%s[+] %d rules were commented\n" % (mailbody, commented)
         r.addHeader("%d rules were commented" % commented)

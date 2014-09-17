@@ -36,6 +36,7 @@ from IDSUtils import *
 from IDSMail import *
 from IDSRunmodeCompare import *
 from IDSRunmodeSidperfq import *
+from IDSReport import *
 from IDSLogging import *
 from IDSdb import *
 
@@ -142,6 +143,21 @@ class IDSToolEnv(RunmodeCompare, RunmodeSidperfq):
             val = None
         return val
 
+    def SummaryHTMLSanitize(self, reportgroup, globallogdir ,runid):
+        sum = "%s/Sanitize.html" % (globallogdir)
+        report = open(sum, 'w')
+        cur = self.db.execute("select engine,status,errors,warnings,commented from report where reportgroup=%s", (reportgroup,))
+        report.write("<html></body>\n")
+        report.write("<table border=1 cellspacing=0 cellpadding=5>")
+        report.write("<tr><td>Engine</td><td>Status</td><td>Errors</td><td>Warnings</td><td>Commented/td></tr>")
+        for row in cur:
+            engine = (row[0])
+            status = str(row[1])
+            errors = str(row[2])
+            warnings = str(row[3])
+            commented = str(row[4])
+            report.write("<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td><a href=RunmodeSanitize/%s/Sanitization_Summary_Report/%s/report.html>REPORT</a></td></tr>\n" % (engine,status,errors,warnings,commented,engine,runid))
+        report.write("</table></body></html>")
 
     def __str__(self):
         s = ''
@@ -231,6 +247,8 @@ class IDSToolEnv(RunmodeCompare, RunmodeSidperfq):
                     else:
                         p_error("<%s><%s><%s>: sid provided via --sperfsid %s is invalid or None and/or --perfdb %s option was invalid or not provided" % (str(whoami()),str(lineno()),str(__file__),str(self.Runmode.conf["sperfsid"]),str(self.Runmode.conf["perfdb"])))
                         sys.exit(-19)
+            if self.Runmode.runmode == "sanitize":
+                self.SummaryHTMLSanitize(self.Runmode.conf['reportgroup'],self.Runmode.conf["globallogdir"],self.Runmode.conf["custom_runid"])
 
         # Comparison modes here
         elif self.Runmode.runmode == "comparefast":
@@ -362,7 +380,6 @@ class IDSToolEnv(RunmodeCompare, RunmodeSidperfq):
 
         if self.Runmode.conf.has_key("sqlquery") and self.Runmode.conf["sqlquery"] != "":
             self.queryDB(self.Runmode.conf["sqlquery"])
-
 
     # This is the function
     # used to override the default config with the cli options

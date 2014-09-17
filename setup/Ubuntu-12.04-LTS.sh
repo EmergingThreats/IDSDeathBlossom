@@ -200,6 +200,7 @@ sudo cp ../classification.config /opt/suricata202JIT/etc/
 sudo cp /usr/local/suricata/et-luajit-scripts/* /opt/suricata202JIT/etc/etpro
 sudo cp /usr/local/suricata/et-luajit-scripts/* /opt/suricata202JIT/etc/etopen
 sudo cp ../threshold.config /opt/suricata202JIT/etc/
+cd ..
 
 tar -xzvf suricata-2.0.3.tar.gz
 cd suricata-2.0.3
@@ -217,6 +218,7 @@ sudo cp ../classification.config /opt/suricata203JIT/etc/
 sudo cp /usr/local/suricata/et-luajit-scripts/* /opt/suricata203JIT/etc/etpro
 sudo cp /usr/local/suricata/et-luajit-scripts/* /opt/suricata203JIT/etc/etopen
 sudo cp ../threshold.config /opt/suricata203JIT/etc/
+cd ..
 
 tar -xzvf libdnet-1.11.tar.gz
 cd libdnet-1.11
@@ -291,7 +293,7 @@ cd ..
 
 tar -xzvf snort-2.9.6.2.tar.gz
 cd snort-2.9.6.2
-PATH="/opt/daq202/bin:$PATH" ./configure --enable-ipv6 --enable-gre --enable-mpls --with-dnet-includes=/opt/libdnet111/include/ --with-dnet-libraries=/opt/libdnet111/lib/ --enable-targetbased --enable-decoder-preprocessor-rules --enable-ppm --enable-perfprofiling --enable-zlib --enable-active-response --enable-normalizer --enable-reload --enable-react --enable-flexresp3 LD_RUN_PATH="/opt/daq202/lib:/opt/snort2962/lib:/opt/libdnet111/lib:/usr/lib:/usr/local/lib" --prefix=/opt/snort2961/ --with-daq-includes=/opt/daq202/include/ --with-daq-libraries=/opt/daq202/lib/ && make -j && sudo make install
+PATH="/opt/daq202/bin:$PATH" ./configure --enable-ipv6 --enable-gre --enable-mpls --with-dnet-includes=/opt/libdnet111/include/ --with-dnet-libraries=/opt/libdnet111/lib/ --enable-targetbased --enable-decoder-preprocessor-rules --enable-ppm --enable-perfprofiling --enable-zlib --enable-active-response --enable-normalizer --enable-reload --enable-react --enable-flexresp3 LD_RUN_PATH="/opt/daq202/lib:/opt/snort2962/lib:/opt/libdnet111/lib:/usr/lib:/usr/local/lib" --prefix=/opt/snort2962/ --with-daq-includes=/opt/daq202/include/ --with-daq-libraries=/opt/daq202/lib/ && make -j && sudo make install
 sudo cp etc/* /opt/snort2962/etc/
 cd ..
 
