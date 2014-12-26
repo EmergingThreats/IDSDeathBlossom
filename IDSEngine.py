@@ -167,7 +167,7 @@ class IDSEngine(RunmodeSanitize, RunmodeExtract, RunmodeExtractAll, RunmodeVerif
                 #else:
                 #    cmd = "%s -c %s -l %s -r %s --init-errors" % (self.conf["path"], self.conf["config"], self.conf["logdir"], self.pcapfile)
                 if re.match(r"^2\.",self.conf["version"]) != None:
-                    cmd = "%s -c %s -l %s -r %s -v" % (self.conf["path"], self.conf["config"], self.conf["logdir"], self.pcapfile)
+                    cmd = "%s -c %s -l %s -r %s -v --runmode=single --set \"stream.checksum-validation=no\"" % (self.conf["path"], self.conf["config"], self.conf["logdir"], self.pcapfile)
                 else:
                     cmd = "%s -c %s -l %s -r %s" % (self.conf["path"], self.conf["config"], self.conf["logdir"], self.pcapfile)
 
@@ -177,9 +177,15 @@ class IDSEngine(RunmodeSanitize, RunmodeExtract, RunmodeExtractAll, RunmodeVerif
                 cmd = "%s -c %s -l %s -K none -k none -r %s -A fast" % (self.conf["path"], self.conf["config"], self.conf["logdir"], pcap)
             elif self.mode == "suricata":
                 if re.match(r"^2\.",self.conf["version"]) != None:
-                    cmd = "%s -c %s -l %s -r %s -v " % (self.conf["path"], self.conf["config"], self.conf["logdir"], pcap)
-                else:
-                    cmd = "%s -c %s -l %s -r %s " % (self.conf["path"], self.conf["config"], self.conf["logdir"], pcap)
+		    if "JIT" in self.conf["version"]:
+		        cmd = "LD_LIBRARY_PATH=/opt/luajit20/lib/ %s -c %s -l %s -r %s -v --runmode=single --set \"stream.checksum-validation=no\"" % (self.conf["path"], self.conf["config"], self.conf["logdir"], pcap)
+                    else:
+		        cmd = "%s -c %s -l %s -r %s -v --runmode=single --set \"stream.checksum-validation=no\"" % (self.conf["path"], self.conf["config"], self.conf["logdir"], pcap)
+                if re.match(r"^1\.",self.conf["version"]) != None:
+		    if "JIT" in self.conf["version"]:
+		        cmd = "LD_LIBRARY_PATH=/opt/luajit20/lib/ %s -c %s -l %s -r %s --runmode=single" % (self.conf["path"], self.conf["config"], self.conf["logdir"], pcap)
+		    else:
+		        cmd = "%s -c %s -l %s -r %s --runmode=single" % (self.conf["path"], self.conf["config"], self.conf["logdir"], pcap)
         return cmd
 
     def execute(self, runmode, pcap):
