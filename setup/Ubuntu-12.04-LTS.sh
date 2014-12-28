@@ -102,15 +102,13 @@ sudo ln -s /usr/lib/x86_64-linux-gnu/lua/5.1/zip.so /opt/luajit20/lib/lua/5.1/zi
 sudo luarocks install struct
 sudo luarocks install lua-apr
 
-### Temp disbaled below ->
-#mkdir lua-zlib
-#cd lua-zlib
-#git clone https://github.com/brimworks/lua-zlib.git
-#cmake lua-zlib
-#cd lua-zlib 
-#make
-#sudo make install
-#cd ../..
+mkdir lua-zlib
+cd lua-zlib
+git clone https://github.com/brimworks/lua-zlib.git
+cmake lua-zlib
+cd lua-zlib 
+luarocks make
+cd ../..
 
 tar -xzvf suricata-1.3.6.tar.gz
 cd suricata-1.3.6
