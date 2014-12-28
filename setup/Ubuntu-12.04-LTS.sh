@@ -107,7 +107,7 @@ cd lua-zlib
 git clone https://github.com/brimworks/lua-zlib.git
 cmake lua-zlib
 cd lua-zlib 
-luarocks make
+sudo luarocks make
 cd ../..
 
 tar -xzvf suricata-1.3.6.tar.gz
