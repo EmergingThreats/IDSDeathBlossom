@@ -1,6 +1,83 @@
 # This started off as a really small python script to automate some simple tests. Now it is a bigger script that automates some simple tests :).  We thought it might be useful to others so we open sourced it. It is licensed as BSD except for code found under the setup directory. Items in that directory have their own licenses.
 
-# Tests/examples...
+RUN/SETUP
+
+You need to execute the following steps below.
+
+1)
+You need to download the new/wanted Suricata/Snort tar.gz ball version (for example Suricata 2.0.5) - respective versions and put them in the IDSDeathBlossom/setup directory
+
+2)
+Create/Add the necessary dirs at the top of the setup/Ubuntu-12.04-LTS.sh script (example for Suricata 2.0.5): 
+sudo mkdir -p /opt/suricata205/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize/sopen,etc/sanitize/spro}
+sudo mkdir -p /opt/suricata205JIT/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize/sopen,etc/sanitize/spro}
+
+3)
+Add the folioing to the setup/Ubuntu-12.04-LTS.sh script (example for Suricata 2.0.5):
+
+#### EXAMPLE ####
+tar -xzvf suricata-2.0.5.tar.gz
+cd suricata-2.0.5
+./configure --enable-profiling --prefix=/opt/suricata205/ --with-libnss-includes=/usr/include/nss --with-libnss-libs=/usr/lib/nss --with-libnspr-includes=/usr/include/nspr --with-libnspr-libraries=/usr/lib/nspr && make -j && sudo make install
+sudo cp suricata.yaml /opt/suricata205/etc/
+sudo cp ../reference.config /opt/suricata205/etc/
+sudo cp ../classification.config /opt/suricata205/etc/
+sudo cp ../threshold.config /opt/suricata205/etc/
+make distclean
+
+./configure LD_RUN_PATH="/opt/pcre-8.35/lib:/opt/luajit20/lib/:/opt/lib/:/usr/lib:/usr/local/lib" --enable-pcre-jit --with-libpcre-libraries=/opt/pcre-8.35/lib/ --with-libpcre-includes=/opt/pcre-8.35/include/ --enable-profiling --prefix=/opt/suricata205JIT/ --with-libnss-includes=/usr/include/nss --with-libnss-libs=/usr/lib/nss --with-libnspr-includes=/usr/include/nspr --with-libnspr-libraries=/usr/lib/nspr --enable-luajit --with-libluajit-includes=/opt/luajit20/include/luajit-2.0/ --with-libluajit-libraries=/opt/luajit20/lib/ && make -j && sudo make install
+sudo cp suricata.yaml /opt/suricata205JIT/etc/
+sudo cp ../reference.config /opt/suricata205JIT/etc/
+sudo cp ../classification.config /opt/suricata205JIT/etc/
+sudo cp /usr/local/suricata/et-luajit-scripts/* /opt/suricata205JIT/etc/etpro
+sudo cp /usr/local/suricata/et-luajit-scripts/* /opt/suricata205JIT/etc/etopen
+sudo cp ../threshold.config /opt/suricata205JIT/etc/
+####
+
+At the bottom of the script add
+#### EXAMPLE ####
+rm suricata-2.0.5 -Rf
+####
+
+Save and 
+
+4)
+Manually create templates in:
+setup/engine-templates/suricata205.template
+You can copy from 204/203 versions for example and then you need to change the following directories inside:
+
+default-log-dir: /opt/suricata205/var/log/
+classification-file: /opt/suricata205/etc/classification.config
+reference-config-file: /opt/suricata205/etc/reference.config
+threshold-file: /opt/suricata205/etc/threshold.config
+
+5)
+In /setup/gunstar-maker.py 
+just add the engines - 
+engines["suricata205"] = {"type":"suricata", "version":"2.0.5", "eversion":"2.0.5"}
+engines["suricata205JIT"] = {"type":"suricata", "version":"2.0.5", "eversion":"2.0.5JIT"}
+
+6)
+Run the Ubuntu set up script:
+root@ET:~/Work/ET/IDSDeathBlossom/setup# ./Ubuntu-12.04-LTS.sh
+(If you do not have an ETPro code , do not enter anything when asked - just hit enter)
+
+7)
+Set up the mysql DB (make sure the mysql server is started)
+root@ET:~/Work/ET/IDSDeathBlossom/setup# mysql -u root -p < mysql_setup.sql
+
+8)
+Run the ruleupdate script
+root@ET:~/Work/ET/IDSDeathBlossom/setup# /usr/local/bin/ruleupdates.sh
+
+9)
+Proceed with a test:
+
+How to test example(directory location and command dirs are important):
+root@ET:~/IDSDeathBlossom# python IDSDeathBlossom.py -c config/config.yaml -R run -t "suricata-2.0.5-etopen-all" --reporton="TopNWorstAll,TopNWorstCurrent,LoadReportCurrent" --pcappath="pcaps/PDF-in-XPD-Safe-Example.pcap"
+
+
+TEST/EXAMPLES
 # Please, feel free to add yours
 # We should say which opts are mandatory and which ones can be loaded from config
 
