@@ -176,7 +176,7 @@ class IDSEngine(RunmodeSanitize, RunmodeExtract, RunmodeExtractAll, RunmodeVerif
             if self.mode == "snort":
                 cmd = "%s -c %s -l %s -K none -k none -r %s -A fast" % (self.conf["path"], self.conf["config"], self.conf["logdir"], pcap)
             elif self.mode == "suricata":
-                if re.match(r"^2\.",self.conf["version"]) != None:
+                if re.match(r"^2\.", self.conf["version"]) != None:
 		    if "JIT" in self.conf["version"]:
 		        cmd = "LD_LIBRARY_PATH=/opt/luajit20/lib/ %s -c %s -l %s -r %s -v --runmode=single --set \"stream.checksum-validation=no\"" % (self.conf["path"], self.conf["config"], self.conf["logdir"], pcap)
                     else:
