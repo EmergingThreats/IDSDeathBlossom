@@ -52,6 +52,8 @@ class IDSEngine(RunmodeSanitize, RunmodeExtract, RunmodeExtractAll, RunmodeVerif
 # {'engine': 'snort2861pro', 'enable': True, 'type': 'snort', 'fastlog': 'alert', 'summary': 'snort 2.8.6.1 with config of ET pro rules', 'version': '2.8.6.1', 'logdir': './logs/', 'path': '/opt/snort2861/bin/snort', 'config': '/opt/snort2861/etc/snort-et-pro.conf', 'configtpl': '/opt/snort2861/etc/snort.conf.tpl'}
 
         self.sidd = {}
+        self.conf["version"] = str(self.conf["version"])
+        # make sure version is always a string - not float or int
         #Default variables
         self.currentts = ""
         # Set defaults for each engine type if any field is missing
