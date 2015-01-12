@@ -13,7 +13,7 @@ sudo mkdir -p /opt/suricata205/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,
 sudo mkdir -p /opt/suricata205JIT/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize/sopen,etc/sanitize/spro}
 
 3)
-Add the folioing to the setup/Ubuntu-12.04-LTS.sh script (example for Suricata 2.0.5):
+Add the following to the setup/Ubuntu-12.04-LTS.sh script (example for Suricata 2.0.5):
 
 #### EXAMPLE ####
 tar -xzvf suricata-2.0.5.tar.gz
