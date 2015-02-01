@@ -36,6 +36,8 @@ sudo mkdir -p /opt/suricata204/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,
 sudo mkdir -p /opt/suricata204JIT/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize/sopen,etc/sanitize/spro}
 sudo mkdir -p /opt/suricata205/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize/sopen,etc/sanitize/spro}
 sudo mkdir -p /opt/suricata205JIT/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize/sopen,etc/sanitize/spro}
+sudo mkdir -p /opt/suricata206/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize/sopen,etc/sanitize/spro}
+sudo mkdir -p /opt/suricata206JIT/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize/sopen,etc/sanitize/spro}
 sudo mkdir -p /opt/et-luajit-scripts
 
 sudo apt-get install lua-apr lua-apr-dev build-essential libapr1 \
@@ -274,6 +276,23 @@ sudo cp /usr/local/suricata/et-luajit-scripts/* /opt/suricata205JIT/etc/etopen
 sudo cp ../threshold.config /opt/suricata205JIT/etc/
 cd ..
 
+tar -xzvf suricata-2.0.6.tar.gz
+cd suricata-2.0.6
+./configure --enable-profiling --prefix=/opt/suricata206/ --with-libnss-includes=/usr/include/nss --with-libnss-libs=/usr/lib/nss --with-libnspr-includes=/usr/include/nspr --with-libnspr-libraries=/usr/lib/nspr && make -j && sudo make install
+sudo cp suricata.yaml /opt/suricata206/etc/
+sudo cp ../reference.config /opt/suricata206/etc/
+sudo cp ../classification.config /opt/suricata206/etc/
+sudo cp ../threshold.config /opt/suricata206/etc/
+make distclean
+
+./configure LD_RUN_PATH="/opt/pcre-8.35/lib:/opt/luajit20/lib/:/opt/lib/:/usr/lib:/usr/local/lib" --enable-pcre-jit --with-libpcre-libraries=/opt/pcre-8.35/lib/ --with-libpcre-includes=/opt/pcre-8.35/include/ --enable-profiling --prefix=/opt/suricata206JIT/ --with-libnss-includes=/usr/include/nss --with-libnss-libs=/usr/lib/nss --with-libnspr-includes=/usr/include/nspr --with-libnspr-libraries=/usr/lib/nspr --enable-luajit --with-libluajit-includes=/opt/luajit20/include/luajit-2.0/ --with-libluajit-libraries=/opt/luajit20/lib/ && make -j && sudo make install
+sudo cp suricata.yaml /opt/suricata206JIT/etc/
+sudo cp ../reference.config /opt/suricata206JIT/etc/
+sudo cp ../classification.config /opt/suricata206JIT/etc/
+sudo cp /usr/local/suricata/et-luajit-scripts/* /opt/suricata206JIT/etc/etpro
+sudo cp /usr/local/suricata/et-luajit-scripts/* /opt/suricata206JIT/etc/etopen
+sudo cp ../threshold.config /opt/suricata206JIT/etc/
+cd ..
 
 tar -xzvf libdnet-1.11.tar.gz
 cd libdnet-1.11
@@ -419,6 +438,7 @@ rm suricata-2.0.2 -Rf
 rm suricata-2.0.3 -Rf
 rm suricata-2.0.4 -Rf
 rm suricata-2.0.5 -Rf
+rm suricata-2.0.6 -Rf
 
 rm pulledpork-0.6.1 -Rf
 rm libdnet-1.11 -Rf
