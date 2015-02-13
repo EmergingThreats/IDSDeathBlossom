@@ -33,30 +33,19 @@ import shutil
 oinkcode = None
 engines = {}
 engines["suricata121"] = {"type":"suricata", "version":"1.2", "eversion":"1.2.1"}
-engines["suricata13JIT"] = {"type":"suricata", "version":"1.3", "eversion":"1.3JIT"}
 engines["suricata131"] = {"type":"suricata", "version":"1.3.1", "eversion":"1.3.1"}
-engines["suricata131JIT"] = {"type":"suricata", "version":"1.3.1", "eversion":"1.3.1JIT"}
 engines["suricata136"] = {"type":"suricata", "version":"1.3.3", "eversion":"1.3.6"}
-engines["suricata136JIT"] = {"type":"suricata", "version":"1.3.3", "eversion":"1.3.6JIT"}
 engines["suricata146"] = {"type":"suricata", "version":"1.4.6", "eversion":"1.4.6"}
-engines["suricata146JIT"] = {"type":"suricata", "version":"1.4.6", "eversion":"1.4.6JIT"}
 engines["suricata147"] = {"type":"suricata", "version":"1.4.6", "eversion":"1.4.7"}
-engines["suricata147JIT"] = {"type":"suricata", "version":"1.4.6", "eversion":"1.4.7JIT"}
 engines["suricata20"] = {"type":"suricata", "version":"2.0", "eversion":"2.0"}
-engines["suricata20JIT"] = {"type":"suricata", "version":"2.0", "eversion":"2.0JIT"}
 engines["suricata201"] = {"type":"suricata", "version":"2.0.1", "eversion":"2.0.1"}
-engines["suricata201JIT"] = {"type":"suricata", "version":"2.0.1", "eversion":"2.0.1JIT"}
 engines["suricata202"] = {"type":"suricata", "version":"2.0.2", "eversion":"2.0.2"}
-engines["suricata202JIT"] = {"type":"suricata", "version":"2.0.2", "eversion":"2.0.2JIT"}
 engines["suricata203"] = {"type":"suricata", "version":"2.0.3", "eversion":"2.0.3"}
-engines["suricata203JIT"] = {"type":"suricata", "version":"2.0.3", "eversion":"2.0.3JIT"}
 engines["suricata204"] = {"type":"suricata", "version":"2.0.4", "eversion":"2.0.4"}
-engines["suricata204JIT"] = {"type":"suricata", "version":"2.0.4", "eversion":"2.0.4JIT"}
 engines["suricata205"] = {"type":"suricata", "version":"2.0.5", "eversion":"2.0.5"}
-engines["suricata205JIT"] = {"type":"suricata", "version":"2.0.5", "eversion":"2.0.5JIT"}
 engines["suricata206"] = {"type":"suricata", "version":"2.0.6", "eversion":"2.0.6"}
-engines["suricata206JIT"] = {"type":"suricata", "version":"2.0.6", "eversion":"2.0.6JIT"}
 engines["snort2841"] = {"type":"snort", "version":"2.8.4", "eversion":"2.8.4.1"}
+engines["snort2851"] = {"type":"snort", "version":"2.8.4", "eversion":"2.8.5.1"}
 engines["snort2861"] = {"type":"snort", "version":"2.8.6", "eversion":"2.8.6.1"}
 engines["snort2905"] = {"type":"snort", "version":"2.9.0", "eversion":"2.9.0.5"}
 engines["snort2923"] = {"type":"snort", "version":"2.9.0", "eversion":"2.9.2.3"}
@@ -112,7 +101,7 @@ version=0.6.0\n" % (rules_file, ocode, engine, feed_type, engine, feed_type, eng
     update_script_buf = update_script_buf + "/usr/local/bin/pulledpork.pl -c %s -o /opt/%s/etc/%s/ -k -K /opt/%s/etc/%s/\n" % (ppconfig,engine,feed_type,engine,feed_type)
 
     #LuaJIT
-    if re.search(r'suricata(14\d*|2\d*)JIT$',engine) != None:
+    if re.search(r'suricata(2\d*)$',engine) != None:
         update_script_buf = update_script_buf + "cd /opt/et-luajit-scripts/ && git pull && cp * /opt/%s/etc/%s/ -Rf\n" % (engine,feed_type)
  
 def make_engine_config(engine,feed_type,rset):
@@ -162,7 +151,7 @@ def make_engine_config(engine,feed_type,rset):
         if not os.path.exists(local_rules):
             file(local_rules, 'w').close()
         buff += "%slocal.rules\n" % (rprefix)
-        if re.search(r'suricata14\d*JIT$',engine) != None:
+        if re.search(r'suricata2\d',engine) != None:
             buff += "%sluajit.rules\n" % (rprefix)
     buff += "\n"
 
