@@ -44,6 +44,7 @@ engines["suricata203"] = {"type":"suricata", "version":"2.0.3", "eversion":"2.0.
 engines["suricata204"] = {"type":"suricata", "version":"2.0.4", "eversion":"2.0.4"}
 engines["suricata205"] = {"type":"suricata", "version":"2.0.5", "eversion":"2.0.5"}
 engines["suricata206"] = {"type":"suricata", "version":"2.0.6", "eversion":"2.0.6"}
+engines["suricata207"] = {"type":"suricata", "version":"2.0.7", "eversion":"2.0.7"}
 engines["snort2841"] = {"type":"snort", "version":"2.8.4", "eversion":"2.8.4.1"}
 engines["snort2851"] = {"type":"snort", "version":"2.8.4", "eversion":"2.8.5.1"}
 engines["snort2861"] = {"type":"snort", "version":"2.8.6", "eversion":"2.8.6.1"}

@@ -27,6 +27,7 @@ sudo mkdir -p /opt/suricata203/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,
 sudo mkdir -p /opt/suricata204/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize/sopen,etc/sanitize/spro}
 sudo mkdir -p /opt/suricata205/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize/sopen,etc/sanitize/spro}
 sudo mkdir -p /opt/suricata206/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize/sopen,etc/sanitize/spro}
+sudo mkdir -p /opt/suricata207/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize/sopen,etc/sanitize/spro}
 sudo mkdir -p /opt/et-luajit-scripts
 
 sudo apt-get install lua-apr lua-apr-dev build-essential libapr1 \
@@ -206,6 +207,16 @@ sudo cp ../classification.config /opt/suricata206/etc/
 sudo cp ../threshold.config /opt/suricata206/etc/
 cd ..
 
+tar -xzvf suricata-2.0.7.tar.gz
+cd suricata-2.0.7
+./configure --enable-lua --enable-profiling --prefix=/opt/suricata207/ --with-libnss-includes=/usr/include/nss --with-libnss-libs=/usr/lib/nss --with-libnspr-includes=/usr/include/nspr --with-libnspr-libraries=/usr/lib/nspr && make -j && sudo make install
+sudo cp suricata.yaml /opt/suricata207/etc/
+sudo cp ../reference.config /opt/suricata207/etc/
+sudo cp ../classification.config /opt/suricata207/etc/
+sudo cp ../threshold.config /opt/suricata207/etc/
+cd ..
+
+
 tar -xzvf libdnet-1.11.tar.gz
 cd libdnet-1.11
 ./configure "CFLAGS=-fPIC -g -O2" --prefix=/opt/libdnet111/ 
@@ -351,6 +362,7 @@ rm suricata-2.0.3 -Rf
 rm suricata-2.0.4 -Rf
 rm suricata-2.0.5 -Rf
 rm suricata-2.0.6 -Rf
+rm suricata-2.0.7 -Rf
 
 rm pulledpork-0.6.1 -Rf
 rm libdnet-1.11 -Rf
