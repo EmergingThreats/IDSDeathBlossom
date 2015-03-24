@@ -3,7 +3,7 @@
 host-mode: auto
 default-log-dir: /opt/suricata205/var/log/
 unix-command:
-  enabled: no
+  enabled: yes
 outputs:
   - fast:
       enabled: yes
