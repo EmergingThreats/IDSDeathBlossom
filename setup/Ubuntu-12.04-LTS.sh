@@ -15,6 +15,7 @@ sudo mkdir -p /opt/snort2960/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/e
 sudo mkdir -p /opt/snort2961/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize/sopen,etc/sanitize/spro}
 sudo mkdir -p /opt/snort2962/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize/sopen,etc/sanitize/spro}
 sudo mkdir -p /opt/snort2970/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize/sopen,etc/sanitize/spro}
+sudo mkdir -p /opt/snort2972/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize/sopen,etc/sanitize/spro}
 sudo mkdir -p /opt/suricata121/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/run/suricata,var/log,etc/sanitize/sopen,etc/sanitize/spro}
 sudo mkdir -p /opt/suricata131/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/run/suricata,var/log,etc/sanitize/sopen,etc/sanitize/spro}
 sudo mkdir -p /opt/suricata136/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/run/suricata,var/log,etc/sanitize/sopen,etc/sanitize/spro}
@@ -305,6 +306,13 @@ PATH="/opt/daq204/bin:$PATH" ./configure --enable-ipv6 --enable-gre --enable-mpl
 sudo cp etc/* /opt/snort2970/etc/
 cd ..
 
+tar -xzvf snort-2.9.7.2.tar.gz
+cd snort-2.9.7.2
+PATH="/opt/daq204/bin:$PATH" ./configure --enable-ipv6 --enable-gre --enable-mpls --with-dnet-includes=/opt/libdnet111/include/ --with-dnet-libraries=/opt/libdnet111/lib/ --enable-targetbased --enable-decoder-preprocessor-rules --enable-ppm --enable-perfprofiling --enable-zlib --enable-active-response --enable-normalizer --enable-reload --enable-react --enable-flexresp3 LD_RUN_PATH="/opt/daq204/lib:/opt/snort2972/lib:/opt/libdnet111/lib:/usr/lib:/usr/local/lib" --prefix=/opt/snort2972/ --with-daq-includes=/opt/daq204/include/ --with-daq-libraries=/opt/daq204/lib/ && make -j && sudo make install
+sudo cp etc/* /opt/snort2972/etc/
+cd ..
+
+
 sudo python ./gunstar-maker.py
 tar -xzvf pulledpork-0.6.1.tar.gz
 cd pulledpork-0.6.1
@@ -344,6 +352,7 @@ rm snort-2.9.6.0 -Rf
 rm snort-2.9.6.1 -Rf
 rm snort-2.9.6.2 -Rf
 rm snort-2.9.7.0 -Rf
+rm snort-2.9.7.2 -Rf
 
 rm suricata-1.2.1 -Rf 
 rm suricata-1.3 -Rf
