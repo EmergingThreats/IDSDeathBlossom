@@ -16,6 +16,7 @@ sudo mkdir -p /opt/snort2961/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/e
 sudo mkdir -p /opt/snort2962/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize/sopen,etc/sanitize/spro}
 sudo mkdir -p /opt/snort2970/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize/sopen,etc/sanitize/spro}
 sudo mkdir -p /opt/snort2972/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize/sopen,etc/sanitize/spro}
+sudo mkdir -p /opt/snort2973/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize/sopen,etc/sanitize/spro}
 sudo mkdir -p /opt/suricata121/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/run/suricata,var/log,etc/sanitize/sopen,etc/sanitize/spro}
 sudo mkdir -p /opt/suricata131/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/run/suricata,var/log,etc/sanitize/sopen,etc/sanitize/spro}
 sudo mkdir -p /opt/suricata136/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/run/suricata,var/log,etc/sanitize/sopen,etc/sanitize/spro}
@@ -29,6 +30,7 @@ sudo mkdir -p /opt/suricata204/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,
 sudo mkdir -p /opt/suricata205/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/run/suricata,var/log,etc/sanitize/sopen,etc/sanitize/spro}
 sudo mkdir -p /opt/suricata206/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/run/suricata,var/log,etc/sanitize/sopen,etc/sanitize/spro}
 sudo mkdir -p /opt/suricata207/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/run/suricata,var/log,etc/sanitize/sopen,etc/sanitize/spro}
+sudo mkdir -p /opt/suricata208/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/run/suricata,var/log,etc/sanitize/sopen,etc/sanitize/spro}
 sudo mkdir -p /opt/et-luajit-scripts
 
 sudo apt-get install lua-apr lua-apr-dev build-essential libapr1 \
@@ -217,6 +219,15 @@ sudo cp ../classification.config /opt/suricata207/etc/
 sudo cp ../threshold.config /opt/suricata207/etc/
 cd ..
 
+tar -xzvf suricata-2.0.8.tar.gz
+cd suricata-2.0.8
+./configure --enable-lua --enable-profiling --prefix=/opt/suricata208/ --with-libnss-includes=/usr/include/nss --with-libnss-libs=/usr/lib/nss --with-libnspr-includes=/usr/include/nspr --with-libnspr-libraries=/usr/lib/nspr && make -j && sudo make install
+sudo cp suricata.yaml /opt/suricata208/etc/
+sudo cp ../reference.config /opt/suricata208/etc/
+sudo cp ../classification.config /opt/suricata208/etc/
+sudo cp ../threshold.config /opt/suricata208/etc/
+cd ..
+
 
 tar -xzvf libdnet-1.11.tar.gz
 cd libdnet-1.11
@@ -312,6 +323,16 @@ PATH="/opt/daq204/bin:$PATH" ./configure --enable-ipv6 --enable-gre --enable-mpl
 sudo cp etc/* /opt/snort2972/etc/
 cd ..
 
+tar -xzvf daq-2.0.5.tar.gz
+cd daq-2.0.5
+./configure --prefix=/opt/daq205/ --with-dnet-includes=/opt/libdnet111/include/ --with-dnet-libraries=/opt/libdnet111/lib/ && make && sudo make install
+cd ..
+
+tar -xzvf snort-2.9.7.3.tar.gz
+cd snort-2.9.7.3
+PATH="/opt/daq205/bin:$PATH" ./configure --enable-ipv6 --enable-gre --enable-mpls --with-dnet-includes=/opt/libdnet111/include/ --with-dnet-libraries=/opt/libdnet111/lib/ --enable-targetbased --enable-decoder-preprocessor-rules --enable-ppm --enable-perfprofiling --enable-zlib --enable-active-response --enable-normalizer --enable-reload --enable-react --enable-flexresp3 LD_RUN_PATH="/opt/daq205/lib:/opt/snort2973/lib:/opt/libdnet111/lib:/usr/lib:/usr/local/lib" --prefix=/opt/snort2973/ --with-daq-includes=/opt/daq205/include/ --with-daq-libraries=/opt/daq205/lib/ && make -j && sudo make install
+sudo cp etc/* /opt/snort2973/etc/
+cd ..
 
 sudo python ./gunstar-maker.py
 tar -xzvf pulledpork-0.6.1.tar.gz
@@ -336,6 +357,7 @@ rm daq-2.0.0 -Rf
 rm daq-2.0.1 -Rf
 rm daq-2.0.2 -Rf
 rm daq-2.0.4 -Rf
+rm daq-2.0.5 -Rf
 rm snort-2.8.4.1 -Rf
 rm snort-2.8.5.1 -Rf
 rm snort-2.8.6.1 -Rf
@@ -353,6 +375,7 @@ rm snort-2.9.6.1 -Rf
 rm snort-2.9.6.2 -Rf
 rm snort-2.9.7.0 -Rf
 rm snort-2.9.7.2 -Rf
+rm snort-2.9.7.3 -Rf
 
 rm suricata-1.2.1 -Rf 
 rm suricata-1.3 -Rf
@@ -372,6 +395,7 @@ rm suricata-2.0.4 -Rf
 rm suricata-2.0.5 -Rf
 rm suricata-2.0.6 -Rf
 rm suricata-2.0.7 -Rf
+rm suricata-2.0.8 -Rf
 
 rm pulledpork-0.6.1 -Rf
 rm libdnet-1.11 -Rf
