@@ -90,6 +90,10 @@ python -i IDSDeathBlossom.py -c config/config.yaml -R rcomparefast -t "snort2861
 #sanitize
 python -i IDSDeathBlossom.py -c config/config.yaml -R sanitize -t "snort2861open,snort2841open" --emailsubject="sanitize" 
 
+# example how to run a test with Suricata 2.0.8 and etpro enabled all rules 
+# (etproenall,etopenenall) - purposefully uncomment/enable all rules:
+python IDSDeathBlossom.py -c config/config.yaml -R run -t "suricata-2.0.8-etproenall-all" --reporton="TopNWorstAll,TopNWorstCurrent,LoadReportCurrent" --pcappath="pcaps/PDF-in-XPD-Safe-Example.pcap"
+
 
 # Template usage example:
 # the templates are specified at the engine configurations/profiles available
