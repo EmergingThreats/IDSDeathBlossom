@@ -83,6 +83,12 @@ def make_pp_config(engine,feed_type):
     elif feed_type == "etopen":
         rules_file = "emerging.rules.tar.gz"
         ocode = "open"
+    elif feed_type == "etproenall":
+        rules_file = "etpro.rules.tar.gz"
+        ocode = oinkcode
+    elif feed_type == "etopenenall":
+        rules_file = "emerging.rules.tar.gz"
+        ocode = "open"
     else:
         print "Unkown feed type bailing\n";
         sys.exit(-1)
@@ -104,7 +110,12 @@ version=0.6.0\n" % (rules_file, ocode, engine, feed_type, engine, feed_type, eng
 
     #save the update command
     update_script_buf = update_script_buf + "/usr/local/bin/pulledpork.pl -c %s -o /opt/%s/etc/%s/ -k -K /opt/%s/etc/%s/\n" % (ppconfig,engine,feed_type,engine,feed_type)
-
+    #check and if needed update command to enable all rules
+    if feed_type == "etproenall":
+      update_script_buf = update_script_buf + "python /usr/local/bin/enable-all-rules.py /opt/%s/etc/%s/\n" % (engine,feed_type)
+    elif feed_type == "etopenenall":
+      update_script_buf = update_script_buf + "python /usr/local/bin/enable-all-rules.py /opt/%s/etc/%s/\n" % (engine,feed_type) 
+      
     #LuaJIT
     if re.search(r'suricata(2\d*)$',engine) != None:
         update_script_buf = update_script_buf + "cd /opt/et-luajit-scripts/ && git pull && cp * /opt/%s/etc/%s/ -Rf\n" % (engine,feed_type)
@@ -144,8 +155,15 @@ def make_engine_config(engine,feed_type,rset):
                 buff += "%sET-%s\n" % (rprefix,rule_file)
             else:
                 buff += "%sET-emerging-%s\n" % (rprefix,rule_file)
+        elif feed_type == "etopenenall":
+            if re.match(r"^(botcc|compromised|drop|dshield|rbn|rbn-malvertisers|tor|ciarmy)\.rules$",rule_file) != None and engines[engine]["type"] == "suricata":
+                buff += "%senableall-ET-%s\n" % (rprefix,rule_file)
+            else:
+                buff += "%senableall-ET-emerging-%s\n" % (rprefix,rule_file)
         elif feed_type == "etpro":
             buff += "%sET-%s\n" % (rprefix,rule_file)
+        elif feed_type == "etproenall":
+            buff += "%senableall-ET-%s\n" % (rprefix,rule_file)
         elif feed_type == "sanitize": 
             buff += "%s%s\n" % (rprefix,rule_file)
         elif feed_type != "test":
@@ -202,17 +220,24 @@ for engine in engines:
     f.write("#Configurations for %s %s\n\nengines:\n" % (engines[engine]["type"],engines[engine]["eversion"]))
     if oinkcode != None:
         dblossom_config_buff += make_engine_config(engine,"etpro","base")
+        dblossom_config_buff += make_engine_config(engine,"etproenall","base")
         dblossom_config_buff += make_engine_config(engine,"etpro","all")
+        dblossom_config_buff += make_engine_config(engine,"etproenall","all")
         dblossom_config_buff += make_engine_config(engine,"sanitize","spro")
         make_pp_config(engine,"etpro")
+        make_pp_config(engine,"etproenall")
     #always cook open
     dblossom_config_buff += make_engine_config(engine,"etopen","base")
+    dblossom_config_buff += make_engine_config(engine,"etopenenall","base")
     dblossom_config_buff += make_engine_config(engine,"etopen","all")
+    dblossom_config_buff += make_engine_config(engine,"etopenenall","all")
     dblossom_config_buff += make_engine_config(engine,"test","test")
     dblossom_config_buff += make_engine_config(engine,"sanitize","sopen")
     make_pp_config(engine,"etopen")
+    make_pp_config(engine,"etopenenall")
     f.write(dblossom_config_buff)
     f.close()
+    
     
 f = open("ruleupdates.sh",'w')
 f.write(update_script_buf)
