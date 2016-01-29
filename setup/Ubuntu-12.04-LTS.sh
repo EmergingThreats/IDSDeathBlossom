@@ -37,6 +37,7 @@ sudo mkdir -p /opt/suricata208/{bin,lib,include/linux,sbin,etc/etpro,etc/etproen
 sudo mkdir -p /opt/suricata209/{bin,lib,include/linux,sbin,etc/etpro,etc/etproenall,etc/etopen,etc/etopenenall,/etc/test,var/run/suricata,var/log,etc/sanitize/sopen,etc/sanitize/spro}
 sudo mkdir -p /opt/suricata2010/{bin,lib,include/linux,sbin,etc/etpro,etc/etproenall,etc/etopen,etc/etopenenall,/etc/test,var/run/suricata,var/log,etc/sanitize/sopen,etc/sanitize/spro}
 sudo mkdir -p /opt/suricata2011/{bin,lib,include/linux,sbin,etc/etpro,etc/etproenall,etc/etopen,etc/etopenenall,/etc/test,var/run/suricata,var/log,etc/sanitize/sopen,etc/sanitize/spro}
+sudo mkdir -p /opt/suricata30/{bin,lib,include/linux,sbin,etc/etpro,etc/etproenall,etc/etopen,etc/etopenenall,/etc/test,var/run/suricata,var/log,etc/sanitize/sopen,etc/sanitize/spro}
 sudo mkdir -p /opt/et-luajit-scripts
 
 sudo apt-get install lua-apr lua-apr-dev build-essential libapr1 \
@@ -261,6 +262,16 @@ sudo cp ../classification.config /opt/suricata2011/etc/
 sudo cp ../threshold.config /opt/suricata2011/etc/
 cd ..
 
+tar -xzvf suricata-3.0.tar.gz
+cd suricata-3.0
+./configure --enable-lua --enable-profiling --prefix=/opt/suricata30/ --with-libnss-includes=/usr/include/nss --with-libnss-libs=/usr/lib/nss --with-libnspr-includes=/usr/include/nspr --with-libnspr-libraries=/usr/lib/nspr && make -j && sudo make install
+sudo cp suricata.yaml /opt/suricata30/etc/
+sudo cp ../reference.config /opt/suricata30/etc/
+sudo cp ../classification.config /opt/suricata30/etc/
+sudo cp ../threshold.config /opt/suricata30/etc/
+cd ..
+
+
 tar -xzvf libdnet-1.11.tar.gz
 cd libdnet-1.11
 ./configure "CFLAGS=-fPIC -g -O2" --prefix=/opt/libdnet111/ 
@@ -459,6 +470,7 @@ rm suricata-2.0.8 -Rf
 rm suricata-2.0.9 -Rf
 rm suricata-2.0.10 -Rf
 rm suricata-2.0.11 -Rf
+rm suricata-3.0 -Rf
 
 rm pulledpork-0.6.1 -Rf
 rm libdnet-1.11 -Rf
