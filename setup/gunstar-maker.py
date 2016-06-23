@@ -70,6 +70,7 @@ engines["snort2975"] = {"type":"snort", "version":"2.9.7", "eversion":"2.9.7.5"}
 engines["snort2976"] = {"type":"snort", "version":"2.9.7", "eversion":"2.9.7.6"}
 engines["snort2980"] = {"type":"snort", "version":"2.9.8", "eversion":"2.9.8.0"}
 engines["snort2982"] = {"type":"snort", "version":"2.9.8", "eversion":"2.9.8.2"}
+engines["snort2983"] = {"type":"snort", "version":"2.9.8", "eversion":"2.9.8.3"}
 rule_sets = {}
 
 rule_sets["all"] = ["ftp.rules","policy.rules","trojan.rules","games.rules","pop3.rules","user_agents.rules","activex.rules","rpc.rules","attack_response.rules","icmp.rules","scan.rules","voip.rules","chat.rules","icmp_info.rules","info.rules","shellcode.rules","web_client.rules","imap.rules","web_server.rules","current_events.rules","inappropriate.rules","smtp.rules","web_specific_apps.rules","deleted.rules","malware.rules","snmp.rules","worm.rules","dns.rules","misc.rules","sql.rules","dos.rules","netbios.rules","telnet.rules","exploit.rules","p2p.rules","tftp.rules","mobile_malware.rules","botcc.rules","compromised.rules","drop.rules","dshield.rules","tor.rules","ciarmy.rules"]
