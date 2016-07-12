@@ -184,7 +184,7 @@ class IDSEngine(RunmodeSanitize, RunmodeExtract, RunmodeExtractAll, RunmodeVerif
                     else:
 		        cmd = "%s -c %s -l %s -r %s -v --runmode=single --set \"stream.checksum-validation=no\"" % (self.conf["path"], self.conf["config"], self.conf["logdir"], pcap)
 		if re.match(r"^3\.", self.conf["version"]) != None:
-		  cmd = "%s -c %s -l %s -r %s -v --runmode=single --set \"stream.checksum-validation=no\"" % (self.conf["path"], self.conf["config"], self.conf["logdir"], pcap)
+		  cmd = "%s -c %s -l %s -r %s -vvv --runmode=single --set \"stream.checksum-validation=no\"" % (self.conf["path"], self.conf["config"], self.conf["logdir"], pcap)
                 if re.match(r"^1\.",self.conf["version"]) != None:
 		    if "JIT" in self.conf["version"]:
 		        cmd = "LD_LIBRARY_PATH=/opt/luajit20/lib/ %s -c %s -l %s -r %s --runmode=single" % (self.conf["path"], self.conf["config"], self.conf["logdir"], pcap)
