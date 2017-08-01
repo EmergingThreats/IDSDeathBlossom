@@ -29,8 +29,14 @@ import re
 import sys
 import os
 import shutil
+from optparse import OptionParser
 
-oinkcode = None
+global single_engine
+single_engine = False
+
+global oinkcode
+oinkcode = ""
+
 engines = {}
 engines["suricata121"] = {"type":"suricata", "version":"1.2", "eversion":"1.2.1"}
 engines["suricata131"] = {"type":"suricata", "version":"1.3.1", "eversion":"1.3.1"}
@@ -53,6 +59,11 @@ engines["suricata30"] = {"type":"suricata", "version":"3.0", "eversion":"3.0"}
 engines["suricata301"] = {"type":"suricata", "version":"3.0", "eversion":"3.0.1"}
 engines["suricata31"] = {"type":"suricata", "version":"3.1", "eversion":"3.1"}
 engines["suricata311"] = {"type":"suricata", "version":"3.1", "eversion":"3.1.1"}
+engines["suricata32"] = {"type":"suricata", "version":"3.2", "eversion":"3.2.0"}
+engines["suricata321"] = {"type":"suricata", "version":"3.2", "eversion":"3.2.1"}
+engines["suricata322"] = {"type":"suricata", "version":"3.2", "eversion":"3.2.2"}
+engines["suricata323"] = {"type":"suricata", "version":"3.2", "eversion":"3.2.3"}
+engines["suricata400"] = {"type":"suricata", "version":"4.0", "eversion":"4.0.0"}
 engines["snort2841"] = {"type":"snort", "version":"2.8.4", "eversion":"2.8.4.1"}
 engines["snort2851"] = {"type":"snort", "version":"2.8.4", "eversion":"2.8.5.1"}
 engines["snort2861"] = {"type":"snort", "version":"2.8.6", "eversion":"2.8.6.1"}
@@ -72,7 +83,28 @@ engines["snort2976"] = {"type":"snort", "version":"2.9.7", "eversion":"2.9.7.6"}
 engines["snort2980"] = {"type":"snort", "version":"2.9.8", "eversion":"2.9.8.0"}
 engines["snort2982"] = {"type":"snort", "version":"2.9.8", "eversion":"2.9.8.2"}
 engines["snort2983"] = {"type":"snort", "version":"2.9.8", "eversion":"2.9.8.3"}
+engines["snort2990"] = {"type":"snort", "version":"2.9.9", "eversion":"2.9.9.0"}
 rule_sets = {}
+
+def singleengine(engine_type, engine_eversion):
+    
+    if len(engine_eversion) <= 3:
+        engine_version =  engine_eversion
+        #print engine_version, "engine_version"
+    elif len(engine_eversion) == 5:
+        engine_version =  engine_eversion[0:5]
+        #print engine_version, "engine_version"
+    else:
+        engine_version =  engine_eversion[0:5]
+        #print engine_version, "engine_version"
+    
+    engine_name = engine_type + engine_eversion.replace('.', '')
+    engines = {}
+    #engines["suricata311"] = {"type":"suricata", "version":"3.1", "eversion":"3.1.1"}
+    engines[engine_name] = {"type":engine_type, "version":engine_version, "eversion":engine_eversion }
+    single_engine = True
+    return engines, single_engine
+
 
 rule_sets["all"] = ["ftp.rules","policy.rules","trojan.rules","games.rules","pop3.rules","user_agents.rules","activex.rules","rpc.rules","attack_response.rules","icmp.rules","scan.rules","voip.rules","chat.rules","icmp_info.rules","info.rules","shellcode.rules","web_client.rules","imap.rules","web_server.rules","current_events.rules","inappropriate.rules","smtp.rules","web_specific_apps.rules","deleted.rules","malware.rules","snmp.rules","worm.rules","dns.rules","misc.rules","sql.rules","dos.rules","netbios.rules","telnet.rules","exploit.rules","p2p.rules","tftp.rules","mobile_malware.rules","botcc.rules","compromised.rules","drop.rules","dshield.rules","tor.rules","ciarmy.rules"]
 
@@ -129,6 +161,12 @@ version=0.6.0\n" % (rules_file, ocode, engine, feed_type, engine, feed_type, eng
       
     #LuaJIT
     if re.search(r'suricata(2\d*)$',engine) != None:
+        update_script_buf = update_script_buf + "cd /opt/et-luajit-scripts/ && git pull && cp * /opt/%s/etc/%s/ -Rf\n" % (engine,feed_type)
+    if re.search(r'suricata(3\d*)$',engine) != None:
+        update_script_buf = update_script_buf + "cd /opt/et-luajit-scripts/ && git pull && cp * /opt/%s/etc/%s/ -Rf\n" % (engine,feed_type)
+    if re.search(r'suricata(4\d*)$',engine) != None:
+        update_script_buf = update_script_buf + "cd /opt/et-luajit-scripts/ && git pull && cp * /opt/%s/etc/%s/ -Rf\n" % (engine,feed_type)
+    if re.search(r'suricatagit$',engine) != None:
         update_script_buf = update_script_buf + "cd /opt/et-luajit-scripts/ && git pull && cp * /opt/%s/etc/%s/ -Rf\n" % (engine,feed_type)
  
 def make_engine_config(engine,feed_type,rset):
@@ -217,14 +255,27 @@ def make_engine_config(engine,feed_type,rset):
     shutil.copyfile("engine-templates/%s.template" % (engine),"/opt/%s/etc/%s.template" % (engine,engine))
     return buff
   
-oinkcode = raw_input("Enter Your Oinkcode if you Have/Want to test ETPro rules (optional): ")
+parser = OptionParser()
+parser.add_option("-e", "--engine", dest="engine_type", type="string", help="Engine type - Suricata or Snort")
+parser.add_option("-v", "--version", dest="engine_eversion", type="string", help="Engine extended version - Suricata or Snort")
+parser.add_option("-o", "--oinkcode", dest="oinkcode", type="string", help="Oinkcode to use for the PRO rulesets for Suricata or Snort")
+
+(options, args) = parser.parse_args()
+#print str(options)
+
+if options.oinkcode:
+    oinkcode = options.oinkcode
+
+if  options.engine_type and options.engine_eversion:
+    engines, single_engine = singleengine(options.engine_type, options.engine_eversion)
+
 m = re.search(r'(?P<oinkcode>[a-z0-9A-Z]+)',oinkcode)
 if m != None:
     oinkcode = m.group("oinkcode")
 else:
     oinkcode = None
 
-print "You enter Oinkcode:%s" % (oinkcode)
+print "You entered Oinkcode:%s" % (oinkcode)
 for engine in engines:
     dblossom_config_buff = ""
     f = open("../config/engines/%s.yaml" % (engine),"w")
@@ -250,7 +301,28 @@ for engine in engines:
     f.close()
     
     
-f = open("ruleupdates.sh",'w')
-f.write(update_script_buf)
-f.close()
+if single_engine:
+    f = open("/usr/local/bin/ruleupdates.sh",'a+')
+    #print update_script_buf.split("\n"), "BUFFER\n"
+    for buff_entry in (update_script_buf.split("\n")):
+        f.seek(0)
+        print "CURRENT ENTRY in CYCLE ======>\n", buff_entry
+        if not any(buff_entry in s for s in f.readlines()):
+            print "ENTRY NOT FOUND so writing ======>\n", buff_entry
+            f.write(buff_entry+"\n")
+            f.flush()
+    f.close()
+    # In case of a single engine addition - on the command line
+    # download and update the rulesets for that engine
+    for buff_entry in (update_script_buf.split("\n")):
+        os.system(buff_entry)
+else:
+    f = open("ruleupdates.sh",'w')
+    f.write(update_script_buf)
+    f.close()
+
+    
+
+
+
  
