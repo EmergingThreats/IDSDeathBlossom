@@ -39,9 +39,6 @@ config detection: search-method ac-split search-optimize max-pattern-len 20 debu
 config event_queue: max_queue 8 log 3 order_events content_length
 config paf_max: 16000
 
-dynamicpreprocessor directory /opt/snort2980/lib/snort_dynamicpreprocessor/
-dynamicengine /opt/snort2980/lib/snort_dynamicengine/libsf_engine.so
-
 preprocessor frag3_global: max_frags 65536
 preprocessor frag3_engine: policy windows detect_anomalies overlap_limit 10 min_fragment_length 100 timeout 180
 
@@ -249,5 +246,7 @@ preprocessor dnp3: ports { 20000 } \
    memcap 262144 \
    check_crc
 
+dynamicpreprocessor directory /opt/snort2980/lib/snort_dynamicpreprocessor/
+dynamicengine /opt/snort2980/lib/snort_dynamicengine/libsf_engine.so
 include /opt/snort2980/etc/classification.config
 include /opt/snort2980/etc/reference.config
