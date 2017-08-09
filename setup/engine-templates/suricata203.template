@@ -1,7 +1,6 @@
 %YAML 1.1
 ---
 host-mode: auto
-default-log-dir: /opt/suricata203/var/log/
 unix-command:
   enabled: yes
 outputs:
@@ -288,10 +287,6 @@ pcap-file:
 
 ipfw:
 
-classification-file: /opt/suricata203/etc/classification.config
-reference-config-file: /opt/suricata203/etc/reference.config
-threshold-file: /opt/suricata203/etc/threshold.config
-
 vars:
 
   address-groups:
@@ -437,3 +432,7 @@ napatech:
     hba: -1
     use-all-streams: yes
     streams: [1, 2, 3]
+default-log-dir: /opt/suricata203/var/log/
+classification-file: /opt/suricata203/etc/classification.config
+reference-config-file: /opt/suricata203/etc/reference.config
+threshold-file: /opt/suricata203/etc/threshold.config

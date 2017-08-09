@@ -1,0 +1,69 @@
+#
+# IDS Tool Config File
+#
+
+config_version: "0.2"
+host: "somehost"
+log_level: "info"
+
+# Editcap options
+editcap_options:
+  # Error ratio for editcap
+  # values from 0.00 to 1.00
+  eratio: ""
+
+# Supported type is currently only MYSQL
+db_options:
+  type: "MYSQL"
+  user: "someuser"
+  pass: "somepass"
+  server: "localhost"
+  scheme: "IDSDeathBlossom"
+
+# Mail options
+mail_options:
+  emailsrc: "qa@deathblossom.lan"
+  emaildst: "someuser@deatblossom.lan"
+  emailsubject: "[IDSTool] "
+  emailsrv: "localhost"
+
+
+# Pcap options
+pcap_options:
+  # Location of pcaps to parse
+  pcappath: "/pcaps/*.pcap"
+  pcapignore: ""
+  sortpcaps: "size"
+
+
+# Signature options
+signature_options:
+  # File list of sigs not to extract flows from
+  xtractignore: ""
+
+
+# Runmode options
+# Run mode
+# 	Set to run against pcap
+# 	Modes are:
+# 		fuzzsuri, fuzzsnort, fuzzboth, comparefast, comparefastxtract,
+# 		rcomparefast, rcomparefastxtract, runsnort, runsuri, runboth,
+# 		xtractsuri, xtractsnort
+runmode_options:
+  runmode: xtractsuri
+  globallogdir: "./logs/"
+
+
+# Server options
+server_options:
+  host: 0.0.0.0
+  port: 23232
+  idstool: "IDSTool.py"
+  globallogdir: "./logs/"
+
+
+# Glob expr
+engine_definitions: "config/engines/*.yaml"
+
+#Moloch Server
+moloch_base_url: "https://127.0.0.1:8005/?date=-1&expression=" 

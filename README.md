@@ -9,82 +9,42 @@ Items in that directory have their own licenses.
 
 ## Run/Setup
 
-You need to execute the following steps below.
+First time install:
 
-1. You need to download the new/wanted Suricata/Snort tar.gz ball version (for
-example Suricata 2.0.7) - respective versions and put them in the
-IDSDeathBlossom/setup directory
-
-2. Create/Add the necessary dirs at the top of the setup/Ubuntu-12.04-LTS.sh
-script (example for Suricata 2.0.7):
+Run (as root)
 
 ```
-sudo mkdir -p /opt/suricata207/{bin,lib,include/linux,sbin,etc/etpro,etc/etopen,/etc/test,var/log,etc/sanitize/sopen,etc/sanitize/spro}
+./idsdb_install_dependencies.sh
+./idsdb_install_all_engines.sh -o 1234567890
 ```
+**NOTE:** All engines installation could take quite a while depending on the machine you have.
 
-3. Add the following to the setup/Ubuntu-12.04-LTS.sh script (example for Suricata 2.0.7):
-
-```
-tar -xzvf suricata-2.0.7.tar.gz
-cd suricata-2.0.7
-./configure --enable-lua --enable-profiling --prefix=/opt/suricata207/ --with-libnss-includes=/usr/include/nss --with-libnss-libs=/usr/lib/nss --with-libnspr-includes=/usr/include/nspr --with-libnspr-libraries=/usr/lib/nspr && make -j && sudo make install
-sudo cp suricata.yaml /opt/suricata207/etc/
-sudo cp ../reference.config /opt/suricata207/etc/
-sudo cp ../classification.config /opt/suricata207/etc/
-sudo cp ../threshold.config /opt/suricata207/etc/
-cd ..
-```
-
-At the bottom of the script add:
+The example above will use oinkcode 1234567890 for the ruleset download and update/set up of all engines (Suricata and Snort)
+If you dont have an oinkcode/etprocode - you can skip that option and the script will use ETOpen rulesets.
 
 ```
-rm suricata-2.0.7 -Rf
+cp config/example-config.yaml config/config.yaml
 ```
+Edit and set up your IDSDB config with any specififc passwords and IPs with regards to SQL DB and Moloch(if you are using it).
 
-
-4) Save and manually create templates in `setup/engine-templates/suricata207.template`.
-You can copy from `204/203` versions for example
-and then you need to change the following directories inside:
-
-```
-default-log-dir: /opt/suricata207/var/log/
-classification-file: /opt/suricata207/etc/classification.config
-reference-config-file: /opt/suricata207/etc/reference.config
-threshold-file: /opt/suricata207/etc/threshold.config
-```
-
-5. In `/setup/gunstar-maker.py` just add the engines -
-
-```
-engines["suricata207"] = {"type":"suricata", "version":"2.0.7", "eversion":"2.0.7"}
-```
-
-6. Run the Ubuntu set up script:
-
-```
-root@ET:~/Work/ET/IDSDeathBlossom/setup# ./Ubuntu-12.04-LTS.sh
-```
-
-(If you do not have an ETPro code, do not enter anything when asked - just hit enter)
-
-7. Set up the mysql DB (make sure the mysql server is started)
-
-```
-root@ET:~/Work/ET/IDSDeathBlossom/setup# mysql -u root -p < mysql_setup.sql
-```
-
-8. Run the ruleupdate script
-
-```
-root@ET:~/Work/ET/IDSDeathBlossom/setup# /usr/local/bin/ruleupdates.sh
-```
-9. Proceed with a test
+That's it!
 
 How to test example (directory location and command dirs are important):
 
 ```
-root@ET:~/IDSDeathBlossom# python IDSDeathBlossom.py -c config/config.yaml -R run -t "suricata-2.0.7-etopen-all" --reporton="TopNWorstAll,TopNWorstCurrent,LoadReportCurrent" --pcappath="pcaps/PDF-in-XPD-Safe-Example.pcap"
+root@ET:~/IDSDeathBlossom# python IDSDeathBlossom.py -c config/config.yaml -R run -t "suricata-4.0.0-etopen-all" --reporton="TopNWorstAll,TopNWorstCurrent,LoadReportCurrent" --pcappath="pcaps/PDF-in-XPD-Safe-Example.pcap"
 ```
+## Available optins
+
+- Example IDSDB config is located under *IDSDeathBlossom/config/example-config.yaml*
+
+- one command install and set up all available engines
+
+- ability to add (or reinstall) a single engine (Suricata-xxxx/Suricata git/ Snort-xxxx).Thus making it much easier to keep in pace and have the latest engines available without having to update the whole IDSDB.
+
+- all build scripts autodetect number of CPUs and use that number for compilation "make -j "
+
+- sricata 2.x/3.x/4.x and git have et-luajit scripts in the rules directory ready to use
 
 ## Test/Examples
 
@@ -120,12 +80,12 @@ python -i IDSDeathBlossom.py -c config/config.yaml -R rcomparefast -t "snort2861
 python -i IDSDeathBlossom.py -c config/config.yaml -R sanitize -t "snort2861open,snort2841open" --emailsubject="sanitize"
 ```
 
-### example of how to run a test with Suricata 2.0.8 and etpro enabled all rules
+### example of how to run a test with Suricata 4.0.0 and etpro enabled all rules
 
 `(etproenall,etopenenall)` - purposefully uncomment/enable all rules:
 
 ```
-python IDSDeathBlossom.py -c config/config.yaml -R run -t "suricata-2.0.8-etproenall-all" --reporton="TopNWorstAll,TopNWorstCurrent,LoadReportCurrent" --pcappath="pcaps/PDF-in-XPD-Safe-Example.pcap"
+python IDSDeathBlossom.py -c config/config.yaml -R run -t "suricata-4.0.0-etproenall-all" --reporton="TopNWorstAll,TopNWorstCurrent,LoadReportCurrent" --pcappath="pcaps/PDF-in-XPD-Safe-Example.pcap"
 ```
 
 ### Template usage example:
