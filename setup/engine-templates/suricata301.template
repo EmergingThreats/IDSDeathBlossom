@@ -3,7 +3,7 @@
 host-mode: auto
 default-log-dir: /opt/suricata301/var/log/
 unix-command:
-  enabled: yes
+  enabled: no
 outputs:
   - fast:
       enabled: yes
@@ -437,3 +437,4 @@ napatech:
     hba: -1
     use-all-streams: yes
     streams: [1, 2, 3]
+rule-files:

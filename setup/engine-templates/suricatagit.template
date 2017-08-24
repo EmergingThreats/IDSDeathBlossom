@@ -2,7 +2,7 @@
 ---
 host-mode: auto
 unix-command:
-  enabled: yes
+  enabled: no
 outputs:
   - fast:
       enabled: yes
@@ -436,3 +436,4 @@ default-log-dir: /opt/suricatagit/var/log/
 classification-file: /opt/suricatagit/etc/classification.config
 reference-config-file: /opt/suricatagit/etc/reference.config
 threshold-file: /opt/suricatagit/etc/threshold.config
+rule-files:

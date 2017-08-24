@@ -278,3 +278,4 @@ profiling:
 
 coredump:
   max-dump: unlimited
+rule-files:
