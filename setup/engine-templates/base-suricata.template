@@ -2,7 +2,7 @@
 ---
 host-mode: auto
 unix-command:
-  enabled: yes
+  enabled: no
 outputs:
   - fast:
       enabled: yes

@@ -1,3 +1,4 @@
 *.pyc
 setup/ruleupdates.sh
 config/engines/*.yaml
+config/config.yaml
