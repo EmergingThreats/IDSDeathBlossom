@@ -38,11 +38,6 @@ global oinkcode
 oinkcode = ""
 
 engines = {}
-engines["suricata121"] = {"type":"suricata", "version":"1.2", "eversion":"1.2.1"}
-engines["suricata131"] = {"type":"suricata", "version":"1.3.1", "eversion":"1.3.1"}
-engines["suricata136"] = {"type":"suricata", "version":"1.3.3", "eversion":"1.3.6"}
-engines["suricata146"] = {"type":"suricata", "version":"1.4.6", "eversion":"1.4.6"}
-engines["suricata147"] = {"type":"suricata", "version":"1.4.6", "eversion":"1.4.7"}
 engines["suricata20"] = {"type":"suricata", "version":"2.0", "eversion":"2.0"}
 engines["suricata201"] = {"type":"suricata", "version":"2.0.1", "eversion":"2.0.1"}
 engines["suricata202"] = {"type":"suricata", "version":"2.0.2", "eversion":"2.0.2"}
