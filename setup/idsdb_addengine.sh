@@ -179,10 +179,12 @@ if [ "${engine_type}" == "suricata" ] && [  "${engine_version}" == "git" ]; then
     #classification-file: /opt/suricatagit/etc/classification.config
     #reference-config-file: /opt/suricatagit/etc/reference.config
     #threshold-file: /opt/suricatagit/etc/threshold.config
+    sed -i '/rule-files:/d' engine-templates/${engine_name}.template
     echo "default-log-dir: /opt/${engine_name}/var/log/" >> engine-templates/${engine_name}.template
     echo "classification-file: /opt/${engine_name}/etc/classification.config" >> engine-templates/${engine_name}.template
     echo "reference-config-file: /opt/${engine_name}/etc/reference.config" >> engine-templates/${engine_name}.template
     echo "threshold-file: /opt/${engine_name}/etc/threshold.config" >> engine-templates/${engine_name}.template
+    echo "rule-files:" >> engine-templates/${engine_name}.template
     rm -rf engine-sources/${engine_type}/${engine_type}-${engine_version}
     
     # we need a doted version for gunstar
@@ -226,15 +228,22 @@ if  [ "${engine_type}" == "suricata" ] && [  "${engine_version}" != "git" ]; the
   sudo cp ../../../engine-configs/suricata/threshold.config /opt/${engine_name}/etc/
   cd ../../../
   
-  cp engine-templates/base-suricata.template engine-templates/${engine_name}.template
+  if [[ ${engine_name} = *"suricata40"* ]]; then
+    cp engine-templates/base-suricata4.template engine-templates/${engine_name}.template
+  else
+    cp engine-templates/base-suricata.template engine-templates/${engine_name}.template
+  fi
+  
   #default-log-dir: /opt/suricata311/var/log/
   #classification-file: /opt/suricata311/etc/classification.config
   #reference-config-file: /opt/suricata311/etc/reference.config
   #threshold-file: /opt/suricata311/etc/threshold.config
+  sed -i '/rule-files:/d' engine-templates/${engine_name}.template
   echo "default-log-dir: /opt/${engine_name}/var/log/" >> engine-templates/${engine_name}.template
   echo "classification-file: /opt/${engine_name}/etc/classification.config" >> engine-templates/${engine_name}.template
   echo "reference-config-file: /opt/${engine_name}/etc/reference.config" >> engine-templates/${engine_name}.template
   echo "threshold-file: /opt/${engine_name}/etc/threshold.config" >> engine-templates/${engine_name}.template
+  echo "rule-files:" >> engine-templates/${engine_name}.template
   rm engine-sources/${engine_type}/${engine_type}-${engine_version} -r
   
   if [ -n "${oinkcode}" ]; then
