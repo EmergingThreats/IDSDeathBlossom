@@ -63,9 +63,6 @@ shift $((OPTIND -1))
 #concurrent processes 
 processes=$(getconf _NPROCESSORS_ONLN)
 
-sudo mkdir -p /opt/snort2841/{bin,lib,include/linux,sbin,etc/etpro,etc/etproenall,etc/etopen,etc/etopenenall,/etc/test,var/log,etc/sanitize/sopen,etc/sanitize/spro}
-sudo mkdir -p /opt/snort2851/{bin,lib,include/linux,sbin,etc/etpro,etc/etproenall,etc/etopen,etc/etopenenall,/etc/test,var/log,etc/sanitize/sopen,etc/sanitize/spro}
-sudo mkdir -p /opt/snort2861/{bin,lib,include/linux,sbin,etc/etpro,etc/etproenall,etc/etopen,etc/etopenenall,/etc/test,var/log,etc/sanitize/sopen,etc/sanitize/spro}
 sudo mkdir -p /opt/snort2905/{bin,lib,include/linux,sbin,etc/etpro,etc/etproenall,etc/etopen,etc/etopenenall,/etc/test,var/log,etc/sanitize/sopen,etc/sanitize/spro}
 sudo mkdir -p /opt/snort2923/{bin,lib,include/linux,sbin,etc/etpro,etc/etproenall,etc/etopen,etc/etopenenall,/etc/test,var/log,etc/sanitize/sopen,etc/sanitize/spro}
 sudo mkdir -p /opt/snort2931/{bin,lib,include/linux,sbin,etc/etpro,etc/etproenall,etc/etopen,etc/etopenenall,/etc/test,var/log,etc/sanitize/sopen,etc/sanitize/spro}
@@ -111,24 +108,6 @@ sudo mkdir -p /opt/suricata323/{bin,lib,include/linux,sbin,etc/etpro,etc/etproen
 sudo mkdir -p /opt/suricata400/{bin,lib,include/linux,sbin,etc/etpro,etc/etproenall,etc/etopen,etc/etopenenall,/etc/test,var/run/suricata,var/log,etc/sanitize/sopen,etc/sanitize/spro}
 sudo mkdir -p /opt/et-luajit-scripts
 
-#Snort 2.8.4.x and earlier screw up with make -j ${processes}
-tar -xzvf engine-sources/snort/snort_2.8.4.1.orig.tar.gz -C engine-sources/snort
-cd engine-sources/snort/snort-2.8.4.1
-./configure --enable-perfprofiling --prefix=/opt/snort2841/ && make && sudo make install
-sudo cp etc/* /opt/snort2841/etc/
-cd ../../../
-
-tar -xzvf engine-sources/snort/snort-2.8.5.1.tar.gz -C engine-sources/snort
-cd engine-sources/snort/snort-2.8.5.1
-./configure --enable-perfprofiling --prefix=/opt/snort2851/ && make && sudo make install
-sudo cp etc/* /opt/snort2851/etc/
-cd ../../../
-
-tar -xzvf engine-sources/snort/snort-2.8.6.1.tar.gz -C engine-sources/snort
-cd engine-sources/snort/snort-2.8.6.1
-./configure --enable-perfprofiling --prefix=/opt/snort2861/ && make -j ${processes} && sudo make install
-sudo cp etc/* /opt/snort2861/etc/
-cd ../../../
 
 tar -xzvf engine-sources/suricata/suricata-1.2.1.tar.gz -C engine-sources/suricata
 cd engine-sources/suricata/suricata-1.2.1
@@ -547,9 +526,6 @@ rm engine-sources/daq/daq-2.0.2 -Rf
 rm engine-sources/daq/daq-2.0.4 -Rf
 rm engine-sources/daq/daq-2.0.5 -Rf
 rm engine-sources/daq/daq-2.0.6 -Rf
-rm engine-sources/snort/snort-2.8.4.1 -Rf
-rm engine-sources/snort/snort-2.8.5.1 -Rf
-rm engine-sources/snort/snort-2.8.6.1 -Rf
 rm engine-sources/snort/snort-2.9.0.4 -Rf
 rm engine-sources/snort/snort-2.9.0.5 -Rf 
 rm engine-sources/snort/snort-2.9.2.2 -Rf
