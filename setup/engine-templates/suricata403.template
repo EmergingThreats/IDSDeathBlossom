@@ -1,0 +1,375 @@
+%YAML 1.1
+---
+host-mode: auto
+unix-command:
+  enabled: no
+outputs:
+  - fast:
+      enabled: yes
+      filename: alert 
+      append: yes
+  - eve-log:
+      enabled: yes
+      filetype: regular #regular|syslog|unix_dgram|unix_stream|redis
+      filename: eve.json
+      types:
+        - alert:
+            metadata: yes 
+        - http:
+            extended: yes     
+        - dns:
+            query: yes  
+            answer: yes 
+        - tls:
+            extended: yes 
+        - files:
+        - smtp:
+            extended: yes
+        - ssh
+        - flow
+        - vars
+
+  - unified2-alert:
+      enabled: no
+      filename: unified2.alert
+      xff:
+        enabled: no
+        mode: extra-data
+        header: X-Forwarded-For 
+
+  - http-log:
+      enabled: no
+      filename: http.log
+      append: yes
+
+  - tls-log:
+      enabled: no
+      append: yes
+
+  - dns-log:
+      enabled: no
+      filename: dns.log
+      append: yes
+
+  - pcap-info:
+      enabled: no
+
+  - pcap-log:
+      enabled:  no
+      filename: log.pcap
+      limit: 1000mb
+      max-files: 2000
+
+  - alert-debug:
+      enabled: no
+      filename: alert-debug.log
+      append: yes
+
+  - alert-prelude:
+      enabled: no
+      profile: suricata
+      log-packet-content: no
+      log-packet-header: yes
+
+  - stats:
+      enabled: yes
+      filename: stats.log
+      interval: 8
+
+  - syslog:
+      enabled: no
+      facility: local5
+
+  - drop:
+      enabled: no
+      filename: drop.log
+      append: yes
+
+  - file-log:
+      enabled: no
+      filename: files-json.log
+      append: yes
+
+magic-file: /usr/share/file/magic
+
+nfq:
+af-packet:
+
+  - interface: eth0
+    threads: 1
+    cluster-id: 99
+    cluster-type: cluster_flow
+    defrag: yes
+    use-mmap: yes
+  - interface: eth1
+    threads: 1
+    cluster-id: 98
+    cluster-type: cluster_flow
+    defrag: yes
+  - interface: default
+
+legacy:
+  uricontent: enabled
+
+detect:
+  profile: medium
+  custom-values:
+    toclient-groups: 3
+    toserver-groups: 25
+  sgh-mpm-context: auto
+  inspection-recursion-limit: 3000
+  prefilter:
+    default: mpm
+
+mpm-algo: auto
+spm-algo: auto
+
+defrag:
+  memcap: 32mb
+  hash-size: 65536
+  trackers: 65535 
+  max-frags: 65535
+  prealloc: yes
+  timeout: 60
+
+flow-timeouts:
+
+  default:
+    new: 30
+    established: 300
+    closed: 0
+    bypassed: 100
+    emergency-new: 10
+    emergency-established: 100
+    emergency-closed: 0
+    emergency-bypassed: 50
+  tcp:
+    new: 60
+    established: 600
+    closed: 60
+    bypassed: 100
+    emergency-new: 5
+    emergency-established: 100
+    emergency-closed: 10
+    emergency-bypassed: 50
+  udp:
+    new: 30
+    established: 300
+    bypassed: 100
+    emergency-new: 10
+    emergency-established: 100
+    emergency-bypassed: 50
+  icmp:
+    new: 30
+    established: 300
+    bypassed: 100
+    emergency-new: 10
+    emergency-established: 100
+    emergency-bypassed: 50
+
+stream:
+  memcap: 64mb
+  checksum-validation: yes     
+  inline: auto                 
+  reassembly:
+    memcap: 256mb
+    depth: 1mb                 
+    toserver-chunk-size: 2560
+    toclient-chunk-size: 2560
+    randomize-chunk-size: yes
+
+host:
+  hash-size: 4096
+  prealloc: 1000
+  memcap: 32mb
+
+logging:
+  default-log-level: notice
+  default-output-filter:
+  outputs:
+  - console:
+      enabled: yes
+  - file:
+      enabled: no
+      filename: /var/log/suricata.log
+  - syslog:
+      enabled: no
+      facility: local5
+      format: "[%i] <%d> -- "
+
+pfring:
+  - interface: eth0
+    threads: 1
+    cluster-id: 99
+    cluster-type: cluster_flow
+  - interface: default
+
+pcap:
+  - interface: eth0
+  - interface: default
+
+pcap-file:
+  checksum-checks: auto
+
+ipfw:
+
+vars:
+  address-groups:
+    HOME_NET: "[192.168.0.0/16,10.0.0.0/8,172.16.0.0/12]"
+
+    EXTERNAL_NET: "!$HOME_NET"
+
+    HTTP_SERVERS: "$HOME_NET"
+    SMTP_SERVERS: "$HOME_NET"
+    SQL_SERVERS: "$HOME_NET"
+    DNS_SERVERS: "$HOME_NET"
+    TELNET_SERVERS: "$HOME_NET"
+    AIM_SERVERS: "$EXTERNAL_NET"
+    DNP3_SERVER: "$HOME_NET"
+    DNP3_CLIENT: "$HOME_NET"
+    MODBUS_CLIENT: "$HOME_NET"
+    MODBUS_SERVER: "$HOME_NET"
+    ENIP_CLIENT: "$HOME_NET"
+    ENIP_SERVER: "$HOME_NET"
+
+  port-groups:
+    HTTP_PORTS: "80"
+    SHELLCODE_PORTS: "!80"
+    ORACLE_PORTS: 1521
+    SSH_PORTS: 22
+    DNP3_PORTS: 20000
+    MODBUS_PORTS: 502
+    FILE_DATA_PORTS: "[$HTTP_PORTS,110,143]"
+    FTP_PORTS: 21
+
+action-order:
+  - pass
+  - drop
+  - reject
+  - alert
+
+
+host-os-policy:
+  # Make the default policy windows.
+  windows: [0.0.0.0/0]
+  bsd: []
+  bsd-right: []
+  old-linux: []
+  linux: []
+  old-solaris: []
+  solaris: []
+  hpux10: []
+  hpux11: []
+  irix: []
+  macos: []
+  vista: []
+  windows2k3: []
+
+
+asn1-max-frames: 256
+
+engine-analysis:
+  rules-fast-pattern: yes
+  rules: yes
+
+pcre:
+  match-limit: 3500
+  match-limit-recursion: 1500
+
+app-layer:
+  protocols:
+    tls:
+      enabled: yes
+      detection-ports:
+        dp: 443
+    dcerpc:
+      enabled: yes
+    ftp:
+      enabled: yes
+    ssh:
+      enabled: yes
+    smtp:
+      enabled: yes
+      mime:
+        decode-mime: yes
+        decode-base64: yes
+        decode-quoted-printable: yes
+        header-value-depth: 2000
+        extract-urls: yes
+        body-md5: no
+      inspected-tracker:
+        content-limit: 100000
+        content-inspect-min-size: 32768
+        content-inspect-window: 4096
+    imap:
+      enabled: detection-only
+    msn:
+      enabled: detection-only
+    smb:
+      enabled: yes
+      detection-ports:
+        dp: 139, 445
+    dns:
+      tcp:
+        enabled: yes
+        detection-ports:
+          dp: 53
+      udp:
+        enabled: yes
+        detection-ports:
+          dp: 53
+    http:
+      enabled: yes
+
+      libhtp:
+
+         default-config:
+           personality: IDS
+
+           request-body-limit: 0 
+           response-body-limit: 0
+
+           request-body-minimal-inspect-size: 32kb
+           request-body-inspect-window: 16kb
+           response-body-minimal-inspect-size: 32kb
+           response-body-inspect-window: 16kb
+
+           double-decode-path: no
+           double-decode-query: no
+
+         server-config:
+
+profiling:
+  rules:
+    enabled: yes
+    filename: perf.txt
+    append: yes
+    sort: maxticks
+
+  keywords:
+    enabled: yes
+    filename: keyword_perf.log
+    append: yes
+
+  packets:
+    enabled: yes
+    filename: packet_stats.log
+    append: yes
+    csv:
+      enabled: no
+      filename: packet_stats.csv
+
+  locks:
+    enabled: no
+    filename: lock_stats.log
+    append: yes
+
+
+coredump:
+  max-dump: unlimited
+
+default-log-dir: /opt/suricata403/var/log/
+classification-file: /opt/suricata403/etc/classification.config
+reference-config-file: /opt/suricata403/etc/reference.config
+threshold-file: /opt/suricata403/etc/threshold.config
+rule-files:

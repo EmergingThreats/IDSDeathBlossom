@@ -80,11 +80,7 @@ sudo mkdir -p /opt/snort2980/{bin,lib,include/linux,sbin,etc/etpro,etc/etproenal
 sudo mkdir -p /opt/snort2982/{bin,lib,include/linux,sbin,etc/etpro,etc/etproenall,etc/etopen,etc/etopenenall,/etc/test,var/log,etc/sanitize/sopen,etc/sanitize/spro}
 sudo mkdir -p /opt/snort2983/{bin,lib,include/linux,sbin,etc/etpro,etc/etproenall,etc/etopen,etc/etopenenall,/etc/test,var/log,etc/sanitize/sopen,etc/sanitize/spro}
 sudo mkdir -p /opt/snort2990/{bin,lib,include/linux,sbin,etc/etpro,etc/etproenall,etc/etopen,etc/etopenenall,/etc/test,var/log,etc/sanitize/sopen,etc/sanitize/spro}
-sudo mkdir -p /opt/suricata121/{bin,lib,include/linux,sbin,etc/etpro,etc/etproenall,etc/etopen,etc/etopenenall,/etc/test,var/run/suricata,var/log,etc/sanitize/sopen,etc/sanitize/spro}
-sudo mkdir -p /opt/suricata131/{bin,lib,include/linux,sbin,etc/etpro,etc/etproenall,etc/etopen,etc/etopenenall,/etc/test,var/run/suricata,var/log,etc/sanitize/sopen,etc/sanitize/spro}
-sudo mkdir -p /opt/suricata136/{bin,lib,include/linux,sbin,etc/etpro,etc/etproenall,etc/etopen,etc/etopenenall,/etc/test,var/run/suricata,var/log,etc/sanitize/sopen,etc/sanitize/spro}
-sudo mkdir -p /opt/suricata146/{bin,lib,include/linux,sbin,etc/etpro,etc/etproenall,etc/etopen,etc/etopenenall,/etc/test,var/run/suricata,var/log,etc/sanitize/sopen,etc/sanitize/spro}
-sudo mkdir -p /opt/suricata147/{bin,lib,include/linux,sbin,etc/etpro,etc/etproenall,etc/etopen,etc/etopenenall,/etc/test,var/run/suricata,var/log,etc/sanitize/sopen,etc/sanitize/spro}
+
 sudo mkdir -p /opt/suricata20/{bin,lib,include/linux,sbin,etc/etpro,etc/etproenall,etc/etopen,etc/etopenenall,/etc/test,var/run/suricata,var/log,etc/sanitize/sopen,etc/sanitize/spro}
 sudo mkdir -p /opt/suricata201/{bin,lib,include/linux,sbin,etc/etpro,etc/etproenall,etc/etopen,etc/etopenenall,/etc/test,var/run/suricata,var/log,etc/sanitize/sopen,etc/sanitize/spro}
 sudo mkdir -p /opt/suricata202/{bin,lib,include/linux,sbin,etc/etpro,etc/etproenall,etc/etopen,etc/etopenenall,/etc/test,var/run/suricata,var/log,etc/sanitize/sopen,etc/sanitize/spro}
@@ -106,59 +102,11 @@ sudo mkdir -p /opt/suricata322/{bin,lib,include/linux,sbin,etc/etpro,etc/etproen
 sudo mkdir -p /opt/suricata32/{bin,lib,include/linux,sbin,etc/etpro,etc/etproenall,etc/etopen,etc/etopenenall,/etc/test,var/run/suricata,var/log,etc/sanitize/sopen,etc/sanitize/spro}
 sudo mkdir -p /opt/suricata323/{bin,lib,include/linux,sbin,etc/etpro,etc/etproenall,etc/etopen,etc/etopenenall,/etc/test,var/run/suricata,var/log,etc/sanitize/sopen,etc/sanitize/spro}
 sudo mkdir -p /opt/suricata400/{bin,lib,include/linux,sbin,etc/etpro,etc/etproenall,etc/etopen,etc/etopenenall,/etc/test,var/run/suricata,var/log,etc/sanitize/sopen,etc/sanitize/spro}
+sudo mkdir -p /opt/suricata401/{bin,lib,include/linux,sbin,etc/etpro,etc/etproenall,etc/etopen,etc/etopenenall,/etc/test,var/run/suricata,var/log,etc/sanitize/sopen,etc/sanitize/spro}
+sudo mkdir -p /opt/suricata402/{bin,lib,include/linux,sbin,etc/etpro,etc/etproenall,etc/etopen,etc/etopenenall,/etc/test,var/run/suricata,var/log,etc/sanitize/sopen,etc/sanitize/spro}
+sudo mkdir -p /opt/suricata403/{bin,lib,include/linux,sbin,etc/etpro,etc/etproenall,etc/etopen,etc/etopenenall,/etc/test,var/run/suricata,var/log,etc/sanitize/sopen,etc/sanitize/spro}
+sudo mkdir -p /opt/suricata404/{bin,lib,include/linux,sbin,etc/etpro,etc/etproenall,etc/etopen,etc/etopenenall,/etc/test,var/run/suricata,var/log,etc/sanitize/sopen,etc/sanitize/spro}
 sudo mkdir -p /opt/et-luajit-scripts
-
-
-tar -xzvf engine-sources/suricata/suricata-1.2.1.tar.gz -C engine-sources/suricata
-cd engine-sources/suricata/suricata-1.2.1
-./configure --enable-profiling --prefix=/opt/suricata121/ --with-libnss-includes=/usr/include/nss --with-libnss-libs=/usr/lib/nss --with-libnspr-includes=/usr/include/nspr --with-libnspr-libraries=/usr/lib/nspr && make -j ${processes} && sudo make install
-sudo cp suricata.yaml /opt/suricata121/etc/
-sudo cp reference.config /opt/suricata121/etc/
-sudo cp classification.config /opt/suricata121/etc/
-sudo cp threshold.config /opt/suricata121/etc/
-cd ../../../
-
-tar -xzvf engine-sources/suricata/suricata-1.3.1.tar.gz -C engine-sources/suricata
-cd engine-sources/suricata/suricata-1.3.1
-./configure --enable-profiling --prefix=/opt/suricata131/ --with-libnss-includes=/usr/include/nss --with-libnss-libs=/usr/lib/nss --with-libnspr-includes=/usr/include/nspr --with-libnspr-libraries=/usr/lib/nspr && make -j ${processes} && sudo make install
-sudo cp suricata.yaml /opt/suricata131/etc/
-sudo cp reference.config /opt/suricata131/etc/
-sudo cp classification.config /opt/suricata131/etc/
-cd ../../../
-
-tar -xzvf engine-sources/suricata/suricata-1.3.6.tar.gz -C engine-sources/suricata
-cd engine-sources/suricata/suricata-1.3.6
-./configure --enable-profiling --prefix=/opt/suricata136/ --with-libnss-includes=/usr/include/nss --with-libnss-libs=/usr/lib/nss --with-libnspr-includes=/usr/include/nspr --with-libnspr-libraries=/usr/lib/nspr && make -j ${processes} && sudo make install
-sudo cp suricata.yaml /opt/suricata136/etc/
-sudo cp reference.config /opt/suricata136/etc/
-sudo cp classification.config /opt/suricata136/etc/
-sudo cp threshold.config /opt/suricata136/etc/
-make distclean
-
-./configure LD_RUN_PATH="/opt/pcre-8.35/lib:/usr/lib:/usr/local/lib" --enable-pcre-jit --with-libpcre-libraries=/opt/pcre-8.35/lib/ --with-libpcre-includes=/opt/pcre-8.35/include/ --enable-profiling --prefix=/opt/suricata136JIT/ --with-libnss-includes=/usr/include/nss --with-libnss-libs=/usr/lib/nss --with-libnspr-includes=/usr/include/nspr --with-libnspr-libraries=/usr/lib/nspr && make -j ${processes} && sudo make install
-sudo cp suricata.yaml /opt/suricata136JIT/etc/
-sudo cp reference.config /opt/suricata136JIT/etc/
-sudo cp classification.config /opt/suricata136JIT/etc/
-sudo cp threshold.config /opt/suricata136JIT/etc/
-cd ../../../
-
-tar -xzvf engine-sources/suricata/suricata-1.4.6.tar.gz -C engine-sources/suricata
-cd engine-sources/suricata/suricata-1.4.6
-./configure --enable-profiling --prefix=/opt/suricata146/ --with-libnss-includes=/usr/include/nss --with-libnss-libs=/usr/lib/nss --with-libnspr-includes=/usr/include/nspr --with-libnspr-libraries=/usr/lib/nspr && make -j ${processes} && sudo make install
-sudo cp suricata.yaml /opt/suricata146/etc/
-sudo cp reference.config /opt/suricata146/etc/
-sudo cp classification.config /opt/suricata146/etc/
-sudo cp threshold.config /opt/suricata146/etc/
-cd ../../../
-
-tar -xzvf engine-sources/suricata/suricata-1.4.7.tar.gz -C engine-sources/suricata
-cd engine-sources/suricata/suricata-1.4.7
-./configure --enable-profiling --prefix=/opt/suricata147/ --with-libnss-includes=/usr/include/nss --with-libnss-libs=/usr/lib/nss --with-libnspr-includes=/usr/include/nspr --with-libnspr-libraries=/usr/lib/nspr && make -j ${processes} && sudo make install
-sudo cp suricata.yaml /opt/suricata147/etc/
-sudo cp reference.config /opt/suricata147/etc/
-sudo cp classification.config /opt/suricata147/etc/
-sudo cp threshold.config /opt/suricata147/etc/
-cd ../../../
 
 tar -xzvf engine-sources/suricata/suricata-2.0.tar.gz -C engine-sources/suricata
 cd engine-sources/suricata/suricata-2.0
@@ -348,6 +296,42 @@ sudo cp suricata.yaml /opt/suricata400/etc/
 sudo cp reference.config /opt/suricata400/etc/
 sudo cp classification.config /opt/suricata400/etc/
 sudo cp threshold.config /opt/suricata400/etc/
+cd ../../../
+
+tar -xzvf engine-sources/suricata/suricata-4.0.1.tar.gz -C engine-sources/suricata
+cd engine-sources/suricata/suricata-4.0.1
+./configure --enable-lua --enable-profiling --prefix=/opt/suricata401/ --with-libnss-includes=/usr/include/nss --with-libnss-libs=/usr/lib/nss --with-libnspr-includes=/usr/include/nspr --with-libnspr-libraries=/usr/lib/nspr && make -j ${processes} && sudo make install
+sudo cp suricata.yaml /opt/suricata401/etc/
+sudo cp reference.config /opt/suricata401/etc/
+sudo cp classification.config /opt/suricata401/etc/
+sudo cp threshold.config /opt/suricata401/etc/
+cd ../../../
+
+tar -xzvf engine-sources/suricata/suricata-4.0.2.tar.gz -C engine-sources/suricata
+cd engine-sources/suricata/suricata-4.0.2
+./configure --enable-lua --enable-profiling --prefix=/opt/suricata402/ --with-libnss-includes=/usr/include/nss --with-libnss-libs=/usr/lib/nss --with-libnspr-includes=/usr/include/nspr --with-libnspr-libraries=/usr/lib/nspr && make -j ${processes} && sudo make install
+sudo cp suricata.yaml /opt/suricata402/etc/
+sudo cp reference.config /opt/suricata402/etc/
+sudo cp classification.config /opt/suricata402/etc/
+sudo cp threshold.config /opt/suricata402/etc/
+cd ../../../
+
+tar -xzvf engine-sources/suricata/suricata-4.0.3.tar.gz -C engine-sources/suricata
+cd engine-sources/suricata/suricata-4.0.3
+./configure --enable-lua --enable-profiling --prefix=/opt/suricata403/ --with-libnss-includes=/usr/include/nss --with-libnss-libs=/usr/lib/nss --with-libnspr-includes=/usr/include/nspr --with-libnspr-libraries=/usr/lib/nspr && make -j ${processes} && sudo make install
+sudo cp suricata.yaml /opt/suricata403/etc/
+sudo cp reference.config /opt/suricata403/etc/
+sudo cp classification.config /opt/suricata403/etc/
+sudo cp threshold.config /opt/suricata403/etc/
+cd ../../../
+
+tar -xzvf engine-sources/suricata/suricata-4.0.4.tar.gz -C engine-sources/suricata
+cd engine-sources/suricata/suricata-4.0.4
+./configure --enable-lua --enable-profiling --prefix=/opt/suricata404/ --with-libnss-includes=/usr/include/nss --with-libnss-libs=/usr/lib/nss --with-libnspr-includes=/usr/include/nspr --with-libnspr-libraries=/usr/lib/nspr && make -j ${processes} && sudo make install
+sudo cp suricata.yaml /opt/suricata404/etc/
+sudo cp reference.config /opt/suricata404/etc/
+sudo cp classification.config /opt/suricata404/etc/
+sudo cp threshold.config /opt/suricata404/etc/
 cd ../../../
 
 tar -xzvf engine-sources/daq/daq-0.5.tar.gz -C engine-sources/daq
@@ -548,16 +532,6 @@ rm engine-sources/snort/snort-2.9.8.2 -Rf
 rm engine-sources/snort/snort-2.9.8.3 -Rf
 rm engine-sources/snort/snort-2.9.9.0 -Rf
 
-rm engine-sources/suricata/suricata-1.2.1 -Rf 
-rm engine-sources/suricata/suricata-1.3 -Rf
-rm engine-sources/suricata/suricata-1.3.1 -Rf
-rm engine-sources/suricata/suricata-1.3.6 -Rf
-rm engine-sources/suricata/suricata-1.4.1 -Rf
-rm engine-sources/suricata/suricata-1.4.2 -Rf
-rm engine-sources/suricata/suricata-1.4.3 -Rf
-rm engine-sources/suricata/suricata-1.4.5 -Rf
-rm engine-sources/suricata/suricata-1.4.6 -Rf
-rm engine-sources/suricata/suricata-1.4.7 -Rf
 rm engine-sources/suricata/suricata-2.0 -Rf
 rm engine-sources/suricata/suricata-2.0.1 -Rf
 rm engine-sources/suricata/suricata-2.0.2 -Rf
@@ -579,6 +553,10 @@ rm engine-sources/suricata/suricata-3.2.1 -Rf
 rm engine-sources/suricata/suricata-3.2.2 -Rf
 rm engine-sources/suricata/suricata-3.2.3 -Rf
 rm engine-sources/suricata/suricata-4.0.0 -Rf
+rm engine-sources/suricata/suricata-4.0.1 -Rf
+rm engine-sources/suricata/suricata-4.0.2 -Rf
+rm engine-sources/suricata/suricata-4.0.3 -Rf
+rm engine-sources/suricata/suricata-4.0.4 -Rf
 
 rm engine-sources/misc/pulledpork-0.6.1 -Rf
 rm engine-sources/misc/libdnet-1.11 -Rf
