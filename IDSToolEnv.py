@@ -402,7 +402,7 @@ class IDSToolEnv(RunmodeCompare, RunmodeSidperfq):
 "parseout ", "warnaserror", "globallogdir", "topN", "appendrunid", "cmpropts",
 "snortrules", "surirules", "sperfsid", "enableallrules", "fpblacklistopts",
 "reportgroup",
-"usecustomrules", "usesnortvalidator", "usedumbpig", "sqlquery","appendengineid","glogoverride","custom_runid"]:
+"usecustomrules", "usesnortvalidator", "usedumbpig", "sqlquery","appendengineid","glogoverride","custom_runid","suri_conf_override"]:
                 overrideOption(self.Runmode.conf, options.__dict__, v)
             if self.Runmode.conf.has_key("reporton") and self.Runmode.conf["reporton"]:
                 self.Runmode.conf["reportonarr"] = self.Runmode.conf["reporton"].split(",")
