@@ -162,6 +162,9 @@ if __name__ == "__main__":
 
     #Use a custom runid
     parser.add_option("--custom-runid", dest="custom_runid", help="Custom runid instead of runmode-datestamp format")
+    
+    #Use a custom config override for Suricata
+    parser.add_option("--suri-conf-override", dest="suri_conf_override", type="string", default ="",  help="Add custom config override for Suricata. You can use many at once.Example:                           --suri-conf-override=\"--set=stream.memcap=1GB --set=stream.reassembly.memcap=2GB\"")
 
     # Parsed config
     (options, args) = parser.parse_args()

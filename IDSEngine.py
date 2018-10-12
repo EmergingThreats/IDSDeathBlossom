@@ -131,6 +131,10 @@ class IDSEngine(RunmodeSanitize, RunmodeExtract, RunmodeExtractAll, RunmodeVerif
             self.runid = self.Runmode.conf["runid"]
         else:
             self.runid = None
+        if self.Runmode.conf.has_key("suri_conf_override"):
+            self.suri_conf_override = self.Runmode.conf["suri_conf_override"]
+        else:
+            self.suri_conf_override = ""
         if self.Runmode.conf.has_key("reportonsanitize"):
             self.reportonsanitize = self.Runmode.conf["reportonsanitize"]
         else:
@@ -168,7 +172,7 @@ class IDSEngine(RunmodeSanitize, RunmodeExtract, RunmodeExtractAll, RunmodeVerif
                 #    cmd = "%s -c %s -l %s -r %s --init-errors -v" % (self.conf["path"], self.conf["config"], self.conf["logdir"], self.pcapfile)
                 #else:
                 #    cmd = "%s -c %s -l %s -r %s --init-errors" % (self.conf["path"], self.conf["config"], self.conf["logdir"], self.pcapfile)
-                cmd = "%s -c %s -l %s -r %s -k none -vv" % (self.conf["path"], self.conf["config"], self.conf["logdir"], self.pcapfile)
+                cmd = "%s -c %s -l %s -r %s -k none -vv %s" % (self.conf["path"], self.conf["config"], self.conf["logdir"], self.pcapfile, self.suri_conf_override)
                 
         # Other runmodes should be equal
         else:
@@ -177,15 +181,15 @@ class IDSEngine(RunmodeSanitize, RunmodeExtract, RunmodeExtractAll, RunmodeVerif
             elif self.mode == "suricata":
                 if re.match(r"^2\.", self.conf["version"]) != None:
 		    if "JIT" in self.conf["version"]:
-		        cmd = "LD_LIBRARY_PATH=/opt/luajit20/lib/ %s -c %s -l %s -r %s -v --runmode=single -k none" % (self.conf["path"], self.conf["config"], self.conf["logdir"], pcap)
+		        cmd = "LD_LIBRARY_PATH=/opt/luajit20/lib/ %s -c %s -l %s -r %s -v --runmode=single -k none %s" % (self.conf["path"], self.conf["config"], self.conf["logdir"], pcap, suri_conf_override)
                     else:
-		        cmd = "%s -c %s -l %s -r %s -vvv --runmode=single -k none" % (self.conf["path"], self.conf["config"], self.conf["logdir"], pcap)
+		        cmd = "%s -c %s -l %s -r %s -vvv --runmode=single -k none %s" % (self.conf["path"], self.conf["config"], self.conf["logdir"], pcap, self.suri_conf_override)
 		if re.match(r"^3\.", self.conf["version"]) != None:
-		  cmd = "%s -c %s -l %s -r %s -vvv -k none" % (self.conf["path"], self.conf["config"], self.conf["logdir"], pcap)
+		  cmd = "%s -c %s -l %s -r %s -vvv -k none %s" % (self.conf["path"], self.conf["config"], self.conf["logdir"], pcap, self.suri_conf_override)
                 if re.match(r"^4\.", self.conf["version"]) != None:
-		  cmd = "%s -c %s -l %s -r %s -vvv -k none" % (self.conf["path"], self.conf["config"], self.conf["logdir"], pcap)
+		  cmd = "%s -c %s -l %s -r %s -vvv -k none %s" % (self.conf["path"], self.conf["config"], self.conf["logdir"], pcap, self.suri_conf_override)
                 if re.match(r"^git$", self.conf["version"]) != None:
-		  cmd = "%s -c %s -l %s -r %s -vvv -k none" % (self.conf["path"], self.conf["config"], self.conf["logdir"], pcap)
+		  cmd = "%s -c %s -l %s -r %s -vvv -k none %s" % (self.conf["path"], self.conf["config"], self.conf["logdir"], pcap, self.suri_conf_override)
                 
         return cmd
 
