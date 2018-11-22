@@ -117,20 +117,20 @@ shift $((OPTIND -1))
 echo -e "\n Supplied engine and version are:  ${engine_type} ${engine_version}  \n";
 #echo "${engine_type}-${engine_version}"
 
-  if [ "${engine_type}" == "snort" ] && [ -z  "${engine_version}" ]; then
-      echo -e "\n USAGE: `basename $0` the script requires three arguments for the Snort engine."
-      echo -e "\n EXMPLE:"
-      echo -e "\n ./idsdb_addengine.sh -e snort -v 2.9.8.3 -d daq-2.0.6"
-      exit 1;
-  fi
+if [ "${engine_type}" == "snort" ] && [ -z  "${engine_version}" ]; then
+    echo -e "\n USAGE: `basename $0` the script requires three arguments for the Snort engine."
+    echo -e "\n EXMPLE:"
+    echo -e "\n ./idsdb_addengine.sh -e snort -v 2.9.8.3 -d daq-2.0.6"
+    exit 1;
+fi
 
-  if [ "${engine_type}" == "suricata" ] && [ -z  "${engine_version}" ]; then 
-      echo -e "\n USAGE: `basename $0` the script requires two arguments for the Suricata engine."
-      echo -e "\n EXMPLE:"
-      echo -e "\n ./idsdb_addengine.sh -e suricata -v 3.1.2"
-      echo -e "\n ./idsdb_addengine.sh -e suricata -v git"
-      exit 1;
-  fi
+if [ "${engine_type}" == "suricata" ] && [ -z  "${engine_version}" ]; then 
+    echo -e "\n USAGE: `basename $0` the script requires two arguments for the Suricata engine."
+    echo -e "\n EXMPLE:"
+    echo -e "\n ./idsdb_addengine.sh -e suricata -v 3.1.2"
+    echo -e "\n ./idsdb_addengine.sh -e suricata -v git"
+    exit 1;
+fi
   
 
 if [ "${engine_type}" == "snort" ] &&  [ -z  "${daq_version}" ] ; then
@@ -139,15 +139,13 @@ if [ "${engine_type}" == "snort" ] &&  [ -z  "${daq_version}" ] ; then
   exit 1
 fi 
 
-echo "http://www.openinfosecfoundation.org/download/${engine_type}-${engine_version}.tar.gz"
-
 if [ "${engine_type}" == "suricata" ] && [  "${engine_version}" == "git" ]; then
 
     if [  -d "engine-sources/${engine_type}/${engine_type}-${engine_version}" ]; then
     rm -rf engine-sources/${engine_type}/${engine_type}-${engine_version}
     fi
 
-    if   $(git clone git://phalanx.openinfosecfoundation.org/oisf.git engine-sources/${engine_type}/${engine_type}-${engine_version} && cd engine-sources/${engine_type}/${engine_type}-${engine_version} && git clone https://github.com/OISF/libhtp.git -b 0.5.x && cd ../../../)  ; then
+    if $(git clone git://phalanx.openinfosecfoundation.org/oisf.git engine-sources/${engine_type}/${engine_type}-${engine_version} && cd engine-sources/${engine_type}/${engine_type}-${engine_version} && git clone https://github.com/OISF/libhtp.git -b 0.5.x && cd ../../../)  ; then
     echo "Downloaded the latest Suricata version."
     else
     echo "Could not download! Aborting. Check your connection or engine version and try again." 
