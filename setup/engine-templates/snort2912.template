@@ -47,7 +47,6 @@ preprocessor stream5_global: track_tcp yes, \
    track_icmp no, \
    max_tcp 262144, \
    max_udp 131072, \
-   memcap 1073741824, \
    max_active_responses 2, \
    min_response_seconds 5
 preprocessor stream5_tcp: policy windows, detect_anomalies, require_3whs 180, \
@@ -60,7 +59,7 @@ preprocessor stream5_tcp: policy windows, detect_anomalies, require_3whs 180, \
         7917 7918 7919 7920 8000 8008 8014 8028 8080 8081 8082 8085 8088 8090 8118 8123 8180 8181 8222 8243 8280 8300 8500 8509 8800 8888 8899 9000 9060 9080 9090 9091 9111 9443 9999 10000 11371 12601 15489 29991 33300 34412 34443 34444 41080 44449 50000 50002 51423 53331 55252 55555 56712
 preprocessor stream5_udp: timeout 180
 
-preprocessor http_inspect: global iis_unicode_map /opt/snort2990/etc/unicode.map 1252 compress_depth 65535 decompress_depth 65535
+preprocessor http_inspect: global iis_unicode_map /opt/snort2912/etc/unicode.map 1252 compress_depth 65535 decompress_depth 65535
 preprocessor http_inspect_server: server default \
     http_methods { GET POST PUT SEARCH MKCOL COPY MOVE LOCK UNLOCK NOTIFY POLL BCOPY BDELETE BMOVE LINK UNLINK OPTIONS HEAD DELETE TRACE TRACK CONNECT SOURCE SUBSCRIBE UNSUBSCRIBE PROPFIND PROPPATCH BPROPFIND BPROPPATCH RPC_CONNECT PROXY_SUCCESS BITS_POST CCM_POST SMS_POST RPC_IN_DATA RPC_OUT_DATA RPC_ECHO_DATA } \
     chunk_length 500000 \
@@ -247,7 +246,7 @@ preprocessor dnp3: ports { 20000 } \
    memcap 262144 \
    check_crc
 
-dynamicpreprocessor directory /opt/snort2990/lib/snort_dynamicpreprocessor/
-dynamicengine /opt/snort2990/lib/snort_dynamicengine/libsf_engine.so
-include /opt/snort2990/etc/classification.config
-include /opt/snort2990/etc/reference.config
+dynamicpreprocessor directory /opt/snort2912/lib/snort_dynamicpreprocessor/
+dynamicengine /opt/snort2912/lib/snort_dynamicengine/libsf_engine.so
+include /opt/snort2912/etc/classification.config
+include /opt/snort2912/etc/reference.config

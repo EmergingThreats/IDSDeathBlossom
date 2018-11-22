@@ -1,5 +1,6 @@
 %YAML 1.1
 ---
+max-pending-packets: 4096
 host-mode: auto
 unix-command:
   enabled: no
@@ -368,4 +369,3 @@ profiling:
 coredump:
   max-dump: unlimited
 
-rule-files:

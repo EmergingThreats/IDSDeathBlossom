@@ -427,8 +427,8 @@ app-layer:
       enabled: yes
     dns:
       # memcaps. Globally and per flow/state.
-      #global-memcap: 16mb
-      #state-memcap: 512kb
+      global-memcap: 2gb
+      state-memcap: 1mb
 
       # How many unreplied DNS requests are considered a flood.
       # If the limit is reached, app-layer-event:dns.flooded; will match.
@@ -493,8 +493,8 @@ app-layer:
 
            # Can be specified in kb, mb, gb.  Just a number indicates
            # it's in bytes.
-           request-body-limit: 100kb
-           response-body-limit: 100kb
+           request-body-limit: 1mb
+           response-body-limit: 1mb
 
            # inspection limits
            request-body-minimal-inspect-size: 32kb
@@ -570,7 +570,7 @@ app-layer:
       # If the limit is reached, app-layer-event:modbus.flooded; will match.
       #request-flood: 500
 
-      enabled: no
+      enabled: yes
       detection-ports:
         dp: 502
       # According to MODBUS Messaging on TCP/IP Implementation Guide V1.0b, it
@@ -584,13 +584,13 @@ app-layer:
 
     # DNP3
     dnp3:
-      enabled: no
+      enabled: yes
       detection-ports:
         dp: 20000
 
     # SCADA EtherNet/IP and CIP protocol support
     enip:
-      enabled: no
+      enabled: yes
       detection-ports:
         dp: 44818
         sp: 44818
@@ -636,8 +636,3 @@ coredump:
   max-dump: unlimited
 
 
-default-log-dir: /opt/suricata410/var/log/
-classification-file: /opt/suricata410/etc/classification.config
-reference-config-file: /opt/suricata410/etc/reference.config
-threshold-file: /opt/suricata410/etc/threshold.config
-rule-files:

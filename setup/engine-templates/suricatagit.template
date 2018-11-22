@@ -634,6 +634,7 @@ profiling:
 coredump:
   max-dump: unlimited
 
+
 default-log-dir: /opt/suricatagit/var/log/
 classification-file: /opt/suricatagit/etc/classification.config
 reference-config-file: /opt/suricatagit/etc/reference.config
