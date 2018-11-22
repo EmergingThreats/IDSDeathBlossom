@@ -80,6 +80,9 @@ sudo mkdir -p /opt/snort2980/{bin,lib,include/linux,sbin,etc/etpro,etc/etproenal
 sudo mkdir -p /opt/snort2982/{bin,lib,include/linux,sbin,etc/etpro,etc/etproenall,etc/etopen,etc/etopenenall,/etc/test,var/log,etc/sanitize/sopen,etc/sanitize/spro}
 sudo mkdir -p /opt/snort2983/{bin,lib,include/linux,sbin,etc/etpro,etc/etproenall,etc/etopen,etc/etopenenall,/etc/test,var/log,etc/sanitize/sopen,etc/sanitize/spro}
 sudo mkdir -p /opt/snort2990/{bin,lib,include/linux,sbin,etc/etpro,etc/etproenall,etc/etopen,etc/etopenenall,/etc/test,var/log,etc/sanitize/sopen,etc/sanitize/spro}
+sudo mkdir -p /opt/snort2911/{bin,lib,include/linux,sbin,etc/etpro,etc/etproenall,etc/etopen,etc/etopenenall,/etc/test,var/log,etc/sanitize/sopen,etc/sanitize/spro}
+sudo mkdir -p /opt/snort29111/{bin,lib,include/linux,sbin,etc/etpro,etc/etproenall,etc/etopen,etc/etopenenall,/etc/test,var/log,etc/sanitize/sopen,etc/sanitize/spro}
+sudo mkdir -p /opt/snort2912/{bin,lib,include/linux,sbin,etc/etpro,etc/etproenall,etc/etopen,etc/etopenenall,/etc/test,var/log,etc/sanitize/sopen,etc/sanitize/spro}
 
 sudo mkdir -p /opt/suricata20/{bin,lib,include/linux,sbin,etc/etpro,etc/etproenall,etc/etopen,etc/etopenenall,/etc/test,var/run/suricata,var/log,etc/sanitize/sopen,etc/sanitize/spro}
 sudo mkdir -p /opt/suricata201/{bin,lib,include/linux,sbin,etc/etpro,etc/etproenall,etc/etopen,etc/etopenenall,/etc/test,var/run/suricata,var/log,etc/sanitize/sopen,etc/sanitize/spro}
@@ -106,6 +109,8 @@ sudo mkdir -p /opt/suricata401/{bin,lib,include/linux,sbin,etc/etpro,etc/etproen
 sudo mkdir -p /opt/suricata402/{bin,lib,include/linux,sbin,etc/etpro,etc/etproenall,etc/etopen,etc/etopenenall,/etc/test,var/run/suricata,var/log,etc/sanitize/sopen,etc/sanitize/spro}
 sudo mkdir -p /opt/suricata403/{bin,lib,include/linux,sbin,etc/etpro,etc/etproenall,etc/etopen,etc/etopenenall,/etc/test,var/run/suricata,var/log,etc/sanitize/sopen,etc/sanitize/spro}
 sudo mkdir -p /opt/suricata404/{bin,lib,include/linux,sbin,etc/etpro,etc/etproenall,etc/etopen,etc/etopenenall,/etc/test,var/run/suricata,var/log,etc/sanitize/sopen,etc/sanitize/spro}
+sudo mkdir -p /opt/suricata405/{bin,lib,include/linux,sbin,etc/etpro,etc/etproenall,etc/etopen,etc/etopenenall,/etc/test,var/run/suricata,var/log,etc/sanitize/sopen,etc/sanitize/spro}
+sudo mkdir -p /opt/suricata410/{bin,lib,include/linux,sbin,etc/etpro,etc/etproenall,etc/etopen,etc/etopenenall,/etc/test,var/run/suricata,var/log,etc/sanitize/sopen,etc/sanitize/spro}
 sudo mkdir -p /opt/et-luajit-scripts
 
 tar -xzvf engine-sources/suricata/suricata-2.0.tar.gz -C engine-sources/suricata
@@ -334,6 +339,25 @@ sudo cp classification.config /opt/suricata404/etc/
 sudo cp threshold.config /opt/suricata404/etc/
 cd ../../../
 
+tar -xzvf engine-sources/suricata/suricata-4.0.5.tar.gz -C engine-sources/suricata
+cd engine-sources/suricata/suricata-4.0.5
+./configure --enable-lua --enable-profiling --prefix=/opt/suricata405/ --with-libnss-includes=/usr/include/nss --with-libnss-libs=/usr/lib/nss --with-libnspr-includes=/usr/include/nspr --with-libnspr-libraries=/usr/lib/nspr && make -j ${processes} && sudo make install
+sudo cp suricata.yaml /opt/suricata405/etc/
+sudo cp reference.config /opt/suricata405/etc/
+sudo cp classification.config /opt/suricata405/etc/
+sudo cp threshold.config /opt/suricata405/etc/
+cd ../../../
+
+tar -xzvf engine-sources/suricata/suricata-4.1.0.tar.gz -C engine-sources/suricata
+cd engine-sources/suricata/suricata-4.1.0
+./configure --enable-lua --enable-profiling --prefix=/opt/suricata410/ --with-libnss-includes=/usr/include/nss --with-libnss-libs=/usr/lib/nss --with-libnspr-includes=/usr/include/nspr --with-libnspr-libraries=/usr/lib/nspr && make -j ${processes} && sudo make install
+sudo cp suricata.yaml /opt/suricata410/etc/
+sudo cp reference.config /opt/suricata410/etc/
+sudo cp classification.config /opt/suricata410/etc/
+sudo cp threshold.config /opt/suricata410/etc/
+cd ../../../
+
+
 tar -xzvf engine-sources/daq/daq-0.5.tar.gz -C engine-sources/daq
 cd engine-sources/daq/daq-0.5
 autoreconf -f -i
@@ -474,6 +498,25 @@ PATH="/opt/daq206/bin:$PATH" ./configure --enable-ipv6 --enable-gre --enable-mpl
 sudo cp etc/* /opt/snort2990/etc/
 cd ../../../
 
+tar -xzvf engine-sources/snort/snort-2.9.11.tar.gz -C engine-sources/snort
+cd engine-sources/snort/snort-2.9.11
+PATH="/opt/daq206/bin:$PATH" ./configure --enable-ipv6 --enable-gre --enable-mpls --with-dnet-includes=/opt/libdnet111/include/ --with-dnet-libraries=/opt/libdnet111/lib/ --enable-targetbased --enable-decoder-preprocessor-rules --enable-ppm --enable-perfprofiling --enable-zlib --enable-active-response --enable-normalizer --enable-reload --enable-react --enable-flexresp3 LD_RUN_PATH="/opt/daq206/lib:/opt/snort2911/lib:/opt/libdnet111/lib:/usr/lib:/usr/local/lib" --prefix=/opt/snort2911/ --with-daq-includes=/opt/daq206/include/ --with-daq-libraries=/opt/daq206/lib/ && make -j ${processes} && sudo make install
+sudo cp etc/* /opt/snort2911/etc/
+cd ../../../
+
+tar -xzvf engine-sources/snort/snort-2.9.11.1.tar.gz -C engine-sources/snort
+cd engine-sources/snort/snort-2.9.11.1
+PATH="/opt/daq206/bin:$PATH" ./configure --enable-ipv6 --enable-gre --enable-mpls --with-dnet-includes=/opt/libdnet111/include/ --with-dnet-libraries=/opt/libdnet111/lib/ --enable-targetbased --enable-decoder-preprocessor-rules --enable-ppm --enable-perfprofiling --enable-zlib --enable-active-response --enable-normalizer --enable-reload --enable-react --enable-flexresp3 LD_RUN_PATH="/opt/daq206/lib:/opt/snort29111/lib:/opt/libdnet111/lib:/usr/lib:/usr/local/lib" --prefix=/opt/snort29111/ --with-daq-includes=/opt/daq206/include/ --with-daq-libraries=/opt/daq206/lib/ && make -j ${processes} && sudo make install
+sudo cp etc/* /opt/snort29111/etc/
+cd ../../../
+
+tar -xzvf engine-sources/snort/snort-2.9.12.tar.gz -C engine-sources/snort
+cd engine-sources/snort/snort-2.9.12
+PATH="/opt/daq206/bin:$PATH" ./configure --enable-ipv6 --enable-gre --enable-mpls --with-dnet-includes=/opt/libdnet111/include/ --with-dnet-libraries=/opt/libdnet111/lib/ --enable-targetbased --enable-decoder-preprocessor-rules --enable-ppm --enable-perfprofiling --enable-zlib --enable-active-response --enable-normalizer --enable-reload --enable-react --enable-flexresp3 LD_RUN_PATH="/opt/daq206/lib:/opt/snort2912/lib:/opt/libdnet111/lib:/usr/lib:/usr/local/lib" --prefix=/opt/snort2912/ --with-daq-includes=/opt/daq206/include/ --with-daq-libraries=/opt/daq206/lib/ && make -j ${processes} && sudo make install
+sudo cp etc/* /opt/snort2912/etc/
+cd ../../../
+
+
 echo "Done installing engines"
 
 #sudo python gunstar-maker.py
@@ -531,6 +574,9 @@ rm engine-sources/snort/snort-2.9.8.0 -Rf
 rm engine-sources/snort/snort-2.9.8.2 -Rf
 rm engine-sources/snort/snort-2.9.8.3 -Rf
 rm engine-sources/snort/snort-2.9.9.0 -Rf
+rm engine-sources/snort/snort-2.9.11 -Rf
+rm engine-sources/snort/snort-2.9.11.1 -Rf
+rm engine-sources/snort/snort-2.9.12 -Rf
 
 rm engine-sources/suricata/suricata-2.0 -Rf
 rm engine-sources/suricata/suricata-2.0.1 -Rf
@@ -557,6 +603,8 @@ rm engine-sources/suricata/suricata-4.0.1 -Rf
 rm engine-sources/suricata/suricata-4.0.2 -Rf
 rm engine-sources/suricata/suricata-4.0.3 -Rf
 rm engine-sources/suricata/suricata-4.0.4 -Rf
+rm engine-sources/suricata/suricata-4.0.5 -Rf
+rm engine-sources/suricata/suricata-4.1.0 -Rf
 
 rm engine-sources/misc/pulledpork-0.6.1 -Rf
 rm engine-sources/misc/libdnet-1.11 -Rf
