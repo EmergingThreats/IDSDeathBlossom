@@ -17,12 +17,12 @@ outputs:
             metadata: yes 
         - http:
             extended: yes     
-        - dns:
-            query: yes  
-            answer: yes 
+        #- dns:
+        #    query: yes  
+        #    answer: yes 
         - tls:
             extended: yes 
-        - files:
+        #- files:
         - smtp:
             extended: yes
         - ssh

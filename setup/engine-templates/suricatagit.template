@@ -8,20 +8,71 @@ outputs:
       enabled: yes
       filename: alert 
       append: yes
-
   - eve-log:
       enabled: yes
+      filetype: regular #regular|syslog|unix_dgram|unix_stream|redis
       filename: eve.json
       types:
-        - alert
+        - alert:
+            metadata: yes 
         - http:
-        - dns
+            extended: yes     
+        - dns:
+            # This configuration uses the new DNS logging format,
+            # the old configuration is still available:
+            # http://suricata.readthedocs.io/en/latest/configuration/suricata-yaml.html#eve-extensible-event-format
+            # Use version 2 logging with the new format:
+            # DNS answers will be logged in one single event
+            # rather than an event for each of it.
+            # Without setting a version the version
+            # will fallback to 1 for backwards compatibility.
+            # Note: version 1 is not available with rust enabled
+            version: 2
+
+            # Enable/disable this logger. Default: enabled.
+            enabled: no
+
+            # Control logging of requests and responses:
+            # - requests: enable logging of DNS queries
+            # - responses: enable logging of DNS answers
+            # By default both requests and responses are logged.
+            #requests: no
+            #responses: no
+
+            # Format of answer logging:
+            # - detailed: array item per answer
+            # - grouped: answers aggregated by type
+            # Default: all
+            #formats: [detailed, grouped]
+
+            # Answer types to log.
+            # Default: all
+            #types: [a, aaaa, cname, mx, ns, ptr, txt]
+        - dnp3
+        - nfs
+        - smb
+        - tftp
+        - ikev2
+        - krb5
+        - dhcp:
+            # DHCP logging requires Rust.
+            enabled: yes
+            # When extended mode is on, all DHCP messages are logged
+            # with full detail. When extended mode is off (the
+            # default), just enough information to map a MAC address
+            # to an IP address is logged.
+            extended: yes
         - tls:
-        - files:
+            extended: yes 
+        #- files:
+        - smtp:
+            extended: yes
         - ssh
+        - flow
+        - vars
 
   - unified2-alert:
-      enabled: yes
+      enabled: no
       filename: unified2.alert
       xff:
         enabled: no
@@ -29,11 +80,12 @@ outputs:
         header: X-Forwarded-For 
 
   - http-log:
-      enabled: yes
+      enabled: no
       filename: http.log
       append: yes
 
   - tls-log:
+      enabled: no
       append: yes
 
   - dns-log:
@@ -75,8 +127,6 @@ outputs:
       filename: drop.log
       append: yes
 
-  - file-store:
-
   - file-log:
       enabled: no
       filename: files-json.log
@@ -103,132 +153,85 @@ af-packet:
 legacy:
   uricontent: enabled
 
+detect:
+  profile: medium
+  custom-values:
+    toclient-groups: 3
+    toserver-groups: 25
+  sgh-mpm-context: auto
+  inspection-recursion-limit: 3000
+  prefilter:
+    default: mpm
 
-detect-engine:
-  - profile: medium
-  - custom-values:
-      toclient-src-groups: 2
-      toclient-dst-groups: 2
-      toclient-sp-groups: 2
-      toclient-dp-groups: 3
-      toserver-src-groups: 2
-      toserver-dst-groups: 4
-      toserver-sp-groups: 2
-      toserver-dp-groups: 25
-  - sgh-mpm-context: auto
-  - inspection-recursion-limit: 3000
-
-threading:
-  set-cpu-affinity: no
-  cpu-affinity:
-    - management-cpu-set:
-    - receive-cpu-set:
-    - decode-cpu-set:
-        cpu: [ 0, 1 ]
-        mode: "balanced"
-    - stream-cpu-set:
-        cpu: [ "0-1" ]
-    - detect-cpu-set:
-        cpu: [ "all" ]
-        prio:
-          low: [ 0 ]
-          medium: [ "1-2" ]
-          high: [ 3 ]
-          default: "medium"
-    - verdict-cpu-set:
-        cpu: [ 0 ]
-        prio:
-          default: "high"
-    - reject-cpu-set:
-        cpu: [ 0 ]
-        prio:
-          default: "low"
-    - output-cpu-set:
-        cpu: [ "all" ]
-        prio:
-           default: "medium"
-  detect-thread-ratio: 1.5
-
-cuda:
-  mpm:
-    data-buffer-size-min-limit: 0
-    data-buffer-size-max-limit: 1500
-    cudabuffer-buffer-size: 500mb
-    gpu-transfer-size: 50mb
-    batching-timeout: 2000
-    device-id: 0
-    cuda-streams: 2
-
-
-mpm-algo: ac
-
-pattern-matcher:
-  - b2gc:
-      search-algo: B2gSearchBNDMq
-      hash-size: low
-      bf-size: medium
-  - b2gm:
-      search-algo: B2gSearchBNDMq
-      hash-size: low
-      bf-size: medium
-  - b2g:
-      search-algo: B2gSearchBNDMq
-      hash-size: low
-      bf-size: medium
-  - b3g:
-      search-algo: B3gSearchBNDMq
-      hash-size: low
-      bf-size: medium
-  - wumanber:
-      hash-size: low
-      bf-size: medium
-
+mpm-algo: auto
+spm-algo: auto
 
 defrag:
-  memcap: 32mb
+  memcap: 128mb
   hash-size: 65536
+  trackers: 65535 
+  max-frags: 65535
   prealloc: yes
   timeout: 60
 
 flow:
-  memcap: 64mb
+  memcap: 128mb
   hash-size: 65536
-  prealloc: 10000
+  prealloc: 300000
   emergency-recovery: 30
+  #managers: 1 # default to one flow manager
+  #recyclers: 1 # default to one flow recycler thread
 
+# This option controls the use of vlan ids in the flow (and defrag)
+# hashing. Normally this should be enabled, but in some (broken)
+# setups where both sides of a flow are not tagged with the same vlan
+# tag, we can ignore the vlan id's in the flow hashing.
 vlan:
   use-for-tracking: true
 
+
 flow-timeouts:
+
   default:
     new: 30
     established: 300
     closed: 0
+    bypassed: 100
     emergency-new: 10
     emergency-established: 100
     emergency-closed: 0
+    emergency-bypassed: 50
   tcp:
     new: 60
-    established: 3600
-    closed: 120
-    emergency-new: 10
-    emergency-established: 300
-    emergency-closed: 20
+    established: 600
+    closed: 60
+    bypassed: 100
+    emergency-new: 5
+    emergency-established: 100
+    emergency-closed: 10
+    emergency-bypassed: 50
   udp:
     new: 30
     established: 300
+    bypassed: 100
     emergency-new: 10
     emergency-established: 100
+    emergency-bypassed: 50
   icmp:
     new: 30
     established: 300
+    bypassed: 100
     emergency-new: 10
     emergency-established: 100
+    emergency-bypassed: 50
 
 stream:
-  memcap: 32mb
+  memcap: 1gb
+  checksum-validation: yes     
+  inline: auto                 
   reassembly:
-    memcap: 128mb
+    memcap: 2gb
+    depth: 1mb                 
     toserver-chunk-size: 2560
     toclient-chunk-size: 2560
     randomize-chunk-size: yes
@@ -236,7 +239,7 @@ stream:
 host:
   hash-size: 4096
   prealloc: 1000
-  memcap: 16777216
+  memcap: 32mb
 
 logging:
   default-log-level: notice
@@ -251,25 +254,6 @@ logging:
       enabled: no
       facility: local5
       format: "[%i] <%d> -- "
-
-mpipe:
-  load-balance: dynamic
-  iqueue-packets: 2048
-  inputs:
-  - interface: xgbe2
-  - interface: xgbe3
-  - interface: xgbe4
-
-
-  stack:
-    size128: 0
-    size256: 9
-    size512: 0
-    size1024: 0
-    size1664: 7
-    size4096: 0
-    size10386: 0
-    size16384: 0
 
 pfring:
   - interface: eth0
@@ -288,11 +272,11 @@ pcap-file:
 ipfw:
 
 vars:
-
   address-groups:
-
     HOME_NET: "[192.168.0.0/16,10.0.0.0/8,172.16.0.0/12]"
-    EXTERNAL_NET: "any"
+
+    EXTERNAL_NET: "!$HOME_NET"
+
     HTTP_SERVERS: "$HOME_NET"
     SMTP_SERVERS: "$HOME_NET"
     SQL_SERVERS: "$HOME_NET"
@@ -312,6 +296,9 @@ vars:
     ORACLE_PORTS: 1521
     SSH_PORTS: 22
     DNP3_PORTS: 20000
+    MODBUS_PORTS: 502
+    FILE_DATA_PORTS: "[$HTTP_PORTS,110,143]"
+    FTP_PORTS: 21
 
 action-order:
   - pass
@@ -321,22 +308,20 @@ action-order:
 
 
 host-os-policy:
+  # Make the default policy windows.
   windows: [0.0.0.0/0]
   bsd: []
   bsd-right: []
   old-linux: []
-  linux: [10.0.0.0/8, 192.168.1.100, "8762:2352:6241:7245:E000:0000:0000:0000"]
+  linux: []
   old-solaris: []
-  solaris: ["::1"]
+  solaris: []
   hpux10: []
   hpux11: []
   irix: []
   macos: []
   vista: []
   windows2k3: []
-
-
-asn1-max-frames: 256
 
 engine-analysis:
   rules-fast-pattern: yes
@@ -346,65 +331,286 @@ pcre:
   match-limit: 3500
   match-limit-recursion: 1500
 
+##
+## Step 5: App Layer Protocol Configuration
+##
+
+# Configure the app-layer parsers. The protocols section details each
+# protocol.
+#
+# The option "enabled" takes 3 values - "yes", "no", "detection-only".
+# "yes" enables both detection and the parser, "no" disables both, and
+# "detection-only" enables protocol detection only (parser disabled).
 app-layer:
   protocols:
+    krb5:
+      enabled: yes
+    ikev2:
+      enabled: yes
     tls:
       enabled: yes
       detection-ports:
-        toserver: 443
+        dp: 443
+
+      # Generate JA3 fingerprint from client hello
+      ja3-fingerprints: yes
+
+      # What to do when the encrypted communications start:
+      # - default: keep tracking TLS session, check for protocol anomalies,
+      #            inspect tls_* keywords. Disables inspection of unmodified
+      #            'content' signatures.
+      # - bypass:  stop processing this flow as much as possible. No further
+      #            TLS parsing and inspection. Offload flow bypass to kernel
+      #            or hardware if possible.
+      # - full:    keep tracking and inspection as normal. Unmodified content
+      #            keyword signatures are inspected as well.
+      #
+      # For best performance, select 'bypass'.
+      #
+      #encrypt-handling: default
 
     dcerpc:
       enabled: yes
     ftp:
       enabled: yes
+      # memcap: 64mb
     ssh:
       enabled: yes
     smtp:
       enabled: yes
+      # Configure SMTP-MIME Decoder
+      mime:
+        # Decode MIME messages from SMTP transactions
+        # (may be resource intensive)
+        # This field supercedes all others because it turns the entire
+        # process on or off
+        decode-mime: yes
+
+        # Decode MIME entity bodies (ie. base64, quoted-printable, etc.)
+        decode-base64: yes
+        decode-quoted-printable: yes
+
+        # Maximum bytes per header data value stored in the data structure
+        # (default is 2000)
+        header-value-depth: 2000
+
+        # Extract URLs and save in state data structure
+        extract-urls: yes
+        # Set to yes to compute the md5 of the mail body. You will then
+        # be able to journalize it.
+        body-md5: no
+      # Configure inspected-tracker for file_data keyword
+      inspected-tracker:
+        content-limit: 100000
+        content-inspect-min-size: 32768
+        content-inspect-window: 4096
     imap:
       enabled: detection-only
     msn:
       enabled: detection-only
+    # Note: --enable-rust is required for full SMB1/2 support. W/o rust
+    # only minimal SMB1 support is available.
     smb:
       enabled: yes
       detection-ports:
-        toserver: 139
+        dp: 139, 445
+
+      # Stream reassembly size for SMB streams. By default track it completely.
+      #stream-depth: 0
+
+    # Note: NFS parser depends on Rust support: pass --enable-rust
+    # to configure.
+    nfs:
+      enabled: yes
+    tftp:
+      enabled: yes
     dns:
+      # memcaps. Globally and per flow/state.
+      global-memcap: 2gb
+      state-memcap: 1mb
+
+      # How many unreplied DNS requests are considered a flood.
+      # If the limit is reached, app-layer-event:dns.flooded; will match.
+      #request-flood: 500
+
       tcp:
         enabled: yes
         detection-ports:
-          toserver: 53
+          dp: 53
       udp:
         enabled: yes
         detection-ports:
-          toserver: 53
+          dp: 53
     http:
       enabled: yes
+      # memcap: 64mb
 
+      # default-config:           Used when no server-config matches
+      #   personality:            List of personalities used by default
+      #   request-body-limit:     Limit reassembly of request body for inspection
+      #                           by http_client_body & pcre /P option.
+      #   response-body-limit:    Limit reassembly of response body for inspection
+      #                           by file_data, http_server_body & pcre /Q option.
+      #   double-decode-path:     Double decode path section of the URI
+      #   double-decode-query:    Double decode query section of the URI
+      #   response-body-decompress-layer-limit:
+      #                           Limit to how many layers of compression will be
+      #                           decompressed. Defaults to 2.
+      #
+      # server-config:            List of server configurations to use if address matches
+      #   address:                List of IP addresses or networks for this block
+      #   personalitiy:           List of personalities used by this block
+      #   request-body-limit:     Limit reassembly of request body for inspection
+      #                           by http_client_body & pcre /P option.
+      #   response-body-limit:    Limit reassembly of response body for inspection
+      #                           by file_data, http_server_body & pcre /Q option.
+      #   double-decode-path:     Double decode path section of the URI
+      #   double-decode-query:    Double decode query section of the URI
+      #
+      #   uri-include-all:        Include all parts of the URI. By default the
+      #                           'scheme', username/password, hostname and port
+      #                           are excluded. Setting this option to true adds
+      #                           all of them to the normalized uri as inspected
+      #                           by http_uri, urilen, pcre with /U and the other
+      #                           keywords that inspect the normalized uri.
+      #                           Note that this does not affect http_raw_uri.
+      #                           Also, note that including all was the default in
+      #                           1.4 and 2.0beta1.
+      #
+      #   meta-field-limit:       Hard size limit for request and response size
+      #                           limits. Applies to request line and headers,
+      #                           response line and headers. Does not apply to
+      #                           request or response bodies. Default is 18k.
+      #                           If this limit is reached an event is raised.
+      #
+      # Currently Available Personalities:
+      #   Minimal, Generic, IDS (default), IIS_4_0, IIS_5_0, IIS_5_1, IIS_6_0,
+      #   IIS_7_0, IIS_7_5, Apache_2
       libhtp:
-
          default-config:
            personality: IDS
 
-           request-body-limit: 0 
-           response-body-limit: 0
+           # Can be specified in kb, mb, gb.  Just a number indicates
+           # it's in bytes.
+           request-body-limit: 100kb
+           response-body-limit: 100kb
 
+           # inspection limits
            request-body-minimal-inspect-size: 32kb
-           request-body-inspect-window: 16kb
-           response-body-minimal-inspect-size: 32kb
+           request-body-inspect-window: 4kb
+           response-body-minimal-inspect-size: 40kb
            response-body-inspect-window: 16kb
 
+           # response body decompression (0 disables)
+           response-body-decompress-layer-limit: 2
+
+           # auto will use http-body-inline mode in IPS mode, yes or no set it statically
+           http-body-inline: auto
+
+           # Decompress SWF files.
+           # 2 types: 'deflate', 'lzma', 'both' will decompress deflate and lzma
+           # compress-depth:
+           # Specifies the maximum amount of data to decompress,
+           # set 0 for unlimited.
+           # decompress-depth:
+           # Specifies the maximum amount of decompressed data to obtain,
+           # set 0 for unlimited.
+           swf-decompression:
+             enabled: yes
+             type: both
+             compress-depth: 0
+             decompress-depth: 0
+
+           # Take a random value for inspection sizes around the specified value.
+           # This lower the risk of some evasion technics but could lead
+           # detection change between runs. It is set to 'yes' by default.
+           #randomize-inspection-sizes: yes
+           # If randomize-inspection-sizes is active, the value of various
+           # inspection size will be choosen in the [1 - range%, 1 + range%]
+           # range
+           # Default value of randomize-inspection-range is 10.
+           #randomize-inspection-range: 10
+
+           # decoding
            double-decode-path: no
            double-decode-query: no
 
          server-config:
+
+           #- apache:
+           #    address: [192.168.1.0/24, 127.0.0.0/8, "::1"]
+           #    personality: Apache_2
+           #    # Can be specified in kb, mb, gb.  Just a number indicates
+           #    # it's in bytes.
+           #    request-body-limit: 4096
+           #    response-body-limit: 4096
+           #    double-decode-path: no
+           #    double-decode-query: no
+
+           #- iis7:
+           #    address:
+           #      - 192.168.0.0/24
+           #      - 192.168.10.0/24
+           #    personality: IIS_7_0
+           #    # Can be specified in kb, mb, gb.  Just a number indicates
+           #    # it's in bytes.
+           #    request-body-limit: 4096
+           #    response-body-limit: 4096
+           #    double-decode-path: no
+           #    double-decode-query: no
+
+    # Note: Modbus probe parser is minimalist due to the poor significant field
+    # Only Modbus message length (greater than Modbus header length)
+    # And Protocol ID (equal to 0) are checked in probing parser
+    # It is important to enable detection port and define Modbus port
+    # to avoid false positive
+    modbus:
+      # How many unreplied Modbus requests are considered a flood.
+      # If the limit is reached, app-layer-event:modbus.flooded; will match.
+      #request-flood: 500
+
+      enabled: no
+      detection-ports:
+        dp: 502
+      # According to MODBUS Messaging on TCP/IP Implementation Guide V1.0b, it
+      # is recommended to keep the TCP connection opened with a remote device
+      # and not to open and close it for each MODBUS/TCP transaction. In that
+      # case, it is important to set the depth of the stream reassembling as
+      # unlimited (stream.reassembly.depth: 0)
+
+      # Stream reassembly size for modbus. By default track it completely.
+      stream-depth: 0
+
+    # DNP3
+    dnp3:
+      enabled: no
+      detection-ports:
+        dp: 20000
+
+    # SCADA EtherNet/IP and CIP protocol support
+    enip:
+      enabled: no
+      detection-ports:
+        dp: 44818
+        sp: 44818
+
+    # Note: parser depends on Rust support
+    ntp:
+      enabled: yes
+
+    dhcp:
+      enabled: yes
+
+# Limit for the maximum number of asn1 frames to decode (default 256)
+asn1-max-frames: 256
+
 
 profiling:
   rules:
     enabled: yes
     filename: perf.txt
     append: yes
-    sort: avgticks
+    sort: maxticks
 
   keywords:
     enabled: yes
@@ -428,10 +634,6 @@ profiling:
 coredump:
   max-dump: unlimited
 
-napatech:
-    hba: -1
-    use-all-streams: yes
-    streams: [1, 2, 3]
 default-log-dir: /opt/suricatagit/var/log/
 classification-file: /opt/suricatagit/etc/classification.config
 reference-config-file: /opt/suricatagit/etc/reference.config
