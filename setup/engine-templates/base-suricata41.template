@@ -427,8 +427,8 @@ app-layer:
       enabled: yes
     dns:
       # memcaps. Globally and per flow/state.
-      #global-memcap: 16mb
-      #state-memcap: 512kb
+      global-memcap: 2gb
+      state-memcap: 1mb
 
       # How many unreplied DNS requests are considered a flood.
       # If the limit is reached, app-layer-event:dns.flooded; will match.
