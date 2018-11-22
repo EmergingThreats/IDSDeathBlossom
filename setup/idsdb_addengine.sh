@@ -175,7 +175,7 @@ if [ "${engine_type}" == "suricata" ] && [  "${engine_version}" == "git" ]; then
     cd ../../../
     
     # use latest version of the templates
-    cp engine-templates/base-suricata4.template engine-templates/${engine_name}.template
+    cp engine-templates/base-suricatagit.template engine-templates/${engine_name}.template
     #default-log-dir: /opt/suricatagit/var/log/
     #classification-file: /opt/suricatagit/etc/classification.config
     #reference-config-file: /opt/suricatagit/etc/reference.config
@@ -231,6 +231,8 @@ if  [ "${engine_type}" == "suricata" ] && [  "${engine_version}" != "git" ]; the
   
   if [[ ${engine_name} = *"suricata40"* ]]; then
     cp engine-templates/base-suricata4.template engine-templates/${engine_name}.template
+  elif  [[ ${engine_name} = *"suricata41"* ]]; then
+    cp engine-templates/base-suricata41.template engine-templates/${engine_name}.template
   else
     cp engine-templates/base-suricata.template engine-templates/${engine_name}.template
   fi
