@@ -1,5 +1,6 @@
 %YAML 1.1
 ---
+max-pending-packets: 4096
 host-mode: auto
 unix-command:
   enabled: no
@@ -17,12 +18,12 @@ outputs:
             metadata: yes 
         - http:
             extended: yes     
-        - dns:
-            query: yes  
-            answer: yes 
+        #- dns:
+        #    query: yes  
+        #    answer: yes 
         - tls:
             extended: yes 
-        - files:
+        #- files:
         - smtp:
             extended: yes
         - ssh
@@ -368,4 +369,3 @@ profiling:
 coredump:
   max-dump: unlimited
 
-rule-files:
