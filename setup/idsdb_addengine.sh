@@ -162,14 +162,12 @@ if [ "${engine_type}" == "suricata" ] && [  "${engine_version}" == "git" ]; then
     cd engine-sources/${engine_type}/${engine_type}-${engine_version}
     
     ./autogen.sh && ./configure --enable-lua --enable-profiling --prefix=/opt/${engine_name}/ \
-    --with-libnss-includes=/usr/include/nss --with-libnss-libs=/usr/lib/nss \
-    --with-libnspr-includes=/usr/include/nspr --with-libnspr-libraries=/usr/lib/nspr && \
-    make -j ${processes} && sudo make install && sudo ldconfig
+    sudo make -j ${processes} && sudo make clean && sudo make install && sudo make install-conf && sudo ldconfig
     
     sudo cp suricata.yaml /opt/${engine_name}/etc/
-    sudo cp ../../../engine-configs/suricata/reference.config /opt/${engine_name}/etc/
-    sudo cp ../../../engine-configs/suricata/classification.config /opt/${engine_name}/etc/
-    sudo cp ../../../engine-configs/suricata/threshold.config /opt/${engine_name}/etc/
+    sudo cp reference.config /opt/${engine_name}/etc/
+    sudo cp classification.config /opt/${engine_name}/etc/
+    sudo cp threshold.config /opt/${engine_name}/etc/
     cd ../../../
     
     # use latest version of the templates
@@ -220,17 +218,24 @@ if  [ "${engine_type}" == "suricata" ] && [  "${engine_version}" != "git" ]; the
   
   tar -xzvf engine-sources/${engine_type}/${engine_type}-${engine_version}.tar.gz -C engine-sources/${engine_type}
   cd engine-sources/${engine_type}/${engine_type}-${engine_version}
-  ./configure --enable-lua --enable-profiling --prefix=/opt/${engine_name}/ --with-libnss-includes=/usr/include/nss --with-libnss-libs=/usr/lib/nss --with-libnspr-includes=/usr/include/nspr --with-libnspr-libraries=/usr/lib/nspr && make -j ${processes} && sudo make install && sudo ldconfig
+  
+  ./configure --enable-lua --enable-profiling --prefix=/opt/${engine_name}/ \
+  && make -j ${processes} && sudo make clean && sudo make install && sudo make install-conf && sudo ldconfig
+  
   sudo cp suricata.yaml /opt/${engine_name}/etc/
-  sudo cp ../../../engine-configs/suricata/reference.config /opt/${engine_name}/etc/
-  sudo cp ../../../engine-configs/suricata/classification.config /opt/${engine_name}/etc/
-  sudo cp ../../../engine-configs/suricata/threshold.config /opt/${engine_name}/etc/
+  sudo cp reference.config /opt/${engine_name}/etc/
+  sudo cp classification.config /opt/${engine_name}/etc/
+  sudo cp threshold.config /opt/${engine_name}/etc/
   cd ../../../
   
   if [[ ${engine_name} = *"suricata40"* ]]; then
     cp engine-templates/base-suricata4.template engine-templates/${engine_name}.template
   elif  [[ ${engine_name} = *"suricata41"* ]]; then
     cp engine-templates/base-suricata41.template engine-templates/${engine_name}.template
+  elif  [[ ${engine_name} = *"suricata50"* ]]; then
+    cp engine-templates/base-suricata50.template engine-templates/${engine_name}.template
+  elif  [[ ${engine_name} = *"suricata51"* ]]; then
+    cp engine-templates/base-suricata51.template engine-templates/${engine_name}.template
   else
     cp engine-templates/base-suricata.template engine-templates/${engine_name}.template
   fi
