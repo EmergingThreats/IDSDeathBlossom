@@ -145,11 +145,11 @@ if [ "${engine_type}" == "suricata" ] && [  "${engine_version}" == "git" ]; then
     rm -rf engine-sources/${engine_type}/${engine_type}-${engine_version}
     fi
 
-    if $(git clone git://phalanx.openinfosecfoundation.org/oisf.git engine-sources/${engine_type}/${engine_type}-${engine_version} && cd engine-sources/${engine_type}/${engine_type}-${engine_version} && git clone https://github.com/OISF/libhtp.git -b 0.5.x && cd ../../../)  ; then
+    if $(git clone https://github.com/OISF/suricata.git engine-sources/${engine_type}/${engine_type}-${engine_version} && cd engine-sources/${engine_type}/${engine_type}-${engine_version} && git clone https://github.com/OISF/libhtp.git -b 0.5.x && cd ../../../)  ; then
     echo "Downloaded the latest Suricata version."
     else
     echo "Could not download! Aborting. Check your connection or engine version and try again." 
-    echo "git clone git://phalanx.openinfosecfoundation.org/oisf.git or git clone https://github.com/OISF/libhtp.git -b 0.5.x" 1>&2
+    echo "git clone https://github.com/OISF/suricata.git or git clone https://github.com/OISF/libhtp.git -b 0.5.x" 1>&2
     exit 1
     fi
 
