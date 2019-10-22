@@ -107,9 +107,9 @@ def singleengine(engine_type, engine_eversion):
     return engines, single_engine
 
 
-rule_sets["all"] = ["ftp.rules","policy.rules","trojan.rules","games.rules","pop3.rules","user_agents.rules","activex.rules","rpc.rules","attack_response.rules","icmp.rules","scan.rules","voip.rules","chat.rules","icmp_info.rules","info.rules","shellcode.rules","web_client.rules","imap.rules","web_server.rules","current_events.rules","inappropriate.rules","smtp.rules","web_specific_apps.rules","deleted.rules","malware.rules","snmp.rules","worm.rules","dns.rules","misc.rules","sql.rules","dos.rules","netbios.rules","telnet.rules","exploit.rules","p2p.rules","tftp.rules","mobile_malware.rules","botcc.rules","compromised.rules","drop.rules","dshield.rules","tor.rules","ciarmy.rules"]
+rule_sets["all"] = ["ftp.rules","policy.rules","trojan.rules","games.rules","pop3.rules","user_agents.rules","activex.rules","rpc.rules","attack_response.rules","icmp.rules","scan.rules","voip.rules","chat.rules","icmp_info.rules","info.rules","shellcode.rules","web_client.rules","imap.rules","web_server.rules","current_events.rules","inappropriate.rules","smtp.rules","web_specific_apps.rules","deleted.rules","malware.rules","snmp.rules","worm.rules","dns.rules","misc.rules","sql.rules","dos.rules","netbios.rules","telnet.rules","exploit.rules","p2p.rules","tftp.rules","mobile_malware.rules","botcc.rules","compromised.rules","drop.rules","dshield.rules","tor.rules","ciarmy.rules","adware_pup.rules","coinminer.rules","exploit_kit.rules","hunting.rules","ja3.rules","phishing.rules","icmp_info.rules"]
 
-rule_sets["base"] = ["ftp.rules","policy.rules","trojan.rules","games.rules","pop3.rules","user_agents.rules","rpc.rules","attack_response.rules","icmp.rules","scan.rules","voip.rules","chat.rules","web_client.rules","imap.rules","web_server.rules","current_events.rules","smtp.rules","malware.rules","snmp.rules","worm.rules","dns.rules","misc.rules","sql.rules","dos.rules","netbios.rules","telnet.rules","exploit.rules","p2p.rules","tftp.rules","mobile_malware.rules"]
+rule_sets["base"] = ["ftp.rules","policy.rules","trojan.rules","games.rules","pop3.rules","user_agents.rules","rpc.rules","attack_response.rules","icmp.rules","scan.rules","voip.rules","chat.rules","web_client.rules","imap.rules","web_server.rules","current_events.rules","smtp.rules","malware.rules","snmp.rules","worm.rules","dns.rules","misc.rules","sql.rules","dos.rules","netbios.rules","telnet.rules","exploit.rules","p2p.rules","tftp.rules","mobile_malware.rules","adware_pup.rules","coinminer.rules","exploit_kit.rules","hunting.rules","ja3.rules","phishing.rules","icmp_info.rules"]
 
 rule_sets["test"] = []
 update_script_buf = ""
@@ -166,6 +166,8 @@ version=0.6.0\n" % (rules_file, ocode, engine, feed_type, engine, feed_type, eng
     if re.search(r'suricata(3\d*)$',engine) != None:
         update_script_buf = update_script_buf + "cd /opt/et-luajit-scripts/ && git pull && cp * /opt/%s/etc/%s/ -Rf\n" % (engine,feed_type)
     if re.search(r'suricata(4\d*)$',engine) != None:
+        update_script_buf = update_script_buf + "cd /opt/et-luajit-scripts/ && git pull && cp * /opt/%s/etc/%s/ -Rf\n" % (engine,feed_type)
+    if re.search(r'suricata(5\d*)$',engine) != None:
         update_script_buf = update_script_buf + "cd /opt/et-luajit-scripts/ && git pull && cp * /opt/%s/etc/%s/ -Rf\n" % (engine,feed_type)
     if re.search(r'suricatagit$',engine) != None:
         update_script_buf = update_script_buf + "cd /opt/et-luajit-scripts/ && git pull && cp * /opt/%s/etc/%s/ -Rf\n" % (engine,feed_type)

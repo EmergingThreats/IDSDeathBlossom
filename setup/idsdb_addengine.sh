@@ -165,8 +165,8 @@ if [ "${engine_type}" == "suricata" ] && [  "${engine_version}" == "git" ]; then
     sudo make -j ${processes} && sudo make clean && sudo make install && sudo make install-conf && sudo ldconfig
     
     sudo cp suricata.yaml /opt/${engine_name}/etc/
-    sudo cp reference.config /opt/${engine_name}/etc/
-    sudo cp classification.config /opt/${engine_name}/etc/
+    sudo cp etc/reference.config /opt/${engine_name}/etc/
+    sudo cp etc/classification.config /opt/${engine_name}/etc/
     sudo cp threshold.config /opt/${engine_name}/etc/
     cd ../../../
     
@@ -186,7 +186,7 @@ if [ "${engine_type}" == "suricata" ] && [  "${engine_version}" == "git" ]; then
     
     # we need a doted version for gunstar
     # gunstar_engine_version=$(/opt/${engine_name}/bin/suricata -V | awk '{print $5}' |cut -c1-3)
-    # /usr/bin/python test-gunstar-maker.py ${engine_type} ${gunstar_engine_version}
+    # /usr/bin/python gunstar-maker.py ${engine_type} ${gunstar_engine_version}
     if [ -n "${oinkcode}" ]; then
       /usr/bin/python gunstar-maker.py -e ${engine_type} -v ${engine_version} -o ${oinkcode}
     else
@@ -222,10 +222,18 @@ if  [ "${engine_type}" == "suricata" ] && [  "${engine_version}" != "git" ]; the
   ./configure --enable-lua --enable-profiling --prefix=/opt/${engine_name}/ \
   && make -j ${processes} && sudo make clean && sudo make install && sudo make install-conf && sudo ldconfig
   
-  sudo cp suricata.yaml /opt/${engine_name}/etc/
-  sudo cp reference.config /opt/${engine_name}/etc/
-  sudo cp classification.config /opt/${engine_name}/etc/
-  sudo cp threshold.config /opt/${engine_name}/etc/
+  if [[ ${engine_name} = *"suricata5"* ]]; then
+      sudo cp suricata.yaml /opt/${engine_name}/etc/
+      sudo cp etc/reference.config /opt/${engine_name}/etc/
+      sudo cp etc/classification.config /opt/${engine_name}/etc/
+      sudo cp threshold.config /opt/${engine_name}/etc/
+  else
+      sudo cp suricata.yaml /opt/${engine_name}/etc/
+      sudo cp reference.config /opt/${engine_name}/etc/
+      sudo cp classification.config /opt/${engine_name}/etc/
+      sudo cp threshold.config /opt/${engine_name}/etc/
+  fi
+  
   cd ../../../
   
   if [[ ${engine_name} = *"suricata40"* ]]; then
