@@ -59,8 +59,8 @@ class IDSEngine(RunmodeSanitize, RunmodeExtract, RunmodeExtractAll, RunmodeVerif
         # Set defaults for each engine type if any field is missing
         self.regex = {}
         #Regex for matching on alert fast formated log files with GID of one. If somebody else wants to add support for .so rule etc go for it
-        self.regex["afast"] = re.compile(r".+\[1\:(?P<sid>\d+)\:\d+\].+\{(?P<proto>UDP|TCP|ICMP|(PROTO\:)?\d+)\}\s(?P<src>\d+\.\d+\.\d+\.\d+)(:(?P<sport>\d+))?\s.+\s(?P<dst>\d+\.\d+\.\d+\.\d+)(:(?P<dport>\d+))?")
-        self.regex["afast_full_parser"] = re.compile(r"^(?P<ts>[^\s]*)\s+?\[\*\*\]\s+?\[(?P<gid>\d+)\:(?P<sid>\d+)\:(?P<rev>\d+)\]\s+(?P<msg>.+?)\s+?\[\*\*\]\s+?(\[Classification\:\s+?(?P<class>[^\]]+)\]\s+?)?\[Priority\:\s+?(?P<prio>\d+?)\]\s+?{(?P<proto>UDP|TCP|ICMP|(PROTO\:)?\d+)\}\s(?P<src>\d+\.\d+\.\d+\.\d+)(:(?P<sport>\d+))?\s.+\s(?P<dst>\d+\.\d+\.\d+\.\d+)(:(?P<dport>\d+))?$")
+        self.regex["afast"] = re.compile(r".+\[1\:(?P<sid>\d+)\:\d+\].+\{(?P<proto>UDP|TCP|ICMP|IPv6-ICMP|IPv6|(PROTO\:)?\d+)\}\s(?P<src>\d+\.\d+\.\d+\.\d+)(:(?P<sport>\d+))?\s.+\s(?P<dst>\d+\.\d+\.\d+\.\d+)(:(?P<dport>\d+))?")
+        self.regex["afast_full_parser"] = re.compile(r"^(?P<ts>[^\s]*)\s+?\[\*\*\]\s+?\[(?P<gid>\d+)\:(?P<sid>\d+)\:(?P<rev>\d+)\]\s+(?P<msg>.+?)\s+?\[\*\*\]\s+?(\[Classification\:\s+?(?P<class>[^\]]+)\]\s+?)?\[Priority\:\s+?(?P<prio>\d+?)\]\s+?{(?P<proto>UDP|TCP|ICMP|IPv6-ICMP|IPv6|(PROTO\:)?\d+)\}\s(?P<src>\d+\.\d+\.\d+\.\d+)(:(?P<sport>\d+))?\s.+\s(?P<dst>\d+\.\d+\.\d+\.\d+)(:(?P<dport>\d+))?$")
         #Regex for matching on snort perf logs
         #self.regex["perf"] = re.compile(r"^\s+(?P<rank>\d+)\s+(?P<sid>\d+)\s+(?P<gid>1)\s+(?P<rev>\d+)?\s+(?P<checks>\d+)\s+(?P<matches>\d+)\s+(?P<alerts>\d+)\s+(?P<microsecs>\d+)\s+(?P<avgpercheck>\d+\.\d+)\s+(?P<avgpermatch>\d+\.\d+)\s+(?P<avgpernomatch>\d+\.\d+)\s+$")
 
@@ -299,13 +299,23 @@ class IDSEngine(RunmodeSanitize, RunmodeExtract, RunmodeExtractAll, RunmodeVerif
                         proto = m.group('proto')
                         if m.group('dport'):
                            dport = int(m.group('dport'))
+                        else:
+                           dport = 0
                         if m.group('sport'):
                            sport = int(m.group('sport'))
+                        else:
+                           sport = 0
                         if not sid in tmpsiddict:
                             tmpsiddict[sid] = 1
                         else:
                             tmpsiddict[sid] += 1
                         alertcnt += 1
+                    # check if parsing somehow has not failed nd came to here
+                    try:
+                        sid
+                    except:
+                        #print("An exception occurred")
+                        continue
                     sqlcmd = 'INSERT INTO alerts(id, host, timestamp, runid, file, engine, alertfile, sid, gid, rev, msg, class, prio, proto, src, dst, sport, dport) VALUES(NULL,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)'
                     params=(self.host, self.currentts, self.runid, pcap, self.engine, self.newfastlog, sid, gid, rev, msg, classification, priority, proto, src, dst, sport, dport,)
                     try:
