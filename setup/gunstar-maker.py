@@ -28,6 +28,7 @@
 import re
 import sys
 import os
+import copy
 import shutil
 from optparse import OptionParser
 
@@ -86,7 +87,8 @@ engines["snort2911"] = {"type":"snort", "version":"2.9.11", "eversion":"2.9.11"}
 engines["snort29111"] = {"type":"snort", "version":"2.9.11", "eversion":"2.9.11.1"}
 engines["snort2912"] = {"type":"snort", "version":"2.9.12", "eversion":"2.9.12"}
 rule_sets = {}
-
+rule_sets_suri5 = {}
+rule_sets_orig = {}
 def singleengine(engine_type, engine_eversion):
     
     if len(engine_eversion) <= 3:
@@ -107,15 +109,29 @@ def singleengine(engine_type, engine_eversion):
     return engines, single_engine
 
 
-rule_sets["all"] = ["ftp.rules","policy.rules","trojan.rules","games.rules","pop3.rules","user_agents.rules","activex.rules","rpc.rules","attack_response.rules","icmp.rules","scan.rules","voip.rules","chat.rules","icmp_info.rules","info.rules","shellcode.rules","web_client.rules","imap.rules","web_server.rules","current_events.rules","inappropriate.rules","smtp.rules","web_specific_apps.rules","deleted.rules","malware.rules","snmp.rules","worm.rules","dns.rules","misc.rules","sql.rules","dos.rules","netbios.rules","telnet.rules","exploit.rules","p2p.rules","tftp.rules","mobile_malware.rules","botcc.rules","compromised.rules","drop.rules","dshield.rules","tor.rules","ciarmy.rules","adware_pup.rules","coinminer.rules","exploit_kit.rules","hunting.rules","ja3.rules","phishing.rules","icmp_info.rules"]
+rule_sets_suri5["all"] = ["ftp.rules","policy.rules","trojan.rules","games.rules","pop3.rules","user_agents.rules","activex.rules","rpc.rules","attack_response.rules","icmp.rules","scan.rules","voip.rules","chat.rules","icmp_info.rules","info.rules","shellcode.rules","web_client.rules","imap.rules","web_server.rules","current_events.rules","inappropriate.rules","smtp.rules","web_specific_apps.rules","deleted.rules","malware.rules","snmp.rules","worm.rules","dns.rules","misc.rules","sql.rules","dos.rules","netbios.rules","telnet.rules","exploit.rules","p2p.rules","tftp.rules","mobile_malware.rules","botcc.rules","compromised.rules","drop.rules","dshield.rules","tor.rules","ciarmy.rules","adware_pup.rules","coinminer.rules","exploit_kit.rules","hunting.rules","ja3.rules","phishing.rules"]
 
-rule_sets["base"] = ["ftp.rules","policy.rules","trojan.rules","games.rules","pop3.rules","user_agents.rules","rpc.rules","attack_response.rules","icmp.rules","scan.rules","voip.rules","chat.rules","web_client.rules","imap.rules","web_server.rules","current_events.rules","smtp.rules","malware.rules","snmp.rules","worm.rules","dns.rules","misc.rules","sql.rules","dos.rules","netbios.rules","telnet.rules","exploit.rules","p2p.rules","tftp.rules","mobile_malware.rules","adware_pup.rules","coinminer.rules","exploit_kit.rules","hunting.rules","ja3.rules","phishing.rules","icmp_info.rules"]
+rule_sets_suri5["base"] = ["ftp.rules","policy.rules","trojan.rules","games.rules","pop3.rules","user_agents.rules","rpc.rules","attack_response.rules","icmp.rules","scan.rules","voip.rules","chat.rules","web_client.rules","imap.rules","web_server.rules","current_events.rules","smtp.rules","malware.rules","snmp.rules","worm.rules","dns.rules","misc.rules","sql.rules","dos.rules","netbios.rules","telnet.rules","exploit.rules","p2p.rules","tftp.rules","mobile_malware.rules","adware_pup.rules","coinminer.rules","exploit_kit.rules","hunting.rules","ja3.rules","phishing.rules","icmp_info.rules"]
+
+rule_sets_suri5["test"] = []
+update_script_buf = ""
+
+rule_sets_suri5["sopen"] = ["all.rules","emerging-botcc.rules","emerging-compromised.rules","emerging-drop.rules","emerging-dshield.rules","emerging-tor.rules","emerging-ciarmy.rules"]
+rule_sets_suri5["spro"] = ["all.rules","emerging-botcc.rules","emerging-compromised.rules","emerging-drop.rules","emerging-dshield.rules","emerging-tor.rules","emerging-ciarmy.rules"]
+
+rule_sets["all"] = ["ftp.rules","policy.rules","trojan.rules","games.rules","pop3.rules","user_agents.rules","activex.rules","rpc.rules","attack_response.rules","icmp.rules","scan.rules","voip.rules","chat.rules","icmp_info.rules","info.rules","shellcode.rules","web_client.rules","imap.rules","web_server.rules","current_events.rules","inappropriate.rules","smtp.rules","web_specific_apps.rules","deleted.rules","malware.rules","snmp.rules","worm.rules","dns.rules","misc.rules","sql.rules","dos.rules","netbios.rules","telnet.rules","exploit.rules","p2p.rules","tftp.rules","mobile_malware.rules","botcc.rules","compromised.rules","drop.rules","dshield.rules","tor.rules","ciarmy.rules"]
+
+rule_sets["base"] = ["ftp.rules","policy.rules","trojan.rules","games.rules","pop3.rules","user_agents.rules","rpc.rules","attack_response.rules","icmp.rules","scan.rules","voip.rules","chat.rules","web_client.rules","imap.rules","web_server.rules","current_events.rules","smtp.rules","malware.rules","snmp.rules","worm.rules","dns.rules","misc.rules","sql.rules","dos.rules","netbios.rules","telnet.rules","exploit.rules","p2p.rules","tftp.rules","mobile_malware.rules"]
 
 rule_sets["test"] = []
 update_script_buf = ""
 
 rule_sets["sopen"] = ["all.rules","emerging-botcc.rules","emerging-compromised.rules","emerging-drop.rules","emerging-dshield.rules","emerging-tor.rules","emerging-ciarmy.rules"]
 rule_sets["spro"] = ["all.rules","emerging-botcc.rules","emerging-compromised.rules","emerging-drop.rules","emerging-dshield.rules","emerging-tor.rules","emerging-ciarmy.rules"]
+
+#make sure we keep a copy of the original rule sets
+rule_sets_orig = copy.deepcopy(rule_sets)
+
 def make_pp_config(engine,feed_type):
     ocode = ""
     rules_file = ""
@@ -181,7 +197,12 @@ def make_engine_config(engine,feed_type,rset):
     except:
         print "failed to open template engine-templates/%s.template" % (engine)
         sys.exit(-1)
-
+    if re.search(r'suricata(5\d*)$',engine) != None:
+        rule_sets = copy.deepcopy(rule_sets_suri5)
+    if re.search(r'suricatagit$',engine) != None:
+        rule_sets = copy.deepcopy(rule_sets_suri5)
+    else:
+        rule_sets = copy.deepcopy(rule_sets_orig)
     if engines[engine]["type"] == "snort":
         if feed_type == "sanitize":
             buff += "var RULE_PATH /opt/%s/etc/%s/%s\n" % (engine,feed_type,rset)
