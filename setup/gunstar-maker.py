@@ -28,6 +28,7 @@
 import re
 import sys
 import os
+import copy
 import shutil
 from optparse import OptionParser
 
@@ -38,26 +39,6 @@ global oinkcode
 oinkcode = ""
 
 engines = {}
-engines["suricata20"] = {"type":"suricata", "version":"2.0", "eversion":"2.0"}
-engines["suricata201"] = {"type":"suricata", "version":"2.0.1", "eversion":"2.0.1"}
-engines["suricata202"] = {"type":"suricata", "version":"2.0.2", "eversion":"2.0.2"}
-engines["suricata203"] = {"type":"suricata", "version":"2.0.3", "eversion":"2.0.3"}
-engines["suricata204"] = {"type":"suricata", "version":"2.0.4", "eversion":"2.0.4"}
-engines["suricata205"] = {"type":"suricata", "version":"2.0.5", "eversion":"2.0.5"}
-engines["suricata206"] = {"type":"suricata", "version":"2.0.6", "eversion":"2.0.6"}
-engines["suricata207"] = {"type":"suricata", "version":"2.0.7", "eversion":"2.0.7"}
-engines["suricata208"] = {"type":"suricata", "version":"2.0.8", "eversion":"2.0.8"}
-engines["suricata209"] = {"type":"suricata", "version":"2.0.9", "eversion":"2.0.9"}
-engines["suricata2010"] = {"type":"suricata", "version":"2.0.10", "eversion":"2.0.10"}
-engines["suricata2011"] = {"type":"suricata", "version":"2.0.11", "eversion":"2.0.11"}
-engines["suricata30"] = {"type":"suricata", "version":"3.0", "eversion":"3.0"}
-engines["suricata301"] = {"type":"suricata", "version":"3.0", "eversion":"3.0.1"}
-engines["suricata31"] = {"type":"suricata", "version":"3.1", "eversion":"3.1"}
-engines["suricata311"] = {"type":"suricata", "version":"3.1", "eversion":"3.1.1"}
-engines["suricata32"] = {"type":"suricata", "version":"3.2", "eversion":"3.2"}
-engines["suricata321"] = {"type":"suricata", "version":"3.2", "eversion":"3.2.1"}
-engines["suricata322"] = {"type":"suricata", "version":"3.2", "eversion":"3.2.2"}
-engines["suricata323"] = {"type":"suricata", "version":"3.2", "eversion":"3.2.3"}
 engines["suricata400"] = {"type":"suricata", "version":"4.0", "eversion":"4.0.0"}
 engines["suricata401"] = {"type":"suricata", "version":"4.0", "eversion":"4.0.1"}
 engines["suricata402"] = {"type":"suricata", "version":"4.0", "eversion":"4.0.2"}
@@ -65,6 +46,7 @@ engines["suricata403"] = {"type":"suricata", "version":"4.0", "eversion":"4.0.3"
 engines["suricata404"] = {"type":"suricata", "version":"4.0", "eversion":"4.0.4"}
 engines["suricata405"] = {"type":"suricata", "version":"4.0", "eversion":"4.0.5"}
 engines["suricata410"] = {"type":"suricata", "version":"4.1", "eversion":"4.1.0"}
+engines["suricata503"] = {"type":"suricata", "version":"5.0", "eversion":"5.0.3"}
 engines["snort2905"] = {"type":"snort", "version":"2.9.0", "eversion":"2.9.0.5"}
 engines["snort2923"] = {"type":"snort", "version":"2.9.0", "eversion":"2.9.2.3"}
 engines["snort2931"] = {"type":"snort", "version":"2.9.0", "eversion":"2.9.3.1"}
@@ -86,7 +68,8 @@ engines["snort2911"] = {"type":"snort", "version":"2.9.11", "eversion":"2.9.11"}
 engines["snort29111"] = {"type":"snort", "version":"2.9.11", "eversion":"2.9.11.1"}
 engines["snort2912"] = {"type":"snort", "version":"2.9.12", "eversion":"2.9.12"}
 rule_sets = {}
-
+rule_sets_suri5 = {}
+rule_sets_orig = {}
 def singleengine(engine_type, engine_eversion):
     
     if len(engine_eversion) <= 3:
@@ -107,15 +90,29 @@ def singleengine(engine_type, engine_eversion):
     return engines, single_engine
 
 
-rule_sets["all"] = ["ftp.rules","policy.rules","trojan.rules","games.rules","pop3.rules","user_agents.rules","activex.rules","rpc.rules","attack_response.rules","icmp.rules","scan.rules","voip.rules","chat.rules","icmp_info.rules","info.rules","shellcode.rules","web_client.rules","imap.rules","web_server.rules","current_events.rules","inappropriate.rules","smtp.rules","web_specific_apps.rules","deleted.rules","malware.rules","snmp.rules","worm.rules","dns.rules","misc.rules","sql.rules","dos.rules","netbios.rules","telnet.rules","exploit.rules","p2p.rules","tftp.rules","mobile_malware.rules","botcc.rules","compromised.rules","drop.rules","dshield.rules","tor.rules","ciarmy.rules","adware_pup.rules","coinminer.rules","exploit_kit.rules","hunting.rules","ja3.rules","phishing.rules","icmp_info.rules"]
+rule_sets_suri5["all"] = ["ftp.rules","policy.rules","trojan.rules","games.rules","pop3.rules","user_agents.rules","activex.rules","rpc.rules","attack_response.rules","icmp.rules","scan.rules","voip.rules","chat.rules","icmp_info.rules","info.rules","shellcode.rules","web_client.rules","imap.rules","web_server.rules","current_events.rules","inappropriate.rules","smtp.rules","web_specific_apps.rules","deleted.rules","malware.rules","snmp.rules","worm.rules","dns.rules","misc.rules","sql.rules","dos.rules","netbios.rules","telnet.rules","exploit.rules","p2p.rules","tftp.rules","mobile_malware.rules","botcc.rules","compromised.rules","drop.rules","dshield.rules","tor.rules","ciarmy.rules","adware_pup.rules","coinminer.rules","exploit_kit.rules","hunting.rules","ja3.rules","phishing.rules"]
 
-rule_sets["base"] = ["ftp.rules","policy.rules","trojan.rules","games.rules","pop3.rules","user_agents.rules","rpc.rules","attack_response.rules","icmp.rules","scan.rules","voip.rules","chat.rules","web_client.rules","imap.rules","web_server.rules","current_events.rules","smtp.rules","malware.rules","snmp.rules","worm.rules","dns.rules","misc.rules","sql.rules","dos.rules","netbios.rules","telnet.rules","exploit.rules","p2p.rules","tftp.rules","mobile_malware.rules","adware_pup.rules","coinminer.rules","exploit_kit.rules","hunting.rules","ja3.rules","phishing.rules","icmp_info.rules"]
+rule_sets_suri5["base"] = ["ftp.rules","policy.rules","trojan.rules","games.rules","pop3.rules","user_agents.rules","rpc.rules","attack_response.rules","icmp.rules","scan.rules","voip.rules","chat.rules","web_client.rules","imap.rules","web_server.rules","current_events.rules","smtp.rules","malware.rules","snmp.rules","worm.rules","dns.rules","misc.rules","sql.rules","dos.rules","netbios.rules","telnet.rules","exploit.rules","p2p.rules","tftp.rules","mobile_malware.rules","adware_pup.rules","coinminer.rules","exploit_kit.rules","hunting.rules","ja3.rules","phishing.rules","icmp_info.rules"]
+
+rule_sets_suri5["test"] = []
+update_script_buf = ""
+
+rule_sets_suri5["sopen"] = ["all.rules","emerging-botcc.rules","emerging-compromised.rules","emerging-drop.rules","emerging-dshield.rules","emerging-tor.rules","emerging-ciarmy.rules"]
+rule_sets_suri5["spro"] = ["all.rules","emerging-botcc.rules","emerging-compromised.rules","emerging-drop.rules","emerging-dshield.rules","emerging-tor.rules","emerging-ciarmy.rules"]
+
+rule_sets["all"] = ["ftp.rules","policy.rules","trojan.rules","games.rules","pop3.rules","user_agents.rules","activex.rules","rpc.rules","attack_response.rules","icmp.rules","scan.rules","voip.rules","chat.rules","icmp_info.rules","info.rules","shellcode.rules","web_client.rules","imap.rules","web_server.rules","current_events.rules","inappropriate.rules","smtp.rules","web_specific_apps.rules","deleted.rules","malware.rules","snmp.rules","worm.rules","dns.rules","misc.rules","sql.rules","dos.rules","netbios.rules","telnet.rules","exploit.rules","p2p.rules","tftp.rules","mobile_malware.rules","botcc.rules","compromised.rules","drop.rules","dshield.rules","tor.rules","ciarmy.rules"]
+
+rule_sets["base"] = ["ftp.rules","policy.rules","trojan.rules","games.rules","pop3.rules","user_agents.rules","rpc.rules","attack_response.rules","icmp.rules","scan.rules","voip.rules","chat.rules","web_client.rules","imap.rules","web_server.rules","current_events.rules","smtp.rules","malware.rules","snmp.rules","worm.rules","dns.rules","misc.rules","sql.rules","dos.rules","netbios.rules","telnet.rules","exploit.rules","p2p.rules","tftp.rules","mobile_malware.rules"]
 
 rule_sets["test"] = []
 update_script_buf = ""
 
 rule_sets["sopen"] = ["all.rules","emerging-botcc.rules","emerging-compromised.rules","emerging-drop.rules","emerging-dshield.rules","emerging-tor.rules","emerging-ciarmy.rules"]
 rule_sets["spro"] = ["all.rules","emerging-botcc.rules","emerging-compromised.rules","emerging-drop.rules","emerging-dshield.rules","emerging-tor.rules","emerging-ciarmy.rules"]
+
+#make sure we keep a copy of the original rule sets
+rule_sets_orig = copy.deepcopy(rule_sets)
+
 def make_pp_config(engine,feed_type):
     ocode = ""
     rules_file = ""
@@ -181,7 +178,12 @@ def make_engine_config(engine,feed_type,rset):
     except:
         print "failed to open template engine-templates/%s.template" % (engine)
         sys.exit(-1)
-
+    if re.search(r'suricata(5\d*)$',engine) != None:
+        rule_sets = copy.deepcopy(rule_sets_suri5)
+    if re.search(r'suricatagit$',engine) != None:
+        rule_sets = copy.deepcopy(rule_sets_suri5)
+    else:
+        rule_sets = copy.deepcopy(rule_sets_orig)
     if engines[engine]["type"] == "snort":
         if feed_type == "sanitize":
             buff += "var RULE_PATH /opt/%s/etc/%s/%s\n" % (engine,feed_type,rset)

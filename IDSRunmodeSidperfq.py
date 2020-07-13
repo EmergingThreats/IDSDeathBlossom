@@ -343,11 +343,18 @@ class RunmodeSidperfq:
             proto = str(row[10])
             src = socket.inet_ntoa(struct.pack("!I",int(row[11])))
             dst = socket.inet_ntoa(struct.pack("!I",int(row[12])))
-            if proto == "TCP" or proto == "UDP":
+            if proto == "TCP" or proto == "UDP" or proto == "ICMP" or "IPv6-ICMP":
                 sport = str(row[13])
                 dport = str(row[14])
                 expression = urllib.quote_plus("ip==%s&&ip==%s&&port==%s&&port==%s&&file==\"%s\"" % (src,dst,sport,dport,f))
                 report.write("<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td><a href=%s%s>Moloch</a></td></tr>\n" % (engine,f,sid,msg,proto,src,dst,sport,dport,self.moloch_base_url,expression))
+            #elif proto == "ICMP" or proto == "ICMPv6":
+            #    #sport = str(0)
+            #    #dport = str(0)
+            #    sport = str(row[13])
+            #    dport = str(row[14])
+            #    expression = urllib.quote_plus("ip==%s&&ip==%s&&port==%s&&port==%s&&file==\"%s\"" % (src,dst,sport,dport,f))
+            #    report.write("<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>N/A</td><td>N/A</td><td><a href=%s%s>Moloch</a></td></tr>\n" % (engine,f,sid,msg,proto,src,dst,sport,dport,self.moloch_base_url,expression))
             else:
                 expression = urllib.quote_plus("ip==%s&&ip==%s&&port==%s&&port==%s&&file==\"%s\"" % (src,dst,f))
                 report.write("<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>N/A</td><td>N/A</td><td><a href=%s%s>Moloch</a></td></tr>\n" % (engine,f,sid,msg,proto,src,dst,sport,dport,self.moloch_base_url,expression))
