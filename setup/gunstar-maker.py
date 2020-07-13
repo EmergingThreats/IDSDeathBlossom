@@ -39,26 +39,6 @@ global oinkcode
 oinkcode = ""
 
 engines = {}
-engines["suricata20"] = {"type":"suricata", "version":"2.0", "eversion":"2.0"}
-engines["suricata201"] = {"type":"suricata", "version":"2.0.1", "eversion":"2.0.1"}
-engines["suricata202"] = {"type":"suricata", "version":"2.0.2", "eversion":"2.0.2"}
-engines["suricata203"] = {"type":"suricata", "version":"2.0.3", "eversion":"2.0.3"}
-engines["suricata204"] = {"type":"suricata", "version":"2.0.4", "eversion":"2.0.4"}
-engines["suricata205"] = {"type":"suricata", "version":"2.0.5", "eversion":"2.0.5"}
-engines["suricata206"] = {"type":"suricata", "version":"2.0.6", "eversion":"2.0.6"}
-engines["suricata207"] = {"type":"suricata", "version":"2.0.7", "eversion":"2.0.7"}
-engines["suricata208"] = {"type":"suricata", "version":"2.0.8", "eversion":"2.0.8"}
-engines["suricata209"] = {"type":"suricata", "version":"2.0.9", "eversion":"2.0.9"}
-engines["suricata2010"] = {"type":"suricata", "version":"2.0.10", "eversion":"2.0.10"}
-engines["suricata2011"] = {"type":"suricata", "version":"2.0.11", "eversion":"2.0.11"}
-engines["suricata30"] = {"type":"suricata", "version":"3.0", "eversion":"3.0"}
-engines["suricata301"] = {"type":"suricata", "version":"3.0", "eversion":"3.0.1"}
-engines["suricata31"] = {"type":"suricata", "version":"3.1", "eversion":"3.1"}
-engines["suricata311"] = {"type":"suricata", "version":"3.1", "eversion":"3.1.1"}
-engines["suricata32"] = {"type":"suricata", "version":"3.2", "eversion":"3.2"}
-engines["suricata321"] = {"type":"suricata", "version":"3.2", "eversion":"3.2.1"}
-engines["suricata322"] = {"type":"suricata", "version":"3.2", "eversion":"3.2.2"}
-engines["suricata323"] = {"type":"suricata", "version":"3.2", "eversion":"3.2.3"}
 engines["suricata400"] = {"type":"suricata", "version":"4.0", "eversion":"4.0.0"}
 engines["suricata401"] = {"type":"suricata", "version":"4.0", "eversion":"4.0.1"}
 engines["suricata402"] = {"type":"suricata", "version":"4.0", "eversion":"4.0.2"}
