@@ -47,6 +47,7 @@ engines["suricata404"] = {"type":"suricata", "version":"4.0", "eversion":"4.0.4"
 engines["suricata405"] = {"type":"suricata", "version":"4.0", "eversion":"4.0.5"}
 engines["suricata410"] = {"type":"suricata", "version":"4.1", "eversion":"4.1.0"}
 engines["suricata503"] = {"type":"suricata", "version":"5.0", "eversion":"5.0.3"}
+engines["suricata600"] = {"type":"suricata", "version":"6.0", "eversion":"6.0.0"}
 engines["snort2905"] = {"type":"snort", "version":"2.9.0", "eversion":"2.9.0.5"}
 engines["snort2923"] = {"type":"snort", "version":"2.9.0", "eversion":"2.9.2.3"}
 engines["snort2931"] = {"type":"snort", "version":"2.9.0", "eversion":"2.9.3.1"}
@@ -180,7 +181,9 @@ def make_engine_config(engine,feed_type,rset):
         sys.exit(-1)
     if re.search(r'suricata(5\d*)$',engine) != None:
         rule_sets = copy.deepcopy(rule_sets_suri5)
-    if re.search(r'suricatagit$',engine) != None:
+    elif re.search(r'suricata(6\d*)$',engine) != None:
+        rule_sets = copy.deepcopy(rule_sets_suri5)
+    elif re.search(r'suricatagit$',engine) != None:
         rule_sets = copy.deepcopy(rule_sets_suri5)
     else:
         rule_sets = copy.deepcopy(rule_sets_orig)
