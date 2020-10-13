@@ -190,6 +190,8 @@ class IDSEngine(RunmodeSanitize, RunmodeExtract, RunmodeExtractAll, RunmodeVerif
 		  cmd = "%s -c %s -l %s -r %s -vvv -k none %s" % (self.conf["path"], self.conf["config"], self.conf["logdir"], pcap, self.suri_conf_override)
                 if re.match(r"^5\.", self.conf["version"]) != None:
 		  cmd = "%s -c %s -l %s -r %s -vvv -k none %s" % (self.conf["path"], self.conf["config"], self.conf["logdir"], pcap, self.suri_conf_override)
+                if re.match(r"^6\.", self.conf["version"]) != None:
+		  cmd = "%s -c %s -l %s -r %s -vvv -k none %s" % (self.conf["path"], self.conf["config"], self.conf["logdir"], pcap, self.suri_conf_override)
                 if re.match(r"^git$", self.conf["version"]) != None:
 		  cmd = "%s -c %s -l %s -r %s -vvv -k none %s" % (self.conf["path"], self.conf["config"], self.conf["logdir"], pcap, self.suri_conf_override)
                 

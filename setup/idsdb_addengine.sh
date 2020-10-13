@@ -221,8 +221,9 @@ if  [ "${engine_type}" == "suricata" ] && [  "${engine_version}" != "git" ]; the
   
   ./configure --enable-lua --enable-profiling --prefix=/opt/${engine_name}/ \
   && make -j ${processes} && sudo make clean && sudo make install && sudo make install-conf && sudo ldconfig
-  
-  if [[ ${engine_name} = *"suricata5"* ]]; then
+ 
+  # config files grabbed from different location if version is suri5 or 6 
+  if [[ ${engine_name} =~ .*suricata[56].* ]]; then
       sudo cp suricata.yaml /opt/${engine_name}/etc/
       sudo cp etc/reference.config /opt/${engine_name}/etc/
       sudo cp etc/classification.config /opt/${engine_name}/etc/
@@ -244,6 +245,8 @@ if  [ "${engine_type}" == "suricata" ] && [  "${engine_version}" != "git" ]; the
     cp engine-templates/base-suricata50.template engine-templates/${engine_name}.template
   elif  [[ ${engine_name} = *"suricata51"* ]]; then
     cp engine-templates/base-suricata51.template engine-templates/${engine_name}.template
+  elif  [[ ${engine_name} = *"suricata60"* ]]; then
+    cp engine-templates/base-suricata60.template engine-templates/${engine_name}.template
   else
     cp engine-templates/base-suricata.template engine-templates/${engine_name}.template
   fi
