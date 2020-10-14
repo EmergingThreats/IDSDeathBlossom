@@ -93,6 +93,7 @@ sudo mkdir -p /opt/suricata404/{bin,lib,include/linux,sbin,etc/etpro,etc/etproen
 sudo mkdir -p /opt/suricata405/{bin,lib,include/linux,sbin,etc/etpro,etc/etproenall,etc/etopen,etc/etopenenall,/etc/test,var/run/suricata,var/log,etc/sanitize/sopen,etc/sanitize/spro}
 sudo mkdir -p /opt/suricata410/{bin,lib,include/linux,sbin,etc/etpro,etc/etproenall,etc/etopen,etc/etopenenall,/etc/test,var/run/suricata,var/log,etc/sanitize/sopen,etc/sanitize/spro}
 sudo mkdir -p /opt/suricata503/{bin,lib,include/linux,sbin,etc/etpro,etc/etproenall,etc/etopen,etc/etopenenall,/etc/test,var/run/suricata,var/log,etc/sanitize/sopen,etc/sanitize/spro}
+sudo mkdir -p /opt/suricata600/{bin,lib,include/linux,sbin,etc/etpro,etc/etproenall,etc/etopen,etc/etopenenall,/etc/test,var/run/suricata,var/log,etc/sanitize/sopen,etc/sanitize/spro}
 sudo mkdir -p /opt/et-luajit-scripts
 
 
@@ -163,11 +164,19 @@ tar -xzvf engine-sources/suricata/suricata-5.0.3.tar.gz -C engine-sources/surica
 cd engine-sources/suricata/suricata-5.0.3
 ./configure --enable-lua --enable-profiling --prefix=/opt/suricata503/ --with-libnss-includes=/usr/include/nss --with-libnss-libs=/usr/lib/nss --with-libnspr-includes=/usr/include/nspr --with-libnspr-libraries=/usr/lib/nspr && make -j ${processes} && sudo make install
 sudo cp suricata.yaml /opt/suricata503/etc/
-sudo cp reference.config /opt/suricata503/etc/
-sudo cp classification.config /opt/suricata503/etc/
+sudo cp etc/reference.config /opt/suricata503/etc/
+sudo cp etc/classification.config /opt/suricata503/etc/
 sudo cp threshold.config /opt/suricata503/etc/
 cd ../../../
 
+tar -xzvf engine-sources/suricata/suricata-6.0.0.tar.gz -C engine-sources/suricata
+cd engine-sources/suricata/suricata-6.0.0
+./configure --enable-lua --enable-profiling --prefix=/opt/suricata600/ --with-libnss-includes=/usr/include/nss --with-libnss-libs=/usr/lib/nss --with-libnspr-includes=/usr/include/nspr --with-libnspr-libraries=/usr/lib/nspr && make -j ${processes} && sudo make install
+sudo cp suricata.yaml /opt/suricata600/etc/
+sudo cp etc/reference.config /opt/suricata600/etc/
+sudo cp etc/classification.config /opt/suricata600/etc/
+sudo cp threshold.config /opt/suricata600/etc/
+cd ../../../
 
 tar -xzvf engine-sources/daq/daq-0.5.tar.gz -C engine-sources/daq
 cd engine-sources/daq/daq-0.5
@@ -397,6 +406,7 @@ rm engine-sources/suricata/suricata-4.0.4 -Rf
 rm engine-sources/suricata/suricata-4.0.5 -Rf
 rm engine-sources/suricata/suricata-4.1.0 -Rf
 rm engine-sources/suricata/suricata-5.0.3 -Rf
+rm engine-sources/suricata/suricata-6.0.0 -Rf
 
 rm engine-sources/misc/pulledpork-0.6.1 -Rf
 rm engine-sources/misc/libdnet-1.11 -Rf
