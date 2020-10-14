@@ -171,7 +171,7 @@ cd ../../../
 
 tar -xzvf engine-sources/suricata/suricata-6.0.0.tar.gz -C engine-sources/suricata
 cd engine-sources/suricata/suricata-6.0.0
-./configure --enable-lua --enable-profiling --prefix=/opt/suricata503/ --with-libnss-includes=/usr/include/nss --with-libnss-libs=/usr/lib/nss --with-libnspr-includes=/usr/include/nspr --with-libnspr-libraries=/usr/lib/nspr && make -j ${processes} && sudo make install
+./configure --enable-lua --enable-profiling --prefix=/opt/suricata600/ --with-libnss-includes=/usr/include/nss --with-libnss-libs=/usr/lib/nss --with-libnspr-includes=/usr/include/nspr --with-libnspr-libraries=/usr/lib/nspr && make -j ${processes} && sudo make install
 sudo cp suricata.yaml /opt/suricata600/etc/
 sudo cp etc/reference.config /opt/suricata600/etc/
 sudo cp etc/classification.config /opt/suricata600/etc/
